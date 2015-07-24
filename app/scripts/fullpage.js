@@ -3,15 +3,15 @@
  */
 var $$ = document.querySelectorAll().bind(document);
 
-function bindTouch(el) {
+function bindTouchMove(el) {
     'use strict';
 
-    //Ê×Ò³ÔÂ·Ý×óÓÒ»¬¶¯ÊÂ¼þ
     var startPos = {},
         endPos = {};
 
     el.addEventListener('touchstart', function (event) {
-        // ³õÊ¼»¯ x,y Öµ£¬·ÀÖ¹µã»÷Ò»´Îºó³öÏÖ¼Ù move ÊÂ¼þ
+
+        // åˆå§‹åŒ– x,y å€¼ï¼Œé˜²æ­¢ç‚¹å‡»ä¸€æ¬¡åŽå‡ºçŽ°å‡ move äº‹ä»¶
         startPos = {};
         endPos = {};
         event.preventDefault();
@@ -21,6 +21,7 @@ function bindTouch(el) {
     }, false);
 
     el.addEventListener('touchmove', function (event) {
+
         event.preventDefault();
         var touch = event.touches[0];
         endPos.x = touch.pageX;
@@ -28,15 +29,27 @@ function bindTouch(el) {
     }, false);
 
     el.addEventListener('touchend', function (event) {
+
         event.preventDefault();
-        var min = startPos.x - endPos.x;
-
-        if (min > 10 && Math.abs(startPos.y - endPos.y) < 30) {
-
-        } else if (min < -10 && Math.abs(startPos.y - endPos.y) < 30) {
-
+        var diffX = startPos.x - endPos.x;
+        var diffY = startPos.y - startPos.y;
+        var threshold = 10;
+        //TODO Add TouchMoveEvent
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+            //horizontal
+            if (diffX > threshold) {
+                //Move to left
+            } else {
+                //Move to right
+            }
+        } else {
+            //vertical
+            if (diffY > threshold) {
+                //Move to top
+            } else {
+                //Move to bottom
+            }
         }
-
     }, false);
 
 }
