@@ -97,4 +97,6 @@
   }
 
   // Your custom JavaScript goes here
+  bindTouchMove(document);
+
 })();

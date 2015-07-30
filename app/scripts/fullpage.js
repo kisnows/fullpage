@@ -1,7 +1,7 @@
 /**
  * Created by qi on 2015/7/23.
  */
-var $$ = document.querySelectorAll().bind(document);
+var $$ = document.querySelector.bind(document);
 
 function bindTouchMove(el) {
     'use strict';
@@ -34,20 +34,27 @@ function bindTouchMove(el) {
         var diffX = startPos.x - endPos.x;
         var diffY = startPos.y - startPos.y;
         var threshold = 10;
+        console.log('startPos.x:',startPos.x,'startPos.y:',startPos.y);
+        console.log('endPos.x:');
+        console.log('diffX:',diffX,'diffY:',diffY);
         //TODO Add TouchMoveEvent
         if (Math.abs(diffX) > Math.abs(diffY)) {
             //horizontal
             if (diffX > threshold) {
                 //Move to left
+                console.log('Go left');
             } else {
                 //Move to right
+                console.log('Go right');
             }
         } else {
             //vertical
             if (diffY > threshold) {
                 //Move to top
+                console.log('Go top');
             } else {
                 //Move to bottom
+                console.log('Go bottom');
             }
         }
     }, false);
