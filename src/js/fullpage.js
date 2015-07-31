@@ -1,10 +1,28 @@
 /**
  * Created by qi on 2015/7/23.
  */
-var $$ = document.querySelector.bind(document);
 
+
+"use strict";
+//helper
+var $$ = document.querySelectorAll.bind(document);
+
+
+var sectionContent = $$('#sectionContent')[0];
+var sections = $$('.section');
+var stepHeight = sections[0].offsetHeight;
+var stepWidth = sections[0].offsetWidth;
+
+function setAttr() {
+    sectionContent.style.height = stepHeight * sections.length;
+}
+
+
+/**
+ * 绑定触摸事件
+ * @param el {string}
+ */
 function bindTouchMove(el) {
-    'use strict';
 
     var startPos = {},
         endPos = {};
@@ -32,11 +50,12 @@ function bindTouchMove(el) {
 
         event.preventDefault();
         var diffX = startPos.x - endPos.x;
-        var diffY = startPos.y - startPos.y;
+        var diffY = startPos.y - endPos.y;
+        //阈值
         var threshold = 10;
-        console.log('startPos.x:',startPos.x,'startPos.y:',startPos.y);
-        console.log('endPos.x:');
-        console.log('diffX:',diffX,'diffY:',diffY);
+        //console.log('startPos.x:', startPos.x, 'startPos.y:', startPos.y);
+        //console.log('diffX:', diffX, 'diffY:', diffY);
+
         //TODO Add TouchMoveEvent
         if (Math.abs(diffX) > Math.abs(diffY)) {
             //horizontal
@@ -58,5 +77,30 @@ function bindTouchMove(el) {
             }
         }
     }, false);
-
 }
+
+var page = {
+    nowPage: 1,
+    moveToTop: function () {
+
+    },
+    moveToBottom: function () {
+
+    },
+    moveTo: function () {
+
+    },
+    slide: {
+        moveToLeft: function () {
+
+        },
+        moveToRight: function () {
+
+        }
+    }
+};
+
+function init(options) {
+    bindTouchMove(sectionContent);
+}
+init();
