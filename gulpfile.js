@@ -6,17 +6,16 @@
 var gulp = require('gulp');
 var del = require('del');
 var less = require('gulp-less');
+var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
-var htmlreplace = require('gulp-html-replace');
 var htmlmin = require('gulp-minify-html');
 var cssmin = require('gulp-minify-css');
 var jsmin = require('gulp-uglify');
 var imagemin = require('gulp-imagemin');
 var header = require('gulp-header');
-
 /**
  * Package
  */
@@ -75,6 +74,11 @@ gulp.task('less', function () {
         .on('error', function (e) {
             console.log(e);
         })
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: true,
+            remove: true,
+        }))
         .pipe(gulp.dest('src/css'))
         .pipe(reload({stream: true}));
 });
@@ -86,30 +90,6 @@ gulp.task('lint', function () {
     gulp.src(['src/js/**/*.js', 'gulpfile.js', '!src/js/libs/*.js'])
         .pipe(jshint())
         .pipe(jshint.reporter(stylish));
-});
-
-/**
- * Bundle task
- */
-gulp.task('bundle', ['requirejs'], function () {
-    gulp.src(['dist/build/app.js'])
-        .pipe(header(meta, {'pkg': pkg}))
-        .pipe(gulp.dest('dist/build'));
-});
-
-/**
- * Replace css js link name task
- */
-gulp.task('replace', function () {
-    return gulp.src('src/index.html')
-        .pipe(htmlreplace({
-            js: {
-                src: [['build/app', 'build/require.js']],
-                tpl: '<script data-main="%s" src="%s"></script>'
-            },
-            css: 'build/app.css'
-        }))
-        .pipe(gulp.dest('dist'));
 });
 
 /**
@@ -167,4 +147,4 @@ gulp.task('default', ['less', 'browser-sync'], function () {
 /**
  * Build task
  */
-gulp.task('build', ['compress', 'copy', 'bundle']);
+gulp.task('build', ['compress', 'copy']);
