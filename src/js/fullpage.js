@@ -26,6 +26,11 @@ function bindTouchMove(el) {
 
     var startPos = {},
         endPos = {};
+    var diffX,
+        diffY;
+    var touch;
+    var direction;
+    var isVertical = false;
 
     el.addEventListener('touchstart', function (event) {
 
@@ -33,15 +38,16 @@ function bindTouchMove(el) {
         startPos = {};
         endPos = {};
         event.preventDefault();
-        var touch = event.touches[0];
+        touch = event.touches[0];
         startPos.x = touch.pageX;
         startPos.y = touch.pageY;
+
     }, false);
 
     el.addEventListener('touchmove', function (event) {
 
         event.preventDefault();
-        var touch = event.touches[0];
+        touch = event.touches[0];
         endPos.x = touch.pageX;
         endPos.y = touch.pageY;
     }, false);
@@ -49,52 +55,66 @@ function bindTouchMove(el) {
     el.addEventListener('touchend', function (event) {
 
         event.preventDefault();
-        var diffX = startPos.x - endPos.x;
-        var diffY = startPos.y - endPos.y;
+        diffX = startPos.x - endPos.x;
+        diffY = startPos.y - endPos.y;
         //阈值
         var threshold = 10;
         //console.log('startPos.x:', startPos.x, 'startPos.y:', startPos.y);
         //console.log('diffX:', diffX, 'diffY:', diffY);
 
-        //TODO Add TouchMoveEvent
+        //DONE Add TouchMoveEvent
         if (Math.abs(diffX) > Math.abs(diffY)) {
             //horizontal
+            isVertical = false;
             if (diffX > threshold) {
                 //Move to left
+                direction = 'left';
                 console.log('Go left');
             } else {
                 //Move to right
+                direction = 'right';
                 console.log('Go right');
             }
         } else {
             //vertical
+            isVertical = true;
             if (diffY > threshold) {
                 //Move to top
+                direction = 'top';
                 console.log('Go top');
             } else {
                 //Move to bottom
+                direction = 'bottom';
                 console.log('Go bottom');
             }
+        }
+        if(isVertical){
+            page.move[direction]();
+        }else{
+            page.slide[direction]();
         }
     }, false);
 }
 
 var page = {
     nowPage: 1,
-    moveToTop: function () {
-
-    },
-    moveToBottom: function () {
-
-    },
-    moveTo: function () {
-
-    },
-    slide: {
-        moveToLeft: function () {
+    move: {
+        top: function () {
+            //TODO move to pre section
 
         },
-        moveToRight: function () {
+        bottom: function () {
+            //TODO move to next section
+        }
+    },
+    moveTo: function () {
+        //TODO move to a specify section
+    },
+    slide: {
+        left: function () {
+
+        },
+        right: function () {
 
         }
     }
