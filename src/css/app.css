@@ -7,27 +7,25 @@ body,
   margin: 0;
   padding: 0;
 }
-
 body {
   overflow: hidden;
+}
+.section-content {
+  transition: all .5s;
 }
 .sections {
   box-sizing: border-box;
 }
-
 .section {
   font-size: 100px;
   text-align: center;
 }
-
 .section:nth-child(1) {
   background: #bd1818;
 }
-
 .section:nth-child(2) {
   background: #1f18bd;
 }
-
 .section:nth-child(3) {
   background: #bd8d18;
 }

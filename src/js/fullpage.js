@@ -9,12 +9,28 @@ var $$ = document.querySelectorAll.bind(document);
 
 
 var sectionContent = $$('#sectionContent')[0];
+var translate3dY = 0;
 var sections = $$('.section');
 var stepHeight = sections[0].offsetHeight;
 var stepWidth = sections[0].offsetWidth;
 
 function setAttr() {
-    sectionContent.style.height = stepHeight * sections.length;
+    function init() {
+        sectionContent.style.transform = "translate3d(0,0,0)";
+        sectionContent.style.webkitTransform = "translate3d(0,0,0)";
+    }
+
+    function translate(value, direction) {
+        if (direction === 'y') {
+            sectionContent.style.transform = "translate3d(0," + value + "px,0)";
+            sectionContent.style.webkitTransform = "translate3d(0," + value + "px,0)";
+        }
+    }
+
+    return {
+        init: init,
+        translate: translate
+    }
 }
 
 
@@ -55,6 +71,8 @@ function bindTouchMove(el) {
     el.addEventListener('touchend', function (event) {
 
         event.preventDefault();
+        endPos.x = touch.pageX;
+        endPos.y = touch.pageY;
         diffX = startPos.x - endPos.x;
         diffY = startPos.y - endPos.y;
         //阈值
@@ -62,36 +80,44 @@ function bindTouchMove(el) {
         //console.log('startPos.x:', startPos.x, 'startPos.y:', startPos.y);
         //console.log('diffX:', diffX, 'diffY:', diffY);
 
-        //DONE Add TouchMoveEvent
-        if (Math.abs(diffX) > Math.abs(diffY)) {
+        /**
+         * 这里有个小bug：
+         * 即如果点击屏幕没有移动的话，Math.abs(diffX) - Math.abs(diffY) = 0 ,
+         * isVertical 会默认为 true
+         * 不过并不影响程序正常运行
+         */
+        isVertical = Math.abs(diffX) - Math.abs(diffY) <= 0;
+        if (!isVertical) {
             //horizontal
-            isVertical = false;
+            //isVertical = false;
             if (diffX > threshold) {
                 //Move to left
                 direction = 'left';
                 console.log('Go left');
-            } else {
+            } else if (diffX < -threshold) {
                 //Move to right
                 direction = 'right';
                 console.log('Go right');
             }
         } else {
             //vertical
-            isVertical = true;
+            //isVertical = true;
             if (diffY > threshold) {
                 //Move to top
-                direction = 'top';
+                direction = 'next';
                 console.log('Go top');
-            } else {
+            } else if (diffY < -threshold) {
                 //Move to bottom
-                direction = 'bottom';
+                direction = 'pre';
                 console.log('Go bottom');
             }
         }
-        if(isVertical){
-            page.move[direction]();
-        }else{
-            page.slide[direction]();
+        if (direction) {
+            if (isVertical) {
+                page.move[direction]();
+            } else {
+                page.slide[direction]();
+            }
         }
     }, false);
 }
@@ -99,16 +125,33 @@ function bindTouchMove(el) {
 var page = {
     nowPage: 1,
     move: {
-        top: function () {
-            //TODO move to pre section
-
-        },
-        bottom: function () {
+        next: function () {
             //TODO move to next section
+            console.log('page move to pre');
+            if (page.nowPage < sections.length) {
+                translate3dY -= stepHeight;
+                setAttr().translate(translate3dY, 'y');
+                page.nowPage = page.nowPage === sections.length ? sections.length : page.nowPage + 1;
+
+            }
+        },
+        pre: function () {
+            //TODO move to pre section
+            console.log('page move to next');
+            if (page.nowPage > 1) {
+                translate3dY += stepHeight;
+                setAttr().translate(translate3dY, 'y');
+                page.nowPage = page.nowPage === 1 ? 1 : page.nowPage - 1;
+
+            }
         }
     },
-    moveTo: function () {
+    moveTo: function (pageIndex) {
         //TODO move to a specify section
+        var pageDiff = pageIndex - page.nowPage;
+        translate3dY -= pageDiff * stepHeight;
+        setAttr().translate(translate3dY, 'y');
+        page.nowPage = pageIndex;
     },
     slide: {
         left: function () {
