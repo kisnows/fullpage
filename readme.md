@@ -1,11 +1,11 @@
 #Fullpage
 
-Ò»¸öÇáÇÉµÄ`fullpage`¿ò¼Ü£¬²»ÒÀÀµÆäËû¿â¡£
-Ä¿Ç°½öÖ§³Ö´¥ÃþÆÁÇÒÖ§³Ö`css3`ä¯ÀÀÆ÷µÄÉè±¸¡£
-##Ê¹ÓÃ¼ò½é
-* ÒýÈë JavaScript ÎÄ¼þ `fullpage.js`
-* ÒýÈë css ÎÄ¼þ `fullpage.css`£¨Èç¹ûÄãÊ¹ÓÃ`less`£¬Ôò¿ÉÒÔÔÚlessÖ÷ÎÄ¼þÖÐÒýÈë`fullpage.less`£©
-* °´ÕÕÏÂÃæ¸ñÊ½ÊéÐ´`html`´úÂë£¨ÆäÖÐ id Îª 'sectionContent` µÄÎª°ü¹ü²ã£¬Ó¦Ö±½Ó·ÅÔÚ`body`ÏÂÃæ£©
+ä¸€ä¸ªè½»å·§çš„`fullpage`æ¡†æž¶ï¼Œä¸ä¾èµ–å…¶ä»–åº“ã€‚
+ç›®å‰ä»…æ”¯æŒè§¦æ‘¸å±ä¸”æ”¯æŒ`css3`æµè§ˆå™¨çš„è®¾å¤‡ã€‚
+##ä½¿ç”¨ç®€ä»‹
+* å¼•å…¥ JavaScript æ–‡ä»¶ `fullpage.js`
+* å¼•å…¥ css æ–‡ä»¶ `fullpage.css`ï¼ˆå¦‚æžœä½ ä½¿ç”¨`less`ï¼Œåˆ™å¯ä»¥åœ¨lessä¸»æ–‡ä»¶ä¸­å¼•å…¥`fullpage.less`ï¼‰
+* æŒ‰ç…§ä¸‹é¢æ ¼å¼ä¹¦å†™`html`ä»£ç ï¼ˆå…¶ä¸­ id ä¸º 'sectionContent` çš„ä¸ºåŒ…è£¹å±‚ï¼Œåº”ç›´æŽ¥æ”¾åœ¨`body`ä¸‹é¢ï¼‰
 ```
 <div id="sectionContent" class="section-content">
     <div class="section">1</div>

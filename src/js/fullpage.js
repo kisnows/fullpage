@@ -30,7 +30,7 @@ function setAttr() {
     return {
         init: init,
         translate: translate
-    }
+    };
 }
 
 
@@ -77,7 +77,6 @@ function bindTouchMove(el) {
         diffY = startPos.y - endPos.y;
         //阈值
         var threshold = 10;
-        //console.log('startPos.x:', startPos.x, 'startPos.y:', startPos.y);
         //console.log('diffX:', diffX, 'diffY:', diffY);
 
         /**
