@@ -27,7 +27,7 @@ var serveConfig = {
     },
     open: false,
     notify: false,
-    logPrefix: 'moas'
+  logPrefix: 'fullPage'
 };
 
 

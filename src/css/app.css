@@ -20,12 +20,3 @@ body {
   font-size: 100px;
   text-align: center;
 }
-.section:nth-child(1) {
-  background: #bd1818;
-}
-.section:nth-child(2) {
-  background: #1f18bd;
-}
-.section:nth-child(3) {
-  background: #bd8d18;
-}
