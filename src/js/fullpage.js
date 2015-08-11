@@ -20,10 +20,12 @@
             sectionContent.style.webkitTransform = "translate3d(0,0,0)";
         }
 
-        function translate(value, direction) {
+        function translate(el, value, direction) {
             if (direction === 'y') {
-                sectionContent.style.transform = "translate3d(0," + value + "px,0)";
-                sectionContent.style.webkitTransform = "translate3d(0," + value + "px,0)";
+                el.style.transform = "translate3d(0," + value + "px,0)";
+                el.style.webkitTransform = "translate3d(0," + value + "px,0)";
+            } else if (direction === 'x') {
+                console.log('slide translate3d change');
             }
         }
 
@@ -163,7 +165,7 @@
 
                 if (page.nowPage < sections.length) {
                     translate3dY -= stepHeight;
-                    setAttr().translate(translate3dY, 'y');
+                    setAttr().translate(sectionContent, translate3dY, 'y');
                     page.nowPage = page.nowPage === sections.length ? sections.length : page.nowPage + 1;
 
                 }
@@ -176,7 +178,7 @@
 
                 if (page.nowPage > 1) {
                     translate3dY += stepHeight;
-                    setAttr().translate(translate3dY, 'y');
+                    setAttr().translate(sectionContent, translate3dY, 'y');
                     page.nowPage = page.nowPage === 1 ? 1 : page.nowPage - 1;
 
                 }
@@ -186,7 +188,7 @@
             //TODO move to a specify section
             var pageDiff = pageIndex - page.nowPage;
             translate3dY -= pageDiff * stepHeight;
-            setAttr().translate(translate3dY, 'y');
+            setAttr().translate(sectionContent, translate3dY, 'y');
             page.nowPage = pageIndex;
         },
         slide: {

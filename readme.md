@@ -1,4 +1,4 @@
-# Fullpage
+# Fullpage(Alpha)
 
 **仍在开发中**
 一个轻巧的`fullpage`框架，不依赖其他库。
