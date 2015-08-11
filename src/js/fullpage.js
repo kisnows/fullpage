@@ -45,7 +45,7 @@
         return Default;
     }
 
-    var sectionContent = $$('#sectionContent');
+    var sectionContent;
     var sections = $$$('.section');
 
     var translate3dY = 0;
@@ -54,9 +54,13 @@
     var stepWidth = sections[0].offsetWidth;
 
     var options = {};
-    var defaults = {};
+    var defaults = {
+        threshold: 10
+    };
 
-    function init(options) {
+    function init(ele, Customize) {
+        sectionContent = $$(ele);
+        options = extendOption(defaults, Customize);
         bindTouchMove(sectionContent);
     }
 
@@ -152,8 +156,11 @@
         nowPage: 1,
         move: {
             next: function () {
-                //TODO move to next section
-                console.log('page move to pre');
+
+                //DONE move to next section
+                //TODO add move next eventHandler
+                console.log('page move to next');
+
                 if (page.nowPage < sections.length) {
                     translate3dY -= stepHeight;
                     setAttr().translate(translate3dY, 'y');
@@ -162,8 +169,11 @@
                 }
             },
             pre: function () {
-                //TODO move to pre section
-                console.log('page move to next');
+
+                //DONE move to pre section
+                //TODO add move pre eventHandler
+                console.log('page move to pre');
+
                 if (page.nowPage > 1) {
                     translate3dY += stepHeight;
                     setAttr().translate(translate3dY, 'y');
@@ -172,7 +182,7 @@
                 }
             }
         },
-        moveTo: function (pageIndex) {
+        moveTo: function (pageIndex, slideIndex) {
             //TODO move to a specify section
             var pageDiff = pageIndex - page.nowPage;
             translate3dY -= pageDiff * stepHeight;
@@ -181,14 +191,21 @@
         },
         slide: {
             left: function () {
-
+                console.log('slide move to next');
             },
             right: function () {
-
+                console.log('slide move to pre');
             }
         }
     };
 
-
+    return {
+        init: init,
+        moveTo: page.moveTo,
+        moveToNext: page.move.next,
+        moveToPre: page.move.pre,
+        slideToLeft: page.slide.left,
+        slideToRight: page.slide.right
+    };
 });
 

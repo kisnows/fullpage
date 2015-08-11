@@ -4,9 +4,7 @@
   <meta charset="UTF-8">
   <title>Fullpage</title>
   <link rel="stylesheet" href="css/app.css"/>
-  <script>
 
-  </script>
 </head>
 <body>
 <div id="sectionContent" class="section-content">
@@ -15,5 +13,10 @@
   <div class="section">3</div>
 </div>
 <script src="js/fullpage.js"></script>
+<script>
+  window.onload = function () {
+    fullpage.init('#sectionContent');
+  }
+</script>
 </body>
 </html>

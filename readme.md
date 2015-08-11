@@ -1,4 +1,4 @@
-#Fullpage
+# Fullpage
 
 **仍在开发中**
 一个轻巧的`fullpage`框架，不依赖其他库。
@@ -14,3 +14,6 @@
     <div class="section">3</div>
 </div>
 ```
+## TODO
+* 页面滚动时，页面载入或离开时添加自定义事件
+* 横屏滚动支持
