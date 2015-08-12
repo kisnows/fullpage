@@ -296,6 +296,7 @@
                      */
                     //var slideNowIndex = sections[pageIndex - 1].attribute('data-slide');
                     //var slideDiff = slideIndex - slideNowIndex;
+                    page.scrollSlide(slideIndex);
                 }
                 return true;
             } else {
