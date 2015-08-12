@@ -10,7 +10,6 @@ body,
 body {
   overflow: hidden;
 }
-
 .section-content,
 .slide-wrap {
   transition: all .5s;
@@ -19,12 +18,16 @@ body {
   height: 100%;
   width: auto;
 }
-
 .section-content .slide,
 .slide-wrap .slide {
   display: inline-block;
+  height: 100%;
+  float: left;
 }
 .section {
   font-size: 100px;
   text-align: center;
+}
+.slide {
+  font-size: 100px;
 }

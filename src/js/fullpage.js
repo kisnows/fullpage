@@ -35,7 +35,8 @@
                 el.style.transform = "translate3d(0," + value + "px,0)";
                 el.style["-webkit-transform"] = "translate3d(0," + value + "px,0)";
             } else if (direction === 'x') {
-                console.log('slide translate3d change');
+                el.style.transform = "translate3d(" + value + "px,0,0)";
+                el.style["-webkit-transform"] = "translate3d(" + value + "px,0,0)";
             }
         }
 
@@ -78,9 +79,14 @@
 
         var slideWrap = $$('.slide-wrap');
         var sliders;
-        for (var i = slideWrap.length; i >= 0; i++) {
+        for (var i = slideWrap.length - 1; i >= 0; i--) {
             sliders = $$('.slide', slideWrap[i]);
+            for (var j = sliders.length - 1; j >= 0; j--) {
+                sliders[j].style.width = stepWidth + 'px';
+            }
             slideWrap[i].style.width = sliders.length * stepWidth + 'px';
+            slideWrap[i].dataset.x = '0';
+            slideWrap[i].dataset.index = '1';
         }
 
     }
@@ -152,12 +158,12 @@
                 //isVertical = false;
                 if (diffX > threshold) {
                     //Move to left
-                    direction = 'left';
-                    console.log('Go left');
+                    direction = 'next';
+                    console.log('Go next');
                 } else if (diffX < -threshold) {
                     //Move to right
-                    direction = 'right';
-                    console.log('Go right');
+                    direction = 'pre';
+                    console.log('Go pre');
                 }
             } else {
                 //vertical
@@ -199,19 +205,30 @@
         scrollSlide: function (slideIndex) {
 
             //当前页面下所有的slide
-            var slide = sections[page.nowPage - 1].querySelectorAll('slide');
+            var slide = sections[page.nowPage - 1].querySelectorAll('.slide');
+
+            //获取slide包裹层
+            var slideWrap = $('.slide-wrap', sections[page.nowPage - 1]);
+
             //当前页面上存储的数据
-            var slideData = sections[page.nowPage - 1].dataset;
+            var slideData = slideWrap.dataset;
+
             //当前页面上slide的index
-            var slideNowIndex = slideData.index;
+            var slideNowIndex = parseInt(slideData.index);
+
             //当前页面上slide的x轴偏移值
             var slideX = slideData.x;
+
             var slideDiff = slideIndex - slideNowIndex;
 
-            if (slideIndex >= 1 && slideIndex <= slide.lenght) {
+            if (slideIndex >= 1 && slideIndex <= slide.length) {
 
                 slideX -= slideDiff * stepWidth;
-                setAttr().translate(slide[slideNowIndex], slideX, 'x');
+                setAttr().translate(slideWrap, slideX, 'x');
+                slideData.x = slideX;
+                slideData.index = slideIndex;
+
+                return true;
             }
         },
         move: {
@@ -287,10 +304,28 @@
 
         },
         slide: {
-            left: function () {
+            next: function () {
+
+                var slideWrap = $('.slide-wrap', sections[page.nowPage - 1]);
+                var slideData = slideWrap.dataset;
+                var slideNowIndex = parseInt(slideData.index);
+
+                if (page.scrollSlide(slideNowIndex + 1)) {
+
+                    slideData.index = slideNowIndex + 1;
+                }
                 console.log('slide move to next');
             },
-            right: function () {
+            pre: function () {
+
+                var slideWrap = $('.slide-wrap', sections[page.nowPage - 1]);
+                var slideData = slideWrap.dataset;
+                var slideNowIndex = parseInt(slideData.index);
+
+                if (page.scrollSlide(slideNowIndex - 1)) {
+
+                    slideData.index = slideNowIndex - 1;
+                }
                 console.log('slide move to pre');
             }
         }
