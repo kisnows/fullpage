@@ -25,7 +25,7 @@ var serveConfig = {
     server: {
         baseDir: 'src/'
     },
-    open: false,
+    open: true,
     notify: false,
   logPrefix: 'fullPage'
 };

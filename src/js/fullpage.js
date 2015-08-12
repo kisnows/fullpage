@@ -11,8 +11,24 @@
     "use strict";
 
     //helper
-    var $$ = document.querySelector.bind(document);
-    var $$$ = document.querySelectorAll.bind(document);
+    //var $ = document.querySelector.bind(document);
+    //var $$ = document.querySelectorAll.bind(document);
+
+    function $(el, parent) {
+        if (!parent) {
+            return document.querySelector(el);
+        } else {
+            return parent.querySelector(el);
+        }
+    }
+
+    function $$(el, parent) {
+        if (!parent) {
+            return document.querySelectorAll(el);
+        } else {
+            return parent.querySelectorAll(el);
+        }
+    }
 
     function setAttr() {
         function init() {
@@ -48,7 +64,7 @@
     }
 
     var sectionContent;
-    var sections = $$$('.section');
+    var sections = $$('.section');
 
     var translate3dY = 0;
     var translate3dX = 0;
@@ -61,7 +77,7 @@
     };
 
     function init(ele, Customize) {
-        sectionContent = $$(ele);
+        sectionContent = $(ele);
         options = extendOption(defaults, Customize);
         bindTouchMove(sectionContent);
     }
@@ -107,7 +123,7 @@
             endPos.y = touch.pageY;
             diffX = startPos.x - endPos.x;
             diffY = startPos.y - endPos.y;
-            //阈值
+            //阈值,灵敏度，越小越灵敏
             var threshold = options.threshold;
             //console.log('diffX:', diffX, 'diffY:', diffY);
 
@@ -137,11 +153,9 @@
                 if (diffY > threshold) {
                     //Move to top
                     direction = 'next';
-                    console.log('Go top');
                 } else if (diffY < -threshold) {
                     //Move to bottom
                     direction = 'pre';
-                    console.log('Go bottom');
                 }
             }
             if (direction) {
@@ -156,6 +170,29 @@
 
     var page = {
         nowPage: 1,
+        scrollPage: function (pageIndex) {
+            var pageDiff = pageIndex - page.nowPage;
+
+            if (pageIndex >= 1 && pageIndex <= sections.length) {
+
+                translate3dY -= pageDiff * stepHeight;
+                setAttr().translate(sectionContent, translate3dY, 'y');
+                page.nowPage = pageIndex;
+
+                return true;
+            } else {
+                return false;
+            }
+        },
+        scrollSlide: function (slideIndex) {
+
+            var slide = sections[page.nowPage - 1].querySelectorAll('slide');
+            var slideNowIndex = sections[page.nowPage - 1].attribute('data-slide');
+            var slideDiff = slideIndex - slideNowIndex;
+            if (slideIndex >= 1 && slideIndex <= slide.lenght) {
+
+            }
+        },
         move: {
             next: function (callback) {
 
@@ -204,12 +241,6 @@
                     return false;
                 }
             }
-        },
-        scrollPage: function (pageIndex) {
-
-        },
-        scrollSlide: function (pageIndex, slideIndex) {
-
         },
         moveTo: function (pageIndex, slideIndex) {
             //DONE move to a specify section or slide
