@@ -157,39 +157,82 @@
     var page = {
         nowPage: 1,
         move: {
-            next: function () {
+            next: function (callback) {
 
                 //DONE move to next section
-                //TODO add move next eventHandler
-                console.log('page move to next');
+                //DONE add move next eventHandler
+
+                var arg = Array.prototype.slice.call(arguments, 1);
 
                 if (page.nowPage < sections.length) {
+
                     translate3dY -= stepHeight;
                     setAttr().translate(sectionContent, translate3dY, 'y');
+                    console.log('page move to next');
+
                     page.nowPage = page.nowPage === sections.length ? sections.length : page.nowPage + 1;
 
+                    if (typeof callback === 'function') {
+                        console.log('arg', arg);
+                        callback.apply(null, arg);
+                    }
+                    return true;
+                } else {
+                    return false;
                 }
             },
-            pre: function () {
+            pre: function (callback) {
 
                 //DONE move to pre section
-                //TODO add move pre eventHandler
-                console.log('page move to pre');
+                //DONE add move pre eventHandler
+
+                var arg = Array.prototype.slice.call(arguments, 1);
 
                 if (page.nowPage > 1) {
+
                     translate3dY += stepHeight;
                     setAttr().translate(sectionContent, translate3dY, 'y');
+                    console.log('page move to pre');
+
                     page.nowPage = page.nowPage === 1 ? 1 : page.nowPage - 1;
 
+                    if (typeof callback === 'function') {
+                        callback.apply(null, arg);
+                    }
+                    return true;
+                } else {
+                    return false;
                 }
             }
         },
+        scrollPage: function (pageIndex) {
+
+        },
+        scrollSlide: function (pageIndex, slideIndex) {
+
+        },
         moveTo: function (pageIndex, slideIndex) {
-            //TODO move to a specify section
+            //DONE move to a specify section or slide
             var pageDiff = pageIndex - page.nowPage;
-            translate3dY -= pageDiff * stepHeight;
-            setAttr().translate(sectionContent, translate3dY, 'y');
-            page.nowPage = pageIndex;
+
+            if (pageIndex >= 1 && pageIndex <= sections.length) {
+                translate3dY -= pageDiff * stepHeight;
+                setAttr().translate(sectionContent, translate3dY, 'y');
+                page.nowPage = pageIndex;
+                if (slideIndex) {
+                    //TODO move to a specify slide
+                    /**
+                     * 把每个页面的当前slideIndex以data-slide的方式存在section中，
+                     * 然后再用的时候取出来。data-slide 从1开始计数。
+                     */
+                    //var slideNowIndex = sections[pageIndex - 1].attribute('data-slide');
+                    //var slideDiff = slideIndex - slideNowIndex;
+                }
+                return true;
+            } else {
+                return false;
+            }
+
         },
         slide: {
             left: function () {
