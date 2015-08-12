@@ -1,4 +1,7 @@
-html, body, .section-content, .section {
+html,
+body,
+.section-content,
+.section {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -8,9 +11,16 @@ html, body, .section-content, .section {
 body {
   overflow: hidden;
 }
-.section-content{
+
+.section-content,
+.slide-wrap {
   transition: all .5s;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  height: 100%;
+  width: auto;
+  .slide {
+    display: inline-block;
+  }
 }
-.sections {
-  box-sizing: border-box;
-}
+

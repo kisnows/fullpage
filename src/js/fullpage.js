@@ -10,10 +10,8 @@
 })(window, function () {
     "use strict";
 
-    //helper
-    //var $ = document.querySelector.bind(document);
-    //var $$ = document.querySelectorAll.bind(document);
 
+    //helper
     function $(el, parent) {
         if (!parent) {
             return document.querySelector(el);
@@ -31,22 +29,17 @@
     }
 
     function setAttr() {
-        function init() {
-            sectionContent.style.transform = "translate3d(0,0,0)";
-            sectionContent.style.webkitTransform = "translate3d(0,0,0)";
-        }
 
         function translate(el, value, direction) {
             if (direction === 'y') {
                 el.style.transform = "translate3d(0," + value + "px,0)";
-                el.style.webkitTransform = "translate3d(0," + value + "px,0)";
+                el.style["-webkit-transform"] = "translate3d(0," + value + "px,0)";
             } else if (direction === 'x') {
                 console.log('slide translate3d change');
             }
         }
 
         return {
-            init: init,
             translate: translate
         };
     }
@@ -63,22 +56,41 @@
         return Default;
     }
 
+    //end helper
+
     var sectionContent;
     var sections = $$('.section');
 
     var translate3dY = 0;
-    var translate3dX = 0;
     var stepHeight = sections[0].offsetHeight;
     var stepWidth = sections[0].offsetWidth;
 
     var options = {};
     var defaults = {
-        threshold: 10
+        threshold: 10,
+        pageSpeed: 600
     };
 
+    function initEle() {
+
+        sectionContent.style.transform = "translate3d(0,0,0)";
+        sectionContent.style["-webkit-transform"] = "translate3d(0,0,0)";
+
+        var slideWrap = $$('.slide-wrap');
+        var sliders;
+        for (var i = slideWrap.length; i >= 0; i++) {
+            sliders = $$('.slide', slideWrap[i]);
+            slideWrap[i].style.width = sliders.length * stepWidth + 'px';
+        }
+
+    }
+
     function init(ele, Customize) {
+
         sectionContent = $(ele);
         options = extendOption(defaults, Customize);
+
+        initEle();
         bindTouchMove(sectionContent);
     }
 
@@ -186,11 +198,20 @@
         },
         scrollSlide: function (slideIndex) {
 
+            //当前页面下所有的slide
             var slide = sections[page.nowPage - 1].querySelectorAll('slide');
-            var slideNowIndex = sections[page.nowPage - 1].attribute('data-slide');
+            //当前页面上存储的数据
+            var slideData = sections[page.nowPage - 1].dataset;
+            //当前页面上slide的index
+            var slideNowIndex = slideData.index;
+            //当前页面上slide的x轴偏移值
+            var slideX = slideData.x;
             var slideDiff = slideIndex - slideNowIndex;
+
             if (slideIndex >= 1 && slideIndex <= slide.lenght) {
 
+                slideX -= slideDiff * stepWidth;
+                setAttr().translate(slide[slideNowIndex], slideX, 'x');
             }
         },
         move: {
@@ -276,7 +297,7 @@
     };
 
     return {
-        init: init,
+        initEle: init,
         moveTo: page.moveTo,
         moveToNext: page.move.next,
         moveToPre: page.move.pre,

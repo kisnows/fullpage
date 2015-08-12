@@ -10,11 +10,19 @@ body,
 body {
   overflow: hidden;
 }
-.section-content {
+
+.section-content,
+.slide-wrap {
   transition: all .5s;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  height: 100%;
+  width: auto;
 }
-.sections {
-  box-sizing: border-box;
+
+.section-content .slide,
+.slide-wrap .slide {
+  display: inline-block;
 }
 .section {
   font-size: 100px;
