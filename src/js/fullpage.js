@@ -82,8 +82,10 @@
 
     var options = {};
     var defaults = {
-        threshold: 10,      //触发滚动事件的阈值，越小越灵敏
-        pageSpeed: 600      //滚屏速度，单位为毫秒 ms
+        threshold: 10,              //触发滚动事件的阈值，越小越灵敏
+        pageSpeed: 600,             //滚屏速度，单位为毫秒 ms
+        afterLoad: null,            //TODO 页面载入事件
+        beforeLeave: null           //TODO 页面离开事件
     };
 
     function initEle() {
@@ -369,8 +371,8 @@
         moveTo: page.moveTo,
         moveToNext: page.move.next,
         moveToPre: page.move.pre,
-        slideToLeft: page.slide.left,
-        slideToRight: page.slide.right,
+        slideToNext: page.slide.next,
+        slideToPre: page.slide.pre,
         afterLoad: page.afterLoad,
         beforeLoad: page.beforeLoad
     };
