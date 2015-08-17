@@ -161,10 +161,26 @@
             //TODO add eventHandel
             event.preventDefault();
             touch = event.touches[0];
-            diffX = startPos.x - touch.pageX;
-            diffY = startPos.y - touch.pageY;
+
+        }, false);
+
+        el.addEventListener('touchend', function (event) {
+
+            event.preventDefault();
+            endPos.x = touch.pageX;
+            endPos.y = touch.pageY;
+            diffX = startPos.x - endPos.x;
+            diffY = startPos.y - endPos.y;
             //阈值,灵敏度，越小越灵敏
             var threshold = options.threshold;
+            //console.log('diffX:', diffX, 'diffY:', diffY);
+
+            /**
+             * 这里有个小bug：
+             * 即如果点击屏幕没有移动的话，Math.abs(diffX) - Math.abs(diffY) = 0 ,
+             * isVertical 会默认为 true
+             * 不过并不影响程序正常运行
+             */
             isVertical = Math.abs(diffX) - Math.abs(diffY) <= 0;
 
             if (!isVertical) {
@@ -188,49 +204,6 @@
                     page.move.pre();
                 }
             }
-            console.log(touch.pageX, touch.pageY);
-        }, false);
-
-        el.addEventListener('touchend', function (event) {
-
-            event.preventDefault();
-            //endPos.x = touch.pageX;
-            //endPos.y = touch.pageY;
-            //diffX = startPos.x - endPos.x;
-            //diffY = startPos.y - endPos.y;
-            ////阈值,灵敏度，越小越灵敏
-            //var threshold = options.threshold;
-            ////console.log('diffX:', diffX, 'diffY:', diffY);
-            //
-            ///**
-            // * 这里有个小bug：
-            // * 即如果点击屏幕没有移动的话，Math.abs(diffX) - Math.abs(diffY) = 0 ,
-            // * isVertical 会默认为 true
-            // * 不过并不影响程序正常运行
-            // */
-            //isVertical = Math.abs(diffX) - Math.abs(diffY) <= 0;
-            //
-            //if (!isVertical) {
-            //    //horizontal
-            //    //isVertical = false;
-            //    if (diffX > threshold) {
-            //        //Move to left
-            //        page.slide.next();
-            //    } else if (diffX < -threshold) {
-            //        //Move to right
-            //        page.slide.pre();
-            //    }
-            //} else {
-            //    //vertical
-            //    //isVertical = true;
-            //    if (diffY > threshold) {
-            //        //Move to top
-            //        page.move.next();
-            //    } else if (diffY < -threshold) {
-            //        //Move to bottom
-            //        page.move.pre();
-            //    }
-            //}
 
         }, false);
     }
