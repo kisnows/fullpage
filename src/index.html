@@ -7,15 +7,20 @@
         content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
   <link rel="stylesheet" href="css/app.css"/>
 </head>
-<body>
-<div id="sectionContent" class="section-content">
+<body style="overflow: hidden; height: 100%;">
+<div id="sectionContent" class="section-content"
+     style="display: block; height: 100%; position: relative; touch-action: none; transform: translate3d(0px, 0px, 0px); transition: all 700ms ease;">
   <div class="section">
     <div class="slide-wrap">
-      <div class="slide">1</div>
-      <div class="slide">2</div>
-      <div class="slide">3</div>
-      <div class="slide">4</div>
-      <div class="slide">5</div>
+      <div class="slide" style="font-size:28px;">
+        <p>如果当前不是手机设备，请打开浏览器的开发工具，点击响应式开发，然后随意选择一款模拟设备。</p>
+
+        <p>现在你可以试着上下左右滑动。（左右滑动仅限本页）</p>
+      </div>
+      <div class="slide">Slide2</div>
+      <div class="slide">Slide3</div>
+      <div class="slide">Slide4</div>
+      <div class="slide">Slide5</div>
     </div>
   </div>
   <div class="section">2</div>
@@ -24,7 +29,7 @@
 <script src="js/fullpage.js"></script>
 <script>
   window.onload = function () {
-    fullpage.initEle('#sectionContent');
+    fullpage.init('#sectionContent');
   }
 </script>
 </body>

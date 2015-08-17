@@ -1,5 +1,11 @@
 /**
- * Created by qi on 2015/7/23.
+ * fullPage v0.8.0 (Alpha)
+ * https://github.com/kisnows/fullpage.js
+ *
+ * Apache License
+ *
+ * A JavaScript lib for developer to develop some fullPage site by a simple way.
+ * Author: yq12315@gmail.com
  */
 
 (function (global, fn) {
@@ -12,6 +18,7 @@
 
 
     //helper
+
     function $(el, parent) {
         if (!parent) {
             return document.querySelector(el);
@@ -45,6 +52,12 @@
         };
     }
 
+    /**
+     * 扩展 Option 对象
+     * @param {Object} Default 默认设置
+     * @param {Object} Customize 自定义设置
+     * @returns {Object} Default 扩展后的设置
+     */
     function extendOption(Default, Customize) {
         if (typeof Customize !== 'object') {
             Customize = {};
@@ -68,27 +81,46 @@
 
     var options = {};
     var defaults = {
-        threshold: 10,
-        pageSpeed: 600
+        threshold: 30,              //触发滚动事件的阈值，越小越灵敏
+        pageSpeed: 600,             //滚屏速度，单位为毫秒 ms
+        afterLoad: null,            //TODO 页面载入事件
+        beforeLeave: null           //TODO 页面离开事件
     };
 
     function initEle() {
 
-        sectionContent.style.transform = "translate3d(0,0,0)";
-        sectionContent.style["-webkit-transform"] = "translate3d(0,0,0)";
-
-        var slideWrap = $$('.slide-wrap');
-        var sliders;
-        for (var i = slideWrap.length - 1; i >= 0; i--) {
-            sliders = $$('.slide', slideWrap[i]);
-            for (var j = sliders.length - 1; j >= 0; j--) {
-                sliders[j].style.width = stepWidth + 'px';
-            }
-            slideWrap[i].style.width = sliders.length * stepWidth + 'px';
-            slideWrap[i].dataset.x = '0';
-            slideWrap[i].dataset.index = '1';
+        function init() {
+            initContent();
+            initSlider();
         }
 
+        function initContent() {
+            sectionContent.style.transform = "translate3d(0,0,0)";
+            sectionContent.style["-webkit-transform"] = "translate3d(0,0,0)";
+            sectionContent.style.transitionDuration = options.pageSpeed + 'ms';
+            sectionContent.style.height = "100%";
+            sectionContent.style.display = "block";
+        }
+
+        function initSlider() {
+            var sliderWrap = $$('.slide-wrap');
+            var sliders;
+            for (var i = sliderWrap.length - 1; i >= 0; i--) {
+                sliders = $$('.slide', sliderWrap[i]);
+                for (var j = sliders.length - 1; j >= 0; j--) {
+                    sliders[j].style.width = stepWidth + 'px';
+                }
+                sliderWrap[i].style.width = sliders.length * stepWidth + 'px';
+                sliderWrap[i].dataset.x = '0';
+                sliderWrap[i].dataset.index = '1';
+            }
+        }
+
+        return {
+            init: init,
+            initContent: initContent,
+            initSlider: initSlider
+        };
     }
 
     function init(ele, Customize) {
@@ -96,7 +128,7 @@
         sectionContent = $(ele);
         options = extendOption(defaults, Customize);
 
-        initEle();
+        initEle().init();
         bindTouchMove(sectionContent);
     }
 
@@ -111,7 +143,6 @@
         var diffX,
             diffY;
         var touch;
-        var direction;
         var isVertical = false;
 
         el.addEventListener('touchstart', function (event) {
@@ -123,34 +154,17 @@
             touch = event.touches[0];
             startPos.x = touch.pageX;
             startPos.y = touch.pageY;
-
+            //console.log(startPos.x,startPos.y);
         }, false);
 
         el.addEventListener('touchmove', function (event) {
-
+            //TODO add eventHandel
             event.preventDefault();
             touch = event.touches[0];
-            endPos.x = touch.pageX;
-            endPos.y = touch.pageY;
-        }, false);
-
-        el.addEventListener('touchend', function (event) {
-
-            event.preventDefault();
-            endPos.x = touch.pageX;
-            endPos.y = touch.pageY;
-            diffX = startPos.x - endPos.x;
-            diffY = startPos.y - endPos.y;
+            diffX = startPos.x - touch.pageX;
+            diffY = startPos.y - touch.pageY;
             //阈值,灵敏度，越小越灵敏
             var threshold = options.threshold;
-            //console.log('diffX:', diffX, 'diffY:', diffY);
-
-            /**
-             * 这里有个小bug：
-             * 即如果点击屏幕没有移动的话，Math.abs(diffX) - Math.abs(diffY) = 0 ,
-             * isVertical 会默认为 true
-             * 不过并不影响程序正常运行
-             */
             isVertical = Math.abs(diffX) - Math.abs(diffY) <= 0;
 
             if (!isVertical) {
@@ -158,34 +172,80 @@
                 //isVertical = false;
                 if (diffX > threshold) {
                     //Move to left
-                    direction = 'next';
-                    console.log('Go next');
+                    page.slide.next();
                 } else if (diffX < -threshold) {
                     //Move to right
-                    direction = 'pre';
-                    console.log('Go pre');
+                    page.slide.pre();
                 }
             } else {
                 //vertical
                 //isVertical = true;
                 if (diffY > threshold) {
                     //Move to top
-                    direction = 'next';
+                    page.move.next();
                 } else if (diffY < -threshold) {
                     //Move to bottom
-                    direction = 'pre';
+                    page.move.pre();
                 }
             }
-            if (direction) {
-                if (isVertical) {
-                    page.move[direction]();
-                } else {
-                    page.slide[direction]();
-                }
-            }
+            console.log(touch.pageX, touch.pageY);
+        }, false);
+
+        el.addEventListener('touchend', function (event) {
+
+            event.preventDefault();
+            //endPos.x = touch.pageX;
+            //endPos.y = touch.pageY;
+            //diffX = startPos.x - endPos.x;
+            //diffY = startPos.y - endPos.y;
+            ////阈值,灵敏度，越小越灵敏
+            //var threshold = options.threshold;
+            ////console.log('diffX:', diffX, 'diffY:', diffY);
+            //
+            ///**
+            // * 这里有个小bug：
+            // * 即如果点击屏幕没有移动的话，Math.abs(diffX) - Math.abs(diffY) = 0 ,
+            // * isVertical 会默认为 true
+            // * 不过并不影响程序正常运行
+            // */
+            //isVertical = Math.abs(diffX) - Math.abs(diffY) <= 0;
+            //
+            //if (!isVertical) {
+            //    //horizontal
+            //    //isVertical = false;
+            //    if (diffX > threshold) {
+            //        //Move to left
+            //        page.slide.next();
+            //    } else if (diffX < -threshold) {
+            //        //Move to right
+            //        page.slide.pre();
+            //    }
+            //} else {
+            //    //vertical
+            //    //isVertical = true;
+            //    if (diffY > threshold) {
+            //        //Move to top
+            //        page.move.next();
+            //    } else if (diffY < -threshold) {
+            //        //Move to bottom
+            //        page.move.pre();
+            //    }
+            //}
+
         }, false);
     }
 
+    // TODO add MouseWheelHandel and bindKeyboard
+    function bindMouseWheel(el) {
+    }
+
+    function bindKeyboard(el) {
+    }
+
+    /**
+     * 页面滚动主要逻辑
+     * @type {{nowPage: number, scrollPage: Function, scrollSlide: Function, move: {next: Function, pre: Function}, moveTo: Function, slide: {next: Function, pre: Function}}}
+     */
     var page = {
         nowPage: 1,
         scrollPage: function (pageIndex) {
@@ -231,24 +291,35 @@
                 return true;
             }
         },
+        moveTo: function (pageIndex, slideIndex) {
+            //DONE move to a specify section or slide
+            var pageDiff = pageIndex - page.nowPage;
+
+            if (pageIndex >= 1 && pageIndex <= sections.length) {
+                translate3dY -= pageDiff * stepHeight;
+                setAttr().translate(sectionContent, translate3dY, 'y');
+                page.nowPage = pageIndex;
+                if (slideIndex) {
+                    //DONE move to a specify slide
+                    page.scrollSlide(slideIndex);
+                }
+                return true;
+            } else {
+                return false;
+            }
+
+        },
         move: {
             next: function (callback) {
 
                 //DONE move to next section
                 //DONE add move next eventHandler
 
-                var arg = Array.prototype.slice.call(arguments, 1);
+                if (page.scrollPage(page.nowPage + 1)) {
 
-                if (page.nowPage < sections.length) {
-
-                    translate3dY -= stepHeight;
-                    setAttr().translate(sectionContent, translate3dY, 'y');
-                    console.log('page move to next');
-
-                    page.nowPage = page.nowPage === sections.length ? sections.length : page.nowPage + 1;
+                    var arg = Array.prototype.slice.call(arguments, 1);
 
                     if (typeof callback === 'function') {
-                        console.log('arg', arg);
                         callback.apply(null, arg);
                     }
                     return true;
@@ -261,15 +332,9 @@
                 //DONE move to pre section
                 //DONE add move pre eventHandler
 
-                var arg = Array.prototype.slice.call(arguments, 1);
+                if (page.scrollPage(page.nowPage - 1)) {
 
-                if (page.nowPage > 1) {
-
-                    translate3dY += stepHeight;
-                    setAttr().translate(sectionContent, translate3dY, 'y');
-                    console.log('page move to pre');
-
-                    page.nowPage = page.nowPage === 1 ? 1 : page.nowPage - 1;
+                    var arg = Array.prototype.slice.call(arguments, 1);
 
                     if (typeof callback === 'function') {
                         callback.apply(null, arg);
@@ -280,65 +345,60 @@
                 }
             }
         },
-        moveTo: function (pageIndex, slideIndex) {
-            //DONE move to a specify section or slide
-            var pageDiff = pageIndex - page.nowPage;
-
-            if (pageIndex >= 1 && pageIndex <= sections.length) {
-                translate3dY -= pageDiff * stepHeight;
-                setAttr().translate(sectionContent, translate3dY, 'y');
-                page.nowPage = pageIndex;
-                if (slideIndex) {
-                    //TODO move to a specify slide
-                    /**
-                     * 把每个页面的当前slideIndex以data-slide的方式存在section中，
-                     * 然后再用的时候取出来。data-slide 从1开始计数。
-                     */
-                    //var slideNowIndex = sections[pageIndex - 1].attribute('data-slide');
-                    //var slideDiff = slideIndex - slideNowIndex;
-                    page.scrollSlide(slideIndex);
-                }
-                return true;
-            } else {
-                return false;
-            }
-
-        },
         slide: {
             next: function () {
-
                 var slideWrap = $('.slide-wrap', sections[page.nowPage - 1]);
-                var slideData = slideWrap.dataset;
-                var slideNowIndex = parseInt(slideData.index);
 
-                if (page.scrollSlide(slideNowIndex + 1)) {
+                if (!slideWrap) {
+                    return false;
+                } else {
+                    var slideData = slideWrap.dataset;
+                    var slideNowIndex = parseInt(slideData.index);
 
-                    slideData.index = slideNowIndex + 1;
+                    if (page.scrollSlide(slideNowIndex + 1)) {
+
+                        slideData.index = slideNowIndex + 1;
+                        //console.log('slide move to next');
+                        return true;
+                    }
+                    return false;
                 }
-                console.log('slide move to next');
+
             },
             pre: function () {
 
                 var slideWrap = $('.slide-wrap', sections[page.nowPage - 1]);
-                var slideData = slideWrap.dataset;
-                var slideNowIndex = parseInt(slideData.index);
 
-                if (page.scrollSlide(slideNowIndex - 1)) {
+                if (!slideWrap) {
+                    return false;
+                } else {
+                    var slideData = slideWrap.dataset;
+                    var slideNowIndex = parseInt(slideData.index);
 
-                    slideData.index = slideNowIndex - 1;
+                    if (page.scrollSlide(slideNowIndex - 1)) {
+
+                        slideData.index = slideNowIndex - 1;
+                        //console.log('slide move to pre');
+                        return true;
+                    }
+                    return false;
                 }
-                console.log('slide move to pre');
+
             }
         }
     };
 
     return {
-        initEle: init,
+        init: init,
+        scrollPage: page.scrollPage,
+        scrollSlide: page.scrollSlide,
         moveTo: page.moveTo,
         moveToNext: page.move.next,
         moveToPre: page.move.pre,
-        slideToLeft: page.slide.left,
-        slideToRight: page.slide.right
+        slideToNext: page.slide.next,
+        slideToPre: page.slide.pre,
+        //afterLoad: page.afterLoad,
+        //beforeLeave: page.beforeLeave
     };
 });
 
