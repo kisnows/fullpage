@@ -5,6 +5,7 @@
 一个轻巧的`fullpage`框架，不依赖其他库。
 支持触摸屏且支持`css3`浏览器的设备。
 
+[DEMO](http://kisnows.com/fullpage.js/src/)
 ##使用方法
 * 引入 JavaScript 文件 `fullpage.js`
 * 引入 css 文件 `fullpage.css`（如果你使用`less`，则可以在less主文件中引入`fullpage.less`）
@@ -35,10 +36,10 @@ fullpage.init('#sectionContent');
 
 ```
 fullpage.init('#sectionContent',{
-	threshold: 10,              //触发滚动事件的阈值，越小越灵敏
-  pageSpeed: 600,             //滚屏速度，单位为毫秒 ms
-  afterLoad: null,            //TODO 页面载入事件
-  beforeLeave: null           //TODO 页面离开事件
+    threshold: 10,              //触发滚动事件的阈值，越小越灵敏
+    pageSpeed: 600,             //滚屏速度，单位为毫秒 ms
+    afterLoad: null,            //TODO 页面载入事件
+    beforeLeave: null           //TODO 页面离开事件
 });
 ```
 ##方法
@@ -58,6 +59,10 @@ fullpage.moveTo(3,2)    //滚动到第三个页面的第二个slider
 fullpage.moveToNext();            //滚动到下一个页面
 fullpage.moveToNext(callback)     //滚动到下一个页面后，执行 callback
 fullpage.moveToNext(callback,params...)   //滚动到下一个页面后，执行 callback,params为callback的参数，根据情况传入
+function foo(a,b){
+    console.log(a,b)
+}
+fullpage.moveToNext(foo,1,2)              //滚动到下一个页面，并输出 1，2
 ```
 ###moveToPre(callback)
 垂直滚动到上一个页面，用法同 `moveToNext(callback)`

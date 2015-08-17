@@ -1,10 +1,10 @@
 /**
- * fullPage v0.8.0 (Alpha)
+ * fullPage v0.8.2 (Alpha)
  * https://github.com/kisnows/fullpage.js
  *
  * Apache License
  *
- * A JavaScript lib for developer to develop some fullPage site by a simple way.
+ * A light JavaScript framework for developer to build some fullPage site by a simple way.
  * Author: yq12315@gmail.com
  */
 
@@ -221,6 +221,11 @@
      */
     var page = {
         nowPage: 1,
+        /**
+         * Scroll to a specified page.
+         * @param pageIndex {number} The page index you want scroll to.
+         * @returns {boolean}
+         */
         scrollPage: function (pageIndex) {
             var pageDiff = pageIndex - page.nowPage;
 
@@ -229,19 +234,29 @@
                 translate3dY -= pageDiff * stepHeight;
                 setAttr().translate(sectionContent, translate3dY, 'y');
                 page.nowPage = pageIndex;
-
+                console.log('scrollPage to', pageIndex);
                 return true;
             } else {
                 return false;
             }
         },
+        /**
+         * Scroll to a specified slide.
+         * @param slideIndex {number} The slide index you want scroll to.
+         * @returns {boolean}
+         */
         scrollSlide: function (slideIndex) {
-
-            //当前页面下所有的slide
-            var slide = sections[page.nowPage - 1].querySelectorAll('.slide');
 
             //获取slide包裹层
             var slideWrap = $('.slide-wrap', sections[page.nowPage - 1]);
+
+            if (!slideWrap) {
+                console.log('This page has no slide');
+                return false;
+            }
+
+            //当前页面下所有的slide
+            var slide = sections[page.nowPage - 1].querySelectorAll('.slide');
 
             //当前页面上存储的数据
             var slideData = slideWrap.dataset;
@@ -260,10 +275,16 @@
                 setAttr().translate(slideWrap, slideX, 'x');
                 slideData.x = slideX;
                 slideData.index = slideIndex;
-
+                console.log('scrollSlide to', slideIndex);
                 return true;
             }
         },
+        /**
+         * Scroll to a specified section and slide.
+         * @param pageIndex {number}
+         * @param slideIndex {number}
+         * @returns {boolean}
+         */
         moveTo: function (pageIndex, slideIndex) {
             //DONE move to a specify section or slide
             var pageDiff = pageIndex - page.nowPage;
@@ -293,7 +314,7 @@
                     var arg = Array.prototype.slice.call(arguments, 1);
 
                     if (typeof callback === 'function') {
-                        callback.apply(null, arg);
+                        callback.call(null, arg);
                     }
                     return true;
                 } else {
@@ -310,7 +331,7 @@
                     var arg = Array.prototype.slice.call(arguments, 1);
 
                     if (typeof callback === 'function') {
-                        callback.apply(null, arg);
+                        callback.call(null, arg);
                     }
                     return true;
                 } else {
