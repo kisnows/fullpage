@@ -1,5 +1,4 @@
 /**
- * Created by kisnows on 2015/7/23.
  * fullPage v0.8.0 (Alpha)
  * https://github.com/kisnows/fullpage.js
  *
@@ -82,7 +81,7 @@
 
     var options = {};
     var defaults = {
-        threshold: 10,              //触发滚动事件的阈值，越小越灵敏
+        threshold: 30,              //触发滚动事件的阈值，越小越灵敏
         pageSpeed: 600,             //滚屏速度，单位为毫秒 ms
         afterLoad: null,            //TODO 页面载入事件
         beforeLeave: null           //TODO 页面离开事件
@@ -99,6 +98,8 @@
             sectionContent.style.transform = "translate3d(0,0,0)";
             sectionContent.style["-webkit-transform"] = "translate3d(0,0,0)";
             sectionContent.style.transitionDuration = options.pageSpeed + 'ms';
+            sectionContent.style.height = "100%";
+            sectionContent.style.display = "block";
         }
 
         function initSlider() {
@@ -142,7 +143,6 @@
         var diffX,
             diffY;
         var touch;
-        var direction;
         var isVertical = false;
 
         el.addEventListener('touchstart', function (event) {
@@ -154,34 +154,17 @@
             touch = event.touches[0];
             startPos.x = touch.pageX;
             startPos.y = touch.pageY;
-
+            //console.log(startPos.x,startPos.y);
         }, false);
 
         el.addEventListener('touchmove', function (event) {
-
+            //TODO add eventHandel
             event.preventDefault();
             touch = event.touches[0];
-            endPos.x = touch.pageX;
-            endPos.y = touch.pageY;
-        }, false);
-
-        el.addEventListener('touchend', function (event) {
-
-            event.preventDefault();
-            endPos.x = touch.pageX;
-            endPos.y = touch.pageY;
-            diffX = startPos.x - endPos.x;
-            diffY = startPos.y - endPos.y;
+            diffX = startPos.x - touch.pageX;
+            diffY = startPos.y - touch.pageY;
             //阈值,灵敏度，越小越灵敏
             var threshold = options.threshold;
-            //console.log('diffX:', diffX, 'diffY:', diffY);
-
-            /**
-             * 这里有个小bug：
-             * 即如果点击屏幕没有移动的话，Math.abs(diffX) - Math.abs(diffY) = 0 ,
-             * isVertical 会默认为 true
-             * 不过并不影响程序正常运行
-             */
             isVertical = Math.abs(diffX) - Math.abs(diffY) <= 0;
 
             if (!isVertical) {
@@ -189,33 +172,80 @@
                 //isVertical = false;
                 if (diffX > threshold) {
                     //Move to left
-                    direction = 'next';
+                    page.slide.next();
                 } else if (diffX < -threshold) {
                     //Move to right
-                    direction = 'pre';
+                    page.slide.pre();
                 }
             } else {
                 //vertical
                 //isVertical = true;
                 if (diffY > threshold) {
                     //Move to top
-                    direction = 'next';
+                    page.move.next();
                 } else if (diffY < -threshold) {
                     //Move to bottom
-                    direction = 'pre';
+                    page.move.pre();
                 }
             }
+            console.log(touch.pageX, touch.pageY);
+        }, false);
 
-            if (direction) {
-                if (isVertical) {
-                    page.move[direction]();
-                } else {
-                    page.slide[direction]();
-                }
-            }
+        el.addEventListener('touchend', function (event) {
+
+            event.preventDefault();
+            //endPos.x = touch.pageX;
+            //endPos.y = touch.pageY;
+            //diffX = startPos.x - endPos.x;
+            //diffY = startPos.y - endPos.y;
+            ////阈值,灵敏度，越小越灵敏
+            //var threshold = options.threshold;
+            ////console.log('diffX:', diffX, 'diffY:', diffY);
+            //
+            ///**
+            // * 这里有个小bug：
+            // * 即如果点击屏幕没有移动的话，Math.abs(diffX) - Math.abs(diffY) = 0 ,
+            // * isVertical 会默认为 true
+            // * 不过并不影响程序正常运行
+            // */
+            //isVertical = Math.abs(diffX) - Math.abs(diffY) <= 0;
+            //
+            //if (!isVertical) {
+            //    //horizontal
+            //    //isVertical = false;
+            //    if (diffX > threshold) {
+            //        //Move to left
+            //        page.slide.next();
+            //    } else if (diffX < -threshold) {
+            //        //Move to right
+            //        page.slide.pre();
+            //    }
+            //} else {
+            //    //vertical
+            //    //isVertical = true;
+            //    if (diffY > threshold) {
+            //        //Move to top
+            //        page.move.next();
+            //    } else if (diffY < -threshold) {
+            //        //Move to bottom
+            //        page.move.pre();
+            //    }
+            //}
+
         }, false);
     }
 
+    // TODO add MouseWheelHandel and bindKeyboard
+    function bindMouseWheel(el) {
+    }
+
+    function bindKeyboard(el) {
+    }
+
+    /**
+     * 页面滚动主要逻辑
+     * @type {{nowPage: number, scrollPage: Function, scrollSlide: Function, move: {next: Function, pre: Function}, moveTo: Function, slide: {next: Function, pre: Function}}}
+     */
     var page = {
         nowPage: 1,
         scrollPage: function (pageIndex) {
@@ -261,6 +291,24 @@
                 return true;
             }
         },
+        moveTo: function (pageIndex, slideIndex) {
+            //DONE move to a specify section or slide
+            var pageDiff = pageIndex - page.nowPage;
+
+            if (pageIndex >= 1 && pageIndex <= sections.length) {
+                translate3dY -= pageDiff * stepHeight;
+                setAttr().translate(sectionContent, translate3dY, 'y');
+                page.nowPage = pageIndex;
+                if (slideIndex) {
+                    //DONE move to a specify slide
+                    page.scrollSlide(slideIndex);
+                }
+                return true;
+            } else {
+                return false;
+            }
+
+        },
         move: {
             next: function (callback) {
 
@@ -296,30 +344,6 @@
                     return false;
                 }
             }
-        },
-        moveTo: function (pageIndex, slideIndex) {
-            //DONE move to a specify section or slide
-            var pageDiff = pageIndex - page.nowPage;
-
-            if (pageIndex >= 1 && pageIndex <= sections.length) {
-                translate3dY -= pageDiff * stepHeight;
-                setAttr().translate(sectionContent, translate3dY, 'y');
-                page.nowPage = pageIndex;
-                if (slideIndex) {
-                    //TODO move to a specify slide
-                    /**
-                     * 把每个页面的当前slideIndex以data-slide的方式存在section中，
-                     * 然后再用的时候取出来。data-slide 从1开始计数。
-                     */
-                        //var slideNowIndex = sections[pageIndex - 1].attribute('data-slide');
-                        //var slideDiff = slideIndex - slideNowIndex;
-                    page.scrollSlide(slideIndex);
-                }
-                return true;
-            } else {
-                return false;
-            }
-
         },
         slide: {
             next: function () {
@@ -365,7 +389,7 @@
     };
 
     return {
-        initEle: init,
+        init: init,
         scrollPage: page.scrollPage,
         scrollSlide: page.scrollSlide,
         moveTo: page.moveTo,
@@ -373,8 +397,8 @@
         moveToPre: page.move.pre,
         slideToNext: page.slide.next,
         slideToPre: page.slide.pre,
-        afterLoad: page.afterLoad,
-        beforeLoad: page.beforeLoad
+        //afterLoad: page.afterLoad,
+        //beforeLeave: page.beforeLeave
     };
 });
 

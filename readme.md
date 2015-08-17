@@ -3,7 +3,7 @@
 **仍在开发中**
 
 一个轻巧的`fullpage`框架，不依赖其他库。
-目前仅支持触摸屏且支持`css3`浏览器的设备。
+支持触摸屏且支持`css3`浏览器的设备。
 
 ##使用方法
 * 引入 JavaScript 文件 `fullpage.js`
@@ -11,9 +11,17 @@
 * 按照下面格式书写`html`代码（其中 id 为 `sectionContent` 的为包裹层，你可以自定义修改其id）
 ```
 <div id="sectionContent" class="section-content">
-    <div class="section">1</div>
-    <div class="section">2</div>
-    <div class="section">3</div>
+    <div class="section">
+        <div class="slide-wrap">
+          <div class="slide">1</div>
+          <div class="slide">2</div>
+          <div class="slide">3</div>
+          <div class="slide">4</div>
+          <div class="slide">5</div>
+        </div>
+      </div>
+      <div class="section">2</div>
+      <div class="section">3</div>
 </div>
 ```
 
@@ -34,12 +42,13 @@ fullpage.init('#sectionContent',{
 });
 ```
 ##方法
-
+###init(el,options)
+页面初始化，`el`为最外包裹层选择器，`options`是要定制的参数。具体同[初始化](#初始化)
 ###moveTo(index,slideIndex)
 滚动到指定页面,`index` 为必选参数，`slideIndex`为可选参数
 
 ```
-fllpage.moveTo(1)      //滚动到第一个页面
+fullpage.moveTo(1)      //滚动到第一个页面
 fullpage.moveTo(3,2)    //滚动到第三个页面的第二个slider
 ```
 ###moveToNext(callback)
@@ -56,8 +65,12 @@ fullpage.moveToNext(callback,params...)   //滚动到下一个页面后，执行
 水平滚动到下一个页面（页面向左滚动）
 ###slideToPre()
 水平滚动到上一个页面（页面向右滚动）
-
+##待完成
+###afterLoad()
+###beforeLeave()
 ## TODO
 * ~~添加滚动到指定页面方法~~
 * 页面滚动时，页面载入或离开时添加自定义事件
 * ~~横屏滚动支持~~
+* 添加鼠标滚轮控制
+* 添加键盘控制
