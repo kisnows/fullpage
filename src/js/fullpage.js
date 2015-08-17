@@ -75,8 +75,8 @@
 
     var options = {};
     var defaults = {
-        threshold: 10,
-        pageSpeed: 600
+        threshold: 10,      //触发滚动事件的阈值，越小越灵敏
+        pageSpeed: 600      //滚屏速度，单位为毫秒 ms
     };
 
     function initEle() {
@@ -89,6 +89,7 @@
         function initContent() {
             sectionContent.style.transform = "translate3d(0,0,0)";
             sectionContent.style["-webkit-transform"] = "translate3d(0,0,0)";
+            sectionContent.style.transitionDuration = options.pageSpeed + 'ms';
         }
 
         function initSlider() {
@@ -180,11 +181,9 @@
                 if (diffX > threshold) {
                     //Move to left
                     direction = 'next';
-                    console.log('Go next');
                 } else if (diffX < -threshold) {
                     //Move to right
                     direction = 'pre';
-                    console.log('Go pre');
                 }
             } else {
                 //vertical
@@ -197,6 +196,7 @@
                     direction = 'pre';
                 }
             }
+
             if (direction) {
                 if (isVertical) {
                     page.move[direction]();
@@ -269,7 +269,6 @@
                     page.nowPage = page.nowPage === sections.length ? sections.length : page.nowPage + 1;
 
                     if (typeof callback === 'function') {
-                        console.log('arg', arg);
                         callback.apply(null, arg);
                     }
                     return true;
@@ -327,28 +326,41 @@
         },
         slide: {
             next: function () {
-
                 var slideWrap = $('.slide-wrap', sections[page.nowPage - 1]);
-                var slideData = slideWrap.dataset;
-                var slideNowIndex = parseInt(slideData.index);
 
-                if (page.scrollSlide(slideNowIndex + 1)) {
+                if (!slideWrap) {
+                    return false;
+                } else {
+                    var slideData = slideWrap.dataset;
+                    var slideNowIndex = parseInt(slideData.index);
 
-                    slideData.index = slideNowIndex + 1;
+                    if (page.scrollSlide(slideNowIndex + 1)) {
+
+                        slideData.index = slideNowIndex + 1;
+                    }
+                    console.log('slide move to next');
+                    return true;
                 }
-                console.log('slide move to next');
+
             },
             pre: function () {
 
                 var slideWrap = $('.slide-wrap', sections[page.nowPage - 1]);
-                var slideData = slideWrap.dataset;
-                var slideNowIndex = parseInt(slideData.index);
 
-                if (page.scrollSlide(slideNowIndex - 1)) {
+                if (!slideWrap) {
+                    return false;
+                } else {
+                    var slideData = slideWrap.dataset;
+                    var slideNowIndex = parseInt(slideData.index);
 
-                    slideData.index = slideNowIndex - 1;
+                    if (page.scrollSlide(slideNowIndex - 1)) {
+
+                        slideData.index = slideNowIndex - 1;
+                    }
+                    console.log('slide move to pre');
+                    return true;
                 }
-                console.log('slide move to pre');
+
             }
         }
     };
