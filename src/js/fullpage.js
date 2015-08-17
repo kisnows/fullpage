@@ -1,5 +1,12 @@
 /**
- * Created by qi on 2015/7/23.
+ * Created by kisnows on 2015/7/23.
+ * fullPage v0.8.0 (Alpha)
+ * https://github.com/kisnows/fullpage.js
+ *
+ * Apache License
+ *
+ * A JavaScript lib for developer to develop some fullPage site by a simple way.
+ * Author: yq12315@gmail.com
  */
 
 (function (global, fn) {
@@ -258,15 +265,9 @@
                 //DONE move to next section
                 //DONE add move next eventHandler
 
-                var arg = Array.prototype.slice.call(arguments, 1);
+                if (page.scrollPage(page.nowPage + 1)) {
 
-                if (page.nowPage < sections.length) {
-
-                    translate3dY -= stepHeight;
-                    setAttr().translate(sectionContent, translate3dY, 'y');
-                    console.log('page move to next');
-
-                    page.nowPage = page.nowPage === sections.length ? sections.length : page.nowPage + 1;
+                    var arg = Array.prototype.slice.call(arguments, 1);
 
                     if (typeof callback === 'function') {
                         callback.apply(null, arg);
@@ -281,15 +282,9 @@
                 //DONE move to pre section
                 //DONE add move pre eventHandler
 
-                var arg = Array.prototype.slice.call(arguments, 1);
+                if (page.scrollPage(page.nowPage - 1)) {
 
-                if (page.nowPage > 1) {
-
-                    translate3dY += stepHeight;
-                    setAttr().translate(sectionContent, translate3dY, 'y');
-                    console.log('page move to pre');
-
-                    page.nowPage = page.nowPage === 1 ? 1 : page.nowPage - 1;
+                    var arg = Array.prototype.slice.call(arguments, 1);
 
                     if (typeof callback === 'function') {
                         callback.apply(null, arg);
@@ -337,9 +332,10 @@
                     if (page.scrollSlide(slideNowIndex + 1)) {
 
                         slideData.index = slideNowIndex + 1;
+                        //console.log('slide move to next');
+                        return true;
                     }
-                    console.log('slide move to next');
-                    return true;
+                    return false;
                 }
 
             },
@@ -356,9 +352,10 @@
                     if (page.scrollSlide(slideNowIndex - 1)) {
 
                         slideData.index = slideNowIndex - 1;
+                        //console.log('slide move to pre');
+                        return true;
                     }
-                    console.log('slide move to pre');
-                    return true;
+                    return false;
                 }
 
             }
@@ -367,11 +364,15 @@
 
     return {
         initEle: init,
+        scrollPage: page.scrollPage,
+        scrollSlide: page.scrollSlide,
         moveTo: page.moveTo,
         moveToNext: page.move.next,
         moveToPre: page.move.pre,
         slideToLeft: page.slide.left,
-        slideToRight: page.slide.right
+        slideToRight: page.slide.right,
+        afterLoad: page.afterLoad,
+        beforeLoad: page.beforeLoad
     };
 });
 
