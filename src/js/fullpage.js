@@ -12,6 +12,7 @@
 
 
     //helper
+
     function $(el, parent) {
         if (!parent) {
             return document.querySelector(el);
@@ -45,6 +46,12 @@
         };
     }
 
+    /**
+     * 扩展 Option 对象
+     * @param {Object} Default 默认设置
+     * @param {Object} Customize 自定义设置
+     * @returns {Object} Default 扩展后的设置
+     */
     function extendOption(Default, Customize) {
         if (typeof Customize !== 'object') {
             Customize = {};
@@ -74,21 +81,35 @@
 
     function initEle() {
 
-        sectionContent.style.transform = "translate3d(0,0,0)";
-        sectionContent.style["-webkit-transform"] = "translate3d(0,0,0)";
-
-        var slideWrap = $$('.slide-wrap');
-        var sliders;
-        for (var i = slideWrap.length - 1; i >= 0; i--) {
-            sliders = $$('.slide', slideWrap[i]);
-            for (var j = sliders.length - 1; j >= 0; j--) {
-                sliders[j].style.width = stepWidth + 'px';
-            }
-            slideWrap[i].style.width = sliders.length * stepWidth + 'px';
-            slideWrap[i].dataset.x = '0';
-            slideWrap[i].dataset.index = '1';
+        function init() {
+            initContent();
+            initSlider();
         }
 
+        function initContent() {
+            sectionContent.style.transform = "translate3d(0,0,0)";
+            sectionContent.style["-webkit-transform"] = "translate3d(0,0,0)";
+        }
+
+        function initSlider() {
+            var sliderWrap = $$('.slide-wrap');
+            var sliders;
+            for (var i = sliderWrap.length - 1; i >= 0; i--) {
+                sliders = $$('.slide', sliderWrap[i]);
+                for (var j = sliders.length - 1; j >= 0; j--) {
+                    sliders[j].style.width = stepWidth + 'px';
+                }
+                sliderWrap[i].style.width = sliders.length * stepWidth + 'px';
+                sliderWrap[i].dataset.x = '0';
+                sliderWrap[i].dataset.index = '1';
+            }
+        }
+
+        return {
+            init: init,
+            initContent: initContent,
+            initSlider: initSlider
+        };
     }
 
     function init(ele, Customize) {
@@ -96,7 +117,7 @@
         sectionContent = $(ele);
         options = extendOption(defaults, Customize);
 
-        initEle();
+        initEle().init();
         bindTouchMove(sectionContent);
     }
 
@@ -294,8 +315,8 @@
                      * 把每个页面的当前slideIndex以data-slide的方式存在section中，
                      * 然后再用的时候取出来。data-slide 从1开始计数。
                      */
-                    //var slideNowIndex = sections[pageIndex - 1].attribute('data-slide');
-                    //var slideDiff = slideIndex - slideNowIndex;
+                        //var slideNowIndex = sections[pageIndex - 1].attribute('data-slide');
+                        //var slideDiff = slideIndex - slideNowIndex;
                     page.scrollSlide(slideIndex);
                 }
                 return true;
