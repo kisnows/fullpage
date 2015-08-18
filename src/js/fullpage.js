@@ -1,5 +1,5 @@
 /**
- * fullPage v0.8.2 (Alpha)
+ * fullPage v0.9.3 (Alpha)
  * https://github.com/kisnows/fullpage.js
  *
  * Apache License
@@ -35,15 +35,32 @@
         }
     }
 
+    function setCss(el, props) {
+        var prop;
+        for (prop in props) {
+            if (props.hasOwnProperty(prop)) {
+                el.style[prop] = props[prop];
+            }
+        }
+    }
+
     function setAttr() {
 
         function translate(el, value, direction) {
             if (direction === 'y') {
-                el.style.transform = "translate3d(0," + value + "px,0)";
-                el.style["-webkit-transform"] = "translate3d(0," + value + "px,0)";
+                //el.style.transform = "translate3d(0," + value + "px,0)";
+                //el.style["-webkit-transform"] = "translate3d(0," + value + "px,0)";
+                setCss(el, {
+                    'transform': "translate3d(0," + value + "px,0)",
+                    '-webkit-transform': "translate3d(0," + value + "px,0)"
+                });
             } else if (direction === 'x') {
-                el.style.transform = "translate3d(" + value + "px,0,0)";
-                el.style["-webkit-transform"] = "translate3d(" + value + "px,0,0)";
+                //el.style.transform = "translate3d(" + value + "px,0,0)";
+                //el.style["-webkit-transform"] = "translate3d(" + value + "px,0,0)";
+                setCss(el, {
+                    "transform": "translate3d(" + value + "px,0,0)",
+                    "-webkit-transform": "translate3d(" + value + "px,0,0)"
+                });
             }
         }
 
@@ -95,11 +112,17 @@
         }
 
         function initContent() {
-            sectionContent.style.transform = "translate3d(0,0,0)";
-            sectionContent.style["-webkit-transform"] = "translate3d(0,0,0)";
-            sectionContent.style.transitionDuration = options.pageSpeed + 'ms';
-            sectionContent.style.display = "block";
-
+            //sectionContent.style.transform = "translate3d(0,0,0)";
+            //sectionContent.style["-webkit-transform"] = "translate3d(0,0,0)";
+            //sectionContent.style.transitionDuration = options.pageSpeed + 'ms';
+            //sectionContent.style.display = "block";
+            setCss(sectionContent, {
+                "transform": "translate3d(0,0,0)",
+                "-webkit-transform": "translate3d(0,0,0)",
+                "transitionDuration": options.pageSpeed + 'ms',
+                "-webkit-transitionDuration": options.pageSpeed + 'ms',
+                "display": "block"
+            });
             for (var i = sections.length - 1; i >= 0; i--) {
                 sections[i].style.height = document.body.scrollHeight + 'px';
             }
@@ -234,9 +257,18 @@
 
             if (pageIndex >= 1 && pageIndex <= sections.length) {
 
+                if (typeof options.beforeLeave === 'function') {
+                    options.beforeLeave.call(sections[page.nowPage - 1], page.nowPage);
+                }
+
                 translate3dY -= pageDiff * stepHeight;
                 setAttr().translate(sectionContent, translate3dY, 'y');
                 page.nowPage = pageIndex;
+
+                if (typeof options.afterLoad === 'function') {
+                    options.afterLoad.call(sections[page.nowPage - 1], page.nowPage);
+                }
+
                 console.log('scrollPage to', pageIndex);
                 return true;
             } else {
@@ -292,10 +324,10 @@
             //DONE move to a specify section or slide
             var pageDiff = pageIndex - page.nowPage;
 
-            if (pageIndex >= 1 && pageIndex <= sections.length) {
-                translate3dY -= pageDiff * stepHeight;
-                setAttr().translate(sectionContent, translate3dY, 'y');
-                page.nowPage = pageIndex;
+            if (page.scrollPage(pageIndex)) {
+                //translate3dY -= pageDiff * stepHeight;
+                //setAttr().translate(sectionContent, translate3dY, 'y');
+                //page.nowPage = pageIndex;
                 if (slideIndex) {
                     //DONE move to a specify slide
                     page.scrollSlide(slideIndex);
@@ -394,8 +426,9 @@
         moveToPre: page.move.pre,
         slideToNext: page.slide.next,
         slideToPre: page.slide.pre,
-        //afterLoad: page.afterLoad,
-        //beforeLeave: page.beforeLeave
+        afterLoad: page.afterLoad,
+        beforeLeave: page.beforeLeave
     };
-});
+})
+;
 

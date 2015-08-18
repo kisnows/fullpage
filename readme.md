@@ -1,4 +1,4 @@
-# FullPage v0.8.2(Alpha)
+# FullPage v0.9.3(Alpha)
 
 **仍在开发中**
 
@@ -36,8 +36,8 @@
     fullpage.init('#sectionContent',{
         threshold: 10,              //触发滚动事件的阈值，越小越灵敏
         pageSpeed: 600,             //滚屏速度，单位为毫秒 ms
-        afterLoad: null,            //TODO 页面载入事件
-        beforeLeave: null           //TODO 页面离开事件
+        afterLoad: null,            //页面载入事件，具体查看下面方法里面的 afterLoad 函数
+        beforeLeave: null           //页面离开事件，具体查看下面方法里面的 beforeLeave 函数
     });
 ```
 ##方法
@@ -66,9 +66,10 @@
 水平滚动到下一个页面（页面向左滚动）
 ###slideToPre()
 水平滚动到上一个页面（页面向右滚动）
-##待完成
-###afterLoad()
-###beforeLeave()
+###beforeLeave(nowIndex)
+离开当前页面时触发的事件，函数中 `this` 指向当前页面的 `section`
+###afterLoad(afterIndex)
+载入下一张页面后触发的事件，函数中 `this` 指向将要载入页面的 `section`
 ## TODO
 * ~~添加滚动到指定页面方法~~
 * 页面滚动时，页面载入或离开时添加自定义事件
