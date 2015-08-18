@@ -1,10 +1,10 @@
 /**
- * fullPage v0.9.3 (Alpha)
+ * fullPage v0.9.4 (Alpha)
  * https://github.com/kisnows/fullpage.js
  *
  * Apache License
  *
- * A light JavaScript framework for developer to build some fullPage site by a simple way.
+ * A light JavaScript framework for developer to build some fullPage site by a simple way.Write with pure JavaScript.
  * Author: yq12315@gmail.com
  */
 
@@ -101,8 +101,8 @@
     var defaults = {
         threshold: 30,              //触发滚动事件的阈值，越小越灵敏
         pageSpeed: 600,             //滚屏速度，单位为毫秒 ms
-        afterLoad: null,            //TODO 页面载入事件
-        beforeLeave: null           //TODO 页面离开事件
+        afterLoad: null,            //DONE 页面载入事件
+        beforeLeave: null           //DONE 页面离开事件
     };
 
     function initEle() {
@@ -274,12 +274,12 @@
                 setAttr().translate(sectionContent, translate3dY, 'y');
                 page.nowPage = pageIndex;
                 if (typeof options.afterLoad === 'function') {
-                    /**
-                     * nowSection 函数内部 this 指向，载入后的 section
-                     * pageIndex 载入后的 index
-                     */
                     options.pageSpeed = options.pageSpeed ? 500 : options.pageSpeed;
                     setTimeout(function () {
+                        /**
+                         * nowSection 函数内部 this 指向，载入后的 section
+                         * pageIndex 载入后的 index
+                         */
                         options.afterLoad.call(nowSection, pageIndex);
                     }, options.pageSpeed);
                 }
@@ -337,8 +337,6 @@
          */
         moveTo: function (pageIndex, slideIndex) {
             //DONE move to a specify section or slide
-            var pageDiff = pageIndex - page.nowPage;
-
             if (page.scrollPage(pageIndex)) {
                 //translate3dY -= pageDiff * stepHeight;
                 //setAttr().translate(sectionContent, translate3dY, 'y');
@@ -440,9 +438,7 @@
         moveToNext: page.move.next,
         moveToPre: page.move.pre,
         slideToNext: page.slide.next,
-        slideToPre: page.slide.pre,
-        afterLoad: page.afterLoad,
-        beforeLeave: page.beforeLeave
+        slideToPre: page.slide.pre
     };
 })
 ;
