@@ -31,11 +31,11 @@
 <script>
   window.onload = function () {
     fullpage.init('#sectionContent', {
-      beforeLeave: function (nowIndex) {
+      beforeLeave: function (leaveIndex, nowIndex) {
         if (nowIndex === 2) {
           console.log('You will leave page 2')
         }
-        console.log(this, nowIndex)
+        console.log(this, leaveIndex, nowIndex)
       },
       afterLoad: function (afterIndex) {
         if (afterIndex === 2) {

@@ -54,6 +54,7 @@
                     'transform': "translate3d(0," + value + "px,0)",
                     '-webkit-transform': "translate3d(0," + value + "px,0)"
                 });
+                console.log('setAttr Done');
             } else if (direction === 'x') {
                 //el.style.transform = "translate3d(" + value + "px,0,0)";
                 //el.style["-webkit-transform"] = "translate3d(" + value + "px,0,0)";
@@ -253,20 +254,34 @@
          * @returns {boolean}
          */
         scrollPage: function (pageIndex) {
+
             var pageDiff = pageIndex - page.nowPage;
+            var leaveSection = sections[page.nowPage - 1];
+            var nowSection = sections[pageIndex - 1];
 
             if (pageIndex >= 1 && pageIndex <= sections.length) {
 
                 if (typeof options.beforeLeave === 'function') {
-                    options.beforeLeave.call(sections[page.nowPage - 1], page.nowPage);
+                    /**
+                     * leaveSection 函数内部 this 指向，将要离开的 section
+                     * page.nowPage 将要离开页面的 index
+                     * pageIndex    将要载入页面的 index
+                     */
+                    options.beforeLeave.call(leaveSection, page.nowPage, pageIndex);
                 }
 
                 translate3dY -= pageDiff * stepHeight;
                 setAttr().translate(sectionContent, translate3dY, 'y');
                 page.nowPage = pageIndex;
-
                 if (typeof options.afterLoad === 'function') {
-                    options.afterLoad.call(sections[page.nowPage - 1], page.nowPage);
+                    /**
+                     * nowSection 函数内部 this 指向，载入后的 section
+                     * pageIndex 载入后的 index
+                     */
+                    options.pageSpeed = options.pageSpeed ? 500 : options.pageSpeed;
+                    setTimeout(function () {
+                        options.afterLoad.call(nowSection, pageIndex);
+                    }, options.pageSpeed);
                 }
 
                 console.log('scrollPage to', pageIndex);
