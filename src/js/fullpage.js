@@ -76,8 +76,8 @@
     var sections = $$('.section');
 
     var translate3dY = 0;
-    var stepHeight = sections[0].offsetHeight;
-    var stepWidth = sections[0].offsetWidth;
+    var stepHeight = document.body.scrollHeight;
+    var stepWidth = document.body.scrollWidth;
 
     var options = {};
     var defaults = {
@@ -98,8 +98,11 @@
             sectionContent.style.transform = "translate3d(0,0,0)";
             sectionContent.style["-webkit-transform"] = "translate3d(0,0,0)";
             sectionContent.style.transitionDuration = options.pageSpeed + 'ms';
-            sectionContent.style.height = "100%";
             sectionContent.style.display = "block";
+
+            for (var i = sections.length - 1; i >= 0; i--) {
+                sections[i].style.height = document.body.scrollHeight + 'px';
+            }
         }
 
         function initSlider() {
