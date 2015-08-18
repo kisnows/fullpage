@@ -1,10 +1,11 @@
 # FullPage v0.9.4(Alpha)
 
-一个轻巧的`fullpage`框架，不依赖其他库。
-支持触摸屏且支持`css3`浏览器的设备。
+一个轻巧的`fullpage`框架，不依赖其他任何库，轻松创建垂直或左右滑动的单页应用。
+
 
 [DEMO](http://kisnows.com/fullpage.js/src/)
-
+##兼容性
+Android 4.1+
 ##使用方法
 * 引入 JavaScript 文件 `fullpage.js`
 * 引入 css 文件 `fullpage.css`（如果你使用`less`，则可以在less主文件中引入`fullpage.less`）
