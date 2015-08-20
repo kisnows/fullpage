@@ -1,25 +1,29 @@
 html,
-body,
-.section-content,
-.section {
+body {
   width: 100%;
   height: 100%;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+.section-content {
   margin: 0;
   padding: 0;
+  transition: all .5s;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
 }
-body {
-  overflow: hidden;
+.section-content .section {
+  height: 100%;
 }
-.section-content,
-.slide-wrap {
+.section-content .section .slide-wrap {
   transition: all .5s;
   -webkit-transition: all .5s;
   -moz-transition: all .5s;
   height: 100%;
   width: auto;
 }
-.section-content .slide,
-.slide-wrap .slide {
+.section-content .section .slide-wrap .slide {
   display: inline-block;
   height: 100%;
   float: left;

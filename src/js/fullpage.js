@@ -1,10 +1,10 @@
 /**
- * fullPage v0.8.2 (Alpha)
+ * fullPage v0.9.4 (Alpha)
  * https://github.com/kisnows/fullpage.js
  *
  * Apache License
  *
- * A light JavaScript framework for developer to build some fullPage site by a simple way.
+ * A light JavaScript framework for developer to build some fullPage site by a simple way.Write with pure JavaScript.
  * Author: yq12315@gmail.com
  */
 
@@ -35,15 +35,33 @@
         }
     }
 
+    function setCss(el, props) {
+        var prop;
+        for (prop in props) {
+            if (props.hasOwnProperty(prop)) {
+                el.style[prop] = props[prop];
+            }
+        }
+    }
+
     function setAttr() {
 
         function translate(el, value, direction) {
             if (direction === 'y') {
-                el.style.transform = "translate3d(0," + value + "px,0)";
-                el.style["-webkit-transform"] = "translate3d(0," + value + "px,0)";
+                //el.style.transform = "translate3d(0," + value + "px,0)";
+                //el.style["-webkit-transform"] = "translate3d(0," + value + "px,0)";
+                setCss(el, {
+                    'transform': "translate3d(0," + value + "px,0)",
+                    '-webkit-transform': "translate3d(0," + value + "px,0)"
+                });
+                console.log('setAttr Done');
             } else if (direction === 'x') {
-                el.style.transform = "translate3d(" + value + "px,0,0)";
-                el.style["-webkit-transform"] = "translate3d(" + value + "px,0,0)";
+                //el.style.transform = "translate3d(" + value + "px,0,0)";
+                //el.style["-webkit-transform"] = "translate3d(" + value + "px,0,0)";
+                setCss(el, {
+                    "transform": "translate3d(" + value + "px,0,0)",
+                    "-webkit-transform": "translate3d(" + value + "px,0,0)"
+                });
             }
         }
 
@@ -76,15 +94,15 @@
     var sections = $$('.section');
 
     var translate3dY = 0;
-    var stepHeight = sections[0].offsetHeight;
-    var stepWidth = sections[0].offsetWidth;
+    var stepHeight = document.body.scrollHeight;
+    var stepWidth = document.body.scrollWidth;
 
     var options = {};
     var defaults = {
         threshold: 30,              //触发滚动事件的阈值，越小越灵敏
         pageSpeed: 600,             //滚屏速度，单位为毫秒 ms
-        afterLoad: null,            //TODO 页面载入事件
-        beforeLeave: null           //TODO 页面离开事件
+        afterLoad: null,            //DONE 页面载入事件
+        beforeLeave: null           //DONE 页面离开事件
     };
 
     function initEle() {
@@ -95,11 +113,20 @@
         }
 
         function initContent() {
-            sectionContent.style.transform = "translate3d(0,0,0)";
-            sectionContent.style["-webkit-transform"] = "translate3d(0,0,0)";
-            sectionContent.style.transitionDuration = options.pageSpeed + 'ms';
-            sectionContent.style.height = "100%";
-            sectionContent.style.display = "block";
+            //sectionContent.style.transform = "translate3d(0,0,0)";
+            //sectionContent.style["-webkit-transform"] = "translate3d(0,0,0)";
+            //sectionContent.style.transitionDuration = options.pageSpeed + 'ms';
+            //sectionContent.style.display = "block";
+            setCss(sectionContent, {
+                "transform": "translate3d(0,0,0)",
+                "-webkit-transform": "translate3d(0,0,0)",
+                "transitionDuration": options.pageSpeed + 'ms',
+                "-webkit-transitionDuration": options.pageSpeed + 'ms',
+                "display": "block"
+            });
+            for (var i = sections.length - 1; i >= 0; i--) {
+                sections[i].style.height = document.body.scrollHeight + 'px';
+            }
         }
 
         function initSlider() {
@@ -255,13 +282,36 @@
          * @returns {boolean}
          */
         scrollPage: function (pageIndex) {
+
             var pageDiff = pageIndex - page.nowPage;
+            var leaveSection = sections[page.nowPage - 1];
+            var nowSection = sections[pageIndex - 1];
 
             if (pageIndex >= 1 && pageIndex <= sections.length) {
+
+                if (typeof options.beforeLeave === 'function') {
+                    /**
+                     * leaveSection 函数内部 this 指向，将要离开的 section
+                     * page.nowPage 将要离开页面的 index
+                     * pageIndex    将要载入页面的 index
+                     */
+                    options.beforeLeave.call(leaveSection, page.nowPage, pageIndex);
+                }
 
                 translate3dY -= pageDiff * stepHeight;
                 setAttr().translate(sectionContent, translate3dY, 'y');
                 page.nowPage = pageIndex;
+                if (typeof options.afterLoad === 'function') {
+                    options.pageSpeed = options.pageSpeed ? 500 : options.pageSpeed;
+                    setTimeout(function () {
+                        /**
+                         * nowSection 函数内部 this 指向，载入后的 section
+                         * pageIndex 载入后的 index
+                         */
+                        options.afterLoad.call(nowSection, pageIndex);
+                    }, options.pageSpeed);
+                }
+
                 console.log('scrollPage to', pageIndex);
                 return true;
             } else {
@@ -315,12 +365,10 @@
          */
         moveTo: function (pageIndex, slideIndex) {
             //DONE move to a specify section or slide
-            var pageDiff = pageIndex - page.nowPage;
-
-            if (pageIndex >= 1 && pageIndex <= sections.length) {
-                translate3dY -= pageDiff * stepHeight;
-                setAttr().translate(sectionContent, translate3dY, 'y');
-                page.nowPage = pageIndex;
+            if (page.scrollPage(pageIndex)) {
+                //translate3dY -= pageDiff * stepHeight;
+                //setAttr().translate(sectionContent, translate3dY, 'y');
+                //page.nowPage = pageIndex;
                 if (slideIndex) {
                     //DONE move to a specify slide
                     page.scrollSlide(slideIndex);
@@ -418,9 +466,8 @@
         moveToNext: page.move.next,
         moveToPre: page.move.pre,
         slideToNext: page.slide.next,
-        slideToPre: page.slide.pre,
-        //afterLoad: page.afterLoad,
-        //beforeLeave: page.beforeLeave
+        slideToPre: page.slide.pre
     };
-});
+})
+;
 

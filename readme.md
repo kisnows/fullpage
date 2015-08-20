@@ -1,11 +1,11 @@
-# FullPage v0.8.2(Alpha)
+# FullPage v0.9.4(Alpha)
 
-**仍在开发中**
+一个轻巧的`fullpage`框架，不依赖其他任何库，轻松创建垂直或左右滑动的单页应用。
 
-一个轻巧的`fullpage`框架，不依赖其他库。
-支持触摸屏且支持`css3`浏览器的设备。
 
 [DEMO](http://kisnows.com/fullpage.js/src/)
+##兼容性
+Android 4.1+
 ##使用方法
 * 引入 JavaScript 文件 `fullpage.js`
 * 引入 css 文件 `fullpage.css`（如果你使用`less`，则可以在less主文件中引入`fullpage.less`）
@@ -26,6 +26,7 @@
           <div class="section">3</div>
     </div>
 ```
+
 ##初始化
 简单使用，只要在页面加载完成后执行：
 ```javascript
@@ -36,8 +37,28 @@
     fullpage.init('#sectionContent',{
         threshold: 10,              //触发滚动事件的阈值，越小越灵敏
         pageSpeed: 600,             //滚屏速度，单位为毫秒 ms
-        afterLoad: null,            //TODO 页面载入事件
-        beforeLeave: null           //TODO 页面离开事件
+        afterLoad: null,            //页面载入事件，具体查看下面的 afterLoad 函数
+        beforeLeave: null           //页面离开事件，具体查看下面的 beforeLeave 函数
+    });
+```
+###beforeLeave(leaveIndex,nowIndex)
+离开当前页面时触发的事件，函数中 `this` 指向当前页面的 `section`,`leaveIndex`为要离开页面的 `index` ，`nowIndex` 为要载入页面的 `Index`
+###afterLoad(afterIndex)
+载入下一张页面后触发的事件，函数中 `this` 指向将要载入页面的 `section`, `afterIndex` 为要载入页面的 `index`
+```javascript
+    fullpage.init('#sectionContent', {
+      beforeLeave: function (leaveIndex, nowIndex) {        //如果现在在第1个页面，向下滚动后
+        if (nowIndex === 2) {                               //leaveIndex = 1,nowIndex = 2
+          console.log('You will leave page 2')              //这条语句会执行
+        }
+        console.log(this, leaveIndex, nowIndex)             //这里的 this 指向将要离开的页面元素，即第一个页面
+      },
+      afterLoad: function (afterIndex) {                    //afterIndex = 2
+        if (afterIndex === 2) {                             
+          console.log('You will go to page 2')              //这条语句会执行
+        } 
+        console.log(this, afterIndex)                       //此处 this 指向当前载入的页面，即第二个页面
+      }
     });
 ```
 ##方法
@@ -66,12 +87,10 @@
 水平滚动到下一个页面（页面向左滚动）
 ###slideToPre()
 水平滚动到上一个页面（页面向右滚动）
-##待完成
-###afterLoad()
-###beforeLeave()
+
 ## TODO
 * ~~添加滚动到指定页面方法~~
-* 页面滚动时，页面载入或离开时添加自定义事件
+* ~~页面滚动时，页面载入或离开时添加自定义事件~~
 * ~~横屏滚动支持~~
 * 添加鼠标滚轮控制
 * 添加键盘控制
