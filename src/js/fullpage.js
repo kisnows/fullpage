@@ -1,5 +1,5 @@
 /**
- * fullPage v0.9.4 (Alpha)
+ * fullPage v0.11.0 (Alpha)
  * https://github.com/kisnows/fullpage.js
  *
  * Apache License
@@ -243,7 +243,13 @@
     // TODO add MouseWheelHandel and bindKeyboard
     function bindMouseWheel() {
         document.addEventListener('mousewheel', function (event) {
-            console.log(event.wheelDeltaY, event.deltaY);
+            console.log(event.wheelDeltaY, event.deltaY, event);
+            var deltaY = event.deltaY;
+            if (deltaY > 0) {
+                page.move.next()
+            } else if (deltaY < 0) {
+                page.move.pre();
+            }
         }, false);
 
     }

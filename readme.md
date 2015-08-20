@@ -1,4 +1,4 @@
-# FullPage v0.9.4(Alpha)
+# FullPage v0.11.0(Alpha)
 
 一个轻巧的`fullpage`框架，不依赖其他任何库，轻松创建垂直或左右滑动的单页应用。
 
