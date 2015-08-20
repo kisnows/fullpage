@@ -13,7 +13,7 @@
 
     global.fullpage = fn();
 
-})(window, function () {
+})(this, function () {
     "use strict";
 
 
@@ -123,13 +123,18 @@
         };
     }
 
+    function bindEvent(el) {
+        bindTouchMove(el);
+        bindKeyboard();
+        bindMouseWheel();
+    }
     function init(ele, Customize) {
 
         sectionContent = $(ele);
         options = extendOption(defaults, Customize);
 
         initEle().init();
-        bindTouchMove(sectionContent);
+        bindEvent(sectionContent);
     }
 
     /**
@@ -209,11 +214,34 @@
     }
 
     // TODO add MouseWheelHandel and bindKeyboard
-    function bindMouseWheel(el) {
+    function bindMouseWheel() {
+        document.addEventListener('mousewheel', function (event) {
+            console.log(event.wheelDeltaY, event.deltaY);
+        }, false);
+
     }
 
-    function bindKeyboard(el) {
+    function bindKeyboard() {
+        document.addEventListener('keydown', function (event) {
+            //37 left 38 top 39 right 40 down
+            var key = event.keyCode || event.which;
+            switch (key) {
+                case 37:
+                    page.slide.pre();
+                    break;
+                case 38:
+                    page.move.pre();
+                    break;
+                case 39:
+                    page.slide.next();
+                    break;
+                case 40:
+                    page.move.next();
+                    break;
+            }
+        }, false);
     }
+
 
     /**
      * 页面滚动主要逻辑
