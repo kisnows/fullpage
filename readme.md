@@ -1,6 +1,7 @@
-# FullPage v1.0.0
+# FullPage-light v1.0.0
 
-一个轻巧的`fullpage`框架，不依赖其他任何库，轻松创建垂直或左右滑动的单页应用。
+一个轻巧的`fullpage`框架，不依赖其他任何库，压缩后只有6kb。
+轻松创建垂直或左右滑动的单页应用。
 
 
 [DEMO](http://kisnows.com/fullpage.min.js/src/)
