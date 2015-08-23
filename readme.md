@@ -1,6 +1,6 @@
 # FullPage-light v1.0.0
 
-一个轻巧的`fullpage`框架，不依赖其他任何库，主要针对移动端设备（同时也支持桌面端），压缩后只有6kb。
+一个轻巧的`fullpage`框架，不依赖其他任何库，主要针对移动端设备（同时也支持桌面端），压缩后不到4kb。
 轻松创建炫酷的单页滑动网站。
 
 [一个简单的DEMO](http://kisnows.com/fullpage-light.js/)
