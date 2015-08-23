@@ -48,16 +48,12 @@
 
         function translate(el, value, direction) {
             if (direction === 'y') {
-                //el.style.transform = "translate3d(0," + value + "px,0)";
-                //el.style["-webkit-transform"] = "translate3d(0," + value + "px,0)";
                 setCss(el, {
                     'transform': "translate3d(0," + value + "px,0)",
                     '-webkit-transform': "translate3d(0," + value + "px,0)"
                 });
                 console.log('setAttr Done');
             } else if (direction === 'x') {
-                //el.style.transform = "translate3d(" + value + "px,0,0)";
-                //el.style["-webkit-transform"] = "translate3d(" + value + "px,0,0)";
                 setCss(el, {
                     "transform": "translate3d(" + value + "px,0,0)",
                     "-webkit-transform": "translate3d(" + value + "px,0,0)"
@@ -113,10 +109,6 @@
         }
 
         function initContent() {
-            //sectionContent.style.transform = "translate3d(0,0,0)";
-            //sectionContent.style["-webkit-transform"] = "translate3d(0,0,0)";
-            //sectionContent.style.transitionDuration = options.pageSpeed + 'ms';
-            //sectionContent.style.display = "block";
             setCss(sectionContent, {
                 "transform": "translate3d(0,0,0)",
                 "-webkit-transform": "translate3d(0,0,0)",
@@ -240,7 +232,7 @@
         }, false);
     }
 
-    // TODO add MouseWheelHandel and bindKeyboard
+    // DONE add MouseWheelHandel and bindKeyboard
     function bindMouseWheel() {
         document.addEventListener('mousewheel', function (event) {
             console.log(event.wheelDeltaY, event.deltaY, event);
@@ -318,7 +310,7 @@
                     }, options.pageSpeed);
                 }
 
-                console.log('scrollPage to', pageIndex);
+                //console.log('scrollPage to', pageIndex);
                 return true;
             } else {
                 return false;
@@ -335,7 +327,7 @@
             var slideWrap = $('.slide-wrap', sections[page.nowPage - 1]);
 
             if (!slideWrap) {
-                console.log('This page has no slide');
+                //console.log('This page has no slide');
                 return false;
             }
 
@@ -359,7 +351,7 @@
                 setAttr().translate(slideWrap, slideX, 'x');
                 slideData.x = slideX;
                 slideData.index = slideIndex;
-                console.log('scrollSlide to', slideIndex);
+                //console.log('scrollSlide to', slideIndex);
                 return true;
             }
         },
@@ -372,9 +364,6 @@
         moveTo: function (pageIndex, slideIndex) {
             //DONE move to a specify section or slide
             if (page.scrollPage(pageIndex)) {
-                //translate3dY -= pageDiff * stepHeight;
-                //setAttr().translate(sectionContent, translate3dY, 'y');
-                //page.nowPage = pageIndex;
                 if (slideIndex) {
                     //DONE move to a specify slide
                     page.scrollSlide(slideIndex);
