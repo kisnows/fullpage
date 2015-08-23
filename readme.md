@@ -6,6 +6,8 @@
 [DEMO](http://kisnows.com/fullpage.js/src/)
 ##兼容性
 |Android 4.1+|Safari 7.1+|IE Edge|Opera|Chrome|
+|------------|-----------|-------|-----|------|
+
 ##使用方法
 * 引入 JavaScript 文件 `fullpage.js`
 * 引入 css 文件 `fullpage.css`（如果你使用`less`，则可以在less主文件中引入`fullpage.less`）
