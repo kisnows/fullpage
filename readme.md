@@ -4,6 +4,11 @@
 轻松创建炫酷的单页滑动网站。
 
 [一个简单的DEMO](http://kisnows.com/fullpage-light.js/)
+##功能
+* 触摸控制
+* 键盘方向键控制
+* 鼠标滚轮控制
+
 ##兼容性
 |Android 4.1+|Safari 7.1+|IE Edge|Opera|Chrome|
 |------------|-----------|-------|-----|------|
