@@ -9,6 +9,7 @@ var less = require('gulp-less');
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
+var jsmin = require('gulp-uglify');
 
 
 /**
@@ -27,7 +28,7 @@ var serveConfig = {
     },
     open: true,
     notify: false,
-  logPrefix: 'fullPage'
+    logPrefix: 'fullPage'
 };
 
 
@@ -54,6 +55,12 @@ gulp.task('less', function () {
         }))
         .pipe(gulp.dest('src/css'))
         .pipe(reload({stream: true}));
+});
+
+gulp.task('jsmin', function () {
+    return gulp.src('src/js/*.js')
+        .pipe(jsmin())
+        .pipe(gulp.dest('dist'));
 });
 
 /**

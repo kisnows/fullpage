@@ -3,11 +3,11 @@
 一个轻巧的`fullpage`框架，不依赖其他任何库，轻松创建垂直或左右滑动的单页应用。
 
 
-[DEMO](http://kisnows.com/fullpage.js/src/)
+[DEMO](http://kisnows.com/fullpage.min.js/src/)
 ##兼容性
 |Android 4.1+|Safari 7.1+|IE Edge|Opera|Chrome|
 ##使用方法
-* 引入 JavaScript 文件 `fullpage.js`
+* 引入 JavaScript 文件 `fullpage.min.js`
 * 引入 css 文件 `fullpage.css`（如果你使用`less`，则可以在less主文件中引入`fullpage.less`）
 * 按照下面格式书写`html`代码（其中 id 为 `sectionContent` 的为包裹层，你可以自定义修改其id）
 
