@@ -42,6 +42,7 @@
                 el.style[prop] = props[prop];
             }
         }
+        return el;
     }
 
     function setAttr() {
@@ -52,7 +53,7 @@
                     'transform': "translate3d(0," + value + "px,0)",
                     '-webkit-transform': "translate3d(0," + value + "px,0)"
                 });
-                console.log('setAttr Done');
+                //console.log('setAttr Done');
             } else if (direction === 'x') {
                 setCss(el, {
                     "transform": "translate3d(" + value + "px,0,0)",
@@ -97,70 +98,20 @@
     var defaults = {
         threshold: 30,              //触发滚动事件的阈值，越小越灵敏
         pageSpeed: 600,             //滚屏速度，单位为毫秒 ms
+        autoScroll: false,          //TODO 是否自动播放
+        autoScrollDuration: 1000,   //TODO 自动播放间隔时间
+        loopSection: true,          //TODO 到最后一页时继续滑动会回到顶部
+        loopSlide: true,            //TODO Slide
         afterLoad: null,            //DONE 页面载入事件
         beforeLeave: null           //DONE 页面离开事件
     };
 
-    function initEle() {
-
-        function init() {
-            initContent();
-            initSlider();
-        }
-
-        function initContent() {
-            setCss(sectionContent, {
-                "transform": "translate3d(0,0,0)",
-                "-webkit-transform": "translate3d(0,0,0)",
-                "transitionDuration": options.pageSpeed + 'ms',
-                "-webkit-transitionDuration": options.pageSpeed + 'ms',
-                "display": "block"
-            });
-            for (var i = sections.length - 1; i >= 0; i--) {
-                sections[i].style.height = document.body.scrollHeight + 'px';
-            }
-        }
-
-        function initSlider() {
-            var sliderWrap = $$('.slide-wrap');
-            var sliders;
-            for (var i = sliderWrap.length - 1; i >= 0; i--) {
-                sliders = $$('.slide', sliderWrap[i]);
-                for (var j = sliders.length - 1; j >= 0; j--) {
-                    sliders[j].style.width = stepWidth + 'px';
-                }
-                sliderWrap[i].style.width = sliders.length * stepWidth + 'px';
-                sliderWrap[i].dataset.x = '0';
-                sliderWrap[i].dataset.index = '1';
-            }
-        }
-
-        return {
-            init: init,
-            initContent: initContent,
-            initSlider: initSlider
-        };
-    }
-
-    function bindEvent(el) {
-        bindTouchMove(el);
-        bindKeyboard();
-        bindMouseWheel();
-    }
-    function init(ele, Customize) {
-
-        sectionContent = $(ele);
-        options = extendOption(defaults, Customize);
-
-        initEle().init();
-        bindEvent(sectionContent);
-    }
 
     /**
      * 绑定触摸事件
-     * @param el {string}
+     * @param ele {string}
      */
-    function bindTouchMove(el) {
+    function bindTouchMove(ele) {
 
         var startPos = {},
             endPos = {};
@@ -169,7 +120,7 @@
         var touch;
         var isVertical = false;
 
-        el.addEventListener('touchstart', function (event) {
+        ele.addEventListener('touchstart', function (event) {
 
             // 初始化 x,y 值，防止点击一次后出现假 move 事件
             startPos = {};
@@ -181,14 +132,14 @@
             //console.log(startPos.x,startPos.y);
         }, false);
 
-        el.addEventListener('touchmove', function (event) {
+        ele.addEventListener('touchmove', function (event) {
             //TODO add eventHandel
             event.preventDefault();
             touch = event.touches[0];
 
         }, false);
 
-        el.addEventListener('touchend', function (event) {
+        ele.addEventListener('touchend', function (event) {
 
             event.preventDefault();
             endPos.x = touch.pageX;
@@ -232,13 +183,12 @@
         }, false);
     }
 
-    // DONE add MouseWheelHandel and bindKeyboard
     function bindMouseWheel() {
         document.addEventListener('mousewheel', function (event) {
             console.log(event.wheelDeltaY, event.deltaY, event);
             var deltaY = event.deltaY;
             if (deltaY > 0) {
-                page.move.next()
+                page.move.next();
             } else if (deltaY < 0) {
                 page.move.pre();
             }
@@ -266,7 +216,6 @@
             }
         }, false);
     }
-
 
     /**
      * 页面滚动主要逻辑
@@ -327,7 +276,7 @@
             var slideWrap = $('.slide-wrap', sections[page.nowPage - 1]);
 
             if (!slideWrap) {
-                //console.log('This page has no slide');
+                console.log('This page has no slide');
                 return false;
             }
 
@@ -354,6 +303,7 @@
                 //console.log('scrollSlide to', slideIndex);
                 return true;
             }
+            return false;
         },
         /**
          * Scroll to a specified section and slide.
@@ -366,7 +316,7 @@
             if (page.scrollPage(pageIndex)) {
                 if (slideIndex) {
                     //DONE move to a specify slide
-                    page.scrollSlide(slideIndex);
+                    return !!page.scrollSlide(slideIndex);
                 }
                 return true;
             } else {
@@ -377,9 +327,6 @@
         move: {
             next: function (callback) {
 
-                //DONE move to next section
-                //DONE add move next eventHandler
-
                 if (page.scrollPage(page.nowPage + 1)) {
 
                     var arg = Array.prototype.slice.call(arguments, 1);
@@ -388,14 +335,16 @@
                         callback.call(null, arg);
                     }
                     return true;
+                } else if (options.loopSection) {
+
+                    page.moveTo(1);
+
+                    return true;
                 } else {
                     return false;
                 }
             },
             pre: function (callback) {
-
-                //DONE move to pre section
-                //DONE add move pre eventHandler
 
                 if (page.scrollPage(page.nowPage - 1)) {
 
@@ -425,6 +374,9 @@
                         slideData.index = slideNowIndex + 1;
                         //console.log('slide move to next');
                         return true;
+                    } else if (options.loopSlide && page.scrollSlide(1)) {
+                        slideData.index = 1;
+                        return true;
                     }
                     return false;
                 }
@@ -433,7 +385,7 @@
             pre: function () {
 
                 var slideWrap = $('.slide-wrap', sections[page.nowPage - 1]);
-
+                var slide = sections[page.nowPage - 1].querySelectorAll('.slide');
                 if (!slideWrap) {
                     return false;
                 } else {
@@ -445,6 +397,10 @@
                         slideData.index = slideNowIndex - 1;
                         //console.log('slide move to pre');
                         return true;
+                    } else if (options.loopSlide && page.scrollSlide(slide.length)) {
+
+                        slideData.index = slide.length;
+                        return true;
                     }
                     return false;
                 }
@@ -453,6 +409,104 @@
         }
     };
 
+    /**
+     * 初始化页面主题元素
+     * @returns {{init: init, initContent: initContent, initSlide: initSlide}}
+     */
+    function initEle() {
+
+        function init() {
+            initContent();
+            initSlide();
+        }
+
+        /**
+         * 初始化 Section
+         */
+        function initContent() {
+            setCss(sectionContent, {
+                "transform": "translate3d(0,0,0)",
+                "-webkit-transform": "translate3d(0,0,0)",
+                "transitionDuration": options.pageSpeed + 'ms',
+                "-webkit-transitionDuration": options.pageSpeed + 'ms',
+                "display": "block"
+            });
+            for (var i = sections.length - 1; i >= 0; i--) {
+                sections[i].style.height = document.body.scrollHeight + 'px';
+            }
+        }
+
+        /**
+         * 初始化 Slide
+         */
+        function initSlide() {
+            var slideWrap = $$('.slide-wrap');
+            var slides;
+            for (var i = slideWrap.length - 1; i >= 0; i--) {
+                slides = $$('.slide', slideWrap[i]);
+                for (var j = slides.length - 1; j >= 0; j--) {
+                    slides[j].style.width = stepWidth + 'px';
+                }
+                slideWrap[i].style.width = slides.length * stepWidth + 'px';
+                slideWrap[i].dataset.x = '0';
+                slideWrap[i].dataset.index = '1';
+            }
+        }
+
+
+        return {
+            init: init,
+            initContent: initContent,
+            initSlide: initSlide
+        };
+    }
+
+    /**
+     * 初始化定制内容
+     * @returns {{init: init}}
+     */
+    function initProp() {
+
+        function init() {
+            autoScroll();
+        }
+
+        function autoScroll() {
+            var timer = null;
+            if (options.autoScroll) {
+                timer = setInterval(function () {
+                    page.move.next();
+                }, options.autoScrollDuration);
+            }
+        }
+
+        return {
+            init: init,
+            autoScroll: autoScroll
+        };
+    }
+
+    /**
+     * 注册事件
+     * @param ele {String} 要绑定的元素
+     */
+    function bindEvent(ele) {
+        bindTouchMove(ele);
+        bindKeyboard();
+        bindMouseWheel();
+    }
+
+    function init(ele, Customize) {
+
+        sectionContent = $(ele);
+        options = extendOption(defaults, Customize);
+
+        initEle().init();
+        initProp().init();
+        bindEvent(sectionContent);
+    }
+
+    //API
     return {
         init: init,
         scrollPage: page.scrollPage,
