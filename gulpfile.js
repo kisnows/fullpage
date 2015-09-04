@@ -10,7 +10,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var jsmin = require('gulp-uglify');
-
+var rename = require('gulp-rename');
 
 /**
  * BrowserSync config
@@ -60,8 +60,21 @@ gulp.task('less', function () {
 gulp.task('jsmin', function () {
     return gulp.src('src/js/*.js')
         .pipe(jsmin())
+        .pipe(rename({
+            extname: '.min.js'
+        }))
+        .pipe(gulp.dest('dist/js'));
+});
+
+gulp.task('copy', function () {
+    gulp.src(['src/less/**/*.*', 'src/js/**/*.js'], {base: './src'})
         .pipe(gulp.dest('dist'));
 });
+
+/**
+ * build task
+ */
+gulp.task('build', ['jsmin', 'copy']);
 
 /**
  * Default task

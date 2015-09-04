@@ -98,10 +98,10 @@
     var defaults = {
         threshold: 30,              //触发滚动事件的阈值，越小越灵敏
         pageSpeed: 600,             //滚屏速度，单位为毫秒 ms
-        autoScroll: false,          //TODO 是否自动播放
-        autoScrollDuration: 1000,   //TODO 自动播放间隔时间
-        loopSection: true,          //TODO 到最后一页时继续滑动会回到顶部
-        loopSlide: true,            //TODO Slide
+        autoScroll: false,          //DONE 是否自动播放
+        autoScrollDuration: 1000,   //DONE 自动播放间隔时间
+        loopSection: true,          //DONE Section循环滚动
+        loopSlide: true,            //DONE Slide循环滑动
         afterLoad: null,            //DONE 页面载入事件
         beforeLeave: null           //DONE 页面离开事件
     };

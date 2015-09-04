@@ -1,4 +1,4 @@
-# FullPage-light v1.0.0
+# FullPage-light v1.1.0
 
 一个轻巧的`fullpage`框架，不依赖其他任何库，主要针对移动端设备（同时也支持桌面端），压缩后不到4kb。
 轻松创建炫酷的单页滑动网站。
@@ -44,6 +44,10 @@
     fullpage.init('#sectionContent',{
         threshold: 10,              //触发滚动事件的阈值，越小越灵敏
         pageSpeed: 600,             //滚屏速度，单位为毫秒 ms
+        autoScroll: false,          //是否自动播放
+        autoScrollDuration: 1000,   //自动播放间隔时间
+        loopSection: true,          //Section循环滚动
+        loopSlide: true,            //Slide循环滑动
         afterLoad: null,            //页面载入事件，具体查看下面的 afterLoad 函数
         beforeLeave: null           //页面离开事件，具体查看下面的 beforeLeave 函数
     });
