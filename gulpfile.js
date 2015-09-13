@@ -57,24 +57,34 @@ gulp.task('less', function () {
         .pipe(reload({stream: true}));
 });
 
+//build==================================
 gulp.task('jsmin', function () {
-    return gulp.src('src/js/*.js')
+    return gulp.src('src/js/fullPage.js')
         .pipe(jsmin())
         .pipe(rename({
             extname: '.min.js'
         }))
         .pipe(gulp.dest('dist/js'));
 });
-
+gulp.task('fullpage-css', function () {
+    gulp.src('src/less/fullPage.less')
+        .pipe(less())
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: true,
+            remove: true
+        }))
+        .pipe(gulp.dest('dist/css'));
+});
 gulp.task('copy', function () {
-    gulp.src(['src/less/**/*.*', 'src/js/**/*.js'], {base: './src'})
+    gulp.src(['src/less/fullPage.less', 'src/js/fullPage.js'], {base: './src'})
         .pipe(gulp.dest('dist'));
 });
 
 /**
  * build task
  */
-gulp.task('build', ['jsmin', 'copy']);
+gulp.task('build', ['jsmin', 'fullpage-css', 'copy']);
 
 /**
  * Default task
