@@ -24,6 +24,7 @@ body {
   -moz-transition: all .5s;
   height: 100%;
   width: auto;
+  position: relative;
 }
 .section-content .section .slide-wrap .slide {
   display: inline-block;

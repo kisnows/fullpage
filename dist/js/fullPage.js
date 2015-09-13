@@ -295,7 +295,7 @@
                      * slideNowIndex        将要离开 slide 的 index
                      * slideIndex           将要载入 slide 的 index
                      */
-                    options.beforeSlideLeave.call(slide[slideNowIndex-1],page.nowPage, slideNowIndex, slideIndex);
+                    options.beforeSlideLeave.call(slide[slideNowIndex - 1], page.nowPage, slideNowIndex, slideIndex);
                 }
                 slideX -= slideDiff * stepWidth;
                 setAttr().translate(slideWrap, slideX, 'x');
@@ -309,7 +309,7 @@
                          * nowSection 函数内部 this 指向，载入后的 section
                          * pageIndex 载入后的 index
                          */
-                        options.afterSlideLoad.call(slide[slideIndex-1],page.nowPage,slideIndex);
+                        options.afterSlideLoad.call(slide[slideIndex - 1], page.nowPage, slideIndex);
                     }, options.pageSpeed);
                 }
                 return true;
