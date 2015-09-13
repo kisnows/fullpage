@@ -1,4 +1,4 @@
-# FullPage-light v1.1.0
+# FullPage-light v1.2.1
 
 一个轻巧的`fullpage`框架，不依赖其他任何库，主要针对移动端设备（同时也支持桌面端），压缩后不到4kb。
 轻松创建炫酷的单页滑动网站。
@@ -53,9 +53,13 @@
     });
 ```
 ###beforeLeave(leaveIndex,nowIndex)
-离开当前页面时触发的事件，函数中 `this` 指向当前页面的 `section`,`leaveIndex`为要离开页面的 `index` ，`nowIndex` 为要载入页面的 `Index`
+离开当前页面时触发的事件，函数中 `this` 指向当前页面的 **section**,`leaveIndex`为要**离开**页面的 `index` ，`nowIndex` 为要**载入**页面的 `Index`
 ###afterLoad(afterIndex)
-载入下一张页面后触发的事件，函数中 `this` 指向将要载入页面的 `section`, `afterIndex` 为要载入页面的 `index`
+载入下一张页面后触发的事件，函数中 `this` 指向将要**载入**页面的 `section`, `afterIndex` 为要**载入**页面的 `index`
+###beforeSlideLeave(pageIndex, slideNow, slideAfter)
+离开当前 Slide 时触发的事件，`pageIndex`是**当前**`section`的`index`，`slideNow`是**当前**`slide`的`index`，`slideAfter`是要**载入**`slide`的`index`
+###afterSlideLoad(pageIndex, slideIndex)
+载入下一个`slide`后触发的事件，`pageIndex`是**当前**`section`的`index`，`slideIndex`是要**载入**`slide`的`index`
 ```javascript
     fullpage.init('#sectionContent', {
       beforeLeave: function (leaveIndex, nowIndex) {        //如果现在在第1个页面，向下滚动后
@@ -69,6 +73,14 @@
           console.log('You will go to page 2')              //这条语句会执行
         } 
         console.log(this, afterIndex)                       //此处 this 指向当前载入的页面，即第二个页面
+      },
+      beforeSlideLeave: function (pageIndex, slideNow, slideAfter) {
+        var _this = this;
+        console.log(_this, 'beforeSlideLeave:', pageIndex, slideNow, slideAfter);
+      },
+      afterSlideLoad: function (pageIndex, slideIndex) {
+        var _this = this;
+        console.log(_this, 'afterSlideLoad:', pageIndex, slideIndex);
       }
     });
 ```

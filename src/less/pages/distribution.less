@@ -1,0 +1,83 @@
+.distribution {
+  color: #fff;
+  width: 100%;
+  .slide-wrap {
+    .slide {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .month-title {
+      font-size: @font-size-big;
+      height: 50px;
+      line-height: 50px;
+      width: 100%;
+      color: rgba(255, 255, 255, .1);
+      position: absolute;
+      top: 0;
+      left: 0;
+      .transition(all .3s linear);
+      .flexbox();
+      .month {
+        display: inline-block;
+        text-align: center;
+        flex: 1;
+        -webkit-flex: 1;
+        text-indent: 2px;
+        .transition(all .3s linear);
+      }
+      .month-cross {
+        .flexbox();
+        flex-direction: column;
+        -webkit-flex-direction: column;
+        line-height: 12px;
+        i {
+          font-style: normal;
+          flex: 1;
+          -webkit-flex: 1;
+        }
+        i:first-child {
+          line-height: 10px;
+          padding-top: 12px;
+          font-size: 12px;
+        }
+        i:last-child {
+          padding-bottom: 8px;
+        }
+      }
+    }
+    margin: 0 auto;
+    height: 100%;
+    position: relative;
+  }
+  .box {
+    width: 92%;
+    height: 86%;
+    height: ~"calc(100% - 74px)";
+    background: rgba(255, 255, 255, .08);
+    border-radius: 8px;
+    position: absolute;
+    top: 64px;
+    left: 50%;
+    .transform(translate(-50%, 0));
+    padding: 20px 10px;
+    .month-bottom {
+      margin-top: -20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .circle-percent {
+      position: absolute;
+      -webkit-transition: all .6s;
+      -moz-transition: all .6s;
+      -o-transition: all .6s;
+      transition: all .6s;
+    }
+    .triangle {
+      .triangle(up, 14px, rgba(255, 255, 255, .08));
+      position: absolute;
+      left: 50%;
+      margin-left: -14px;
+      top: -14px;
+    }
+  }
+}

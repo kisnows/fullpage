@@ -3,3 +3,4 @@ node_modules
 app.yaml
 .idea
 bower_components
+.vscode

@@ -1,5 +1,5 @@
 /**
- * fullPage v1.1.0
+ * fullPage v1.2.1
  * https://github.com/kisnows/fullpage.js
  *
  * Apache License
@@ -17,15 +17,7 @@
     "use strict";
 
 
-    //helper
-
-    function $(el, parent) {
-        if (!parent) {
-            return document.querySelector(el);
-        } else {
-            return parent.querySelector(el);
-        }
-    }
+    //helper===========================================================
 
     function $$(el, parent) {
         if (!parent) {
@@ -85,14 +77,13 @@
         return Default;
     }
 
-    //end helper
+    //end helper=========================================================
 
     var sectionContent;
-    var sections = $$('.section');
-
+    var sections;
     var translate3dY = 0;
-    var stepHeight = document.body.scrollHeight;
-    var stepWidth = document.body.scrollWidth;
+    var stepHeight = $$('body')[0].scrollHeight;
+    var stepWidth = $$('body')[0].scrollWidth;
 
     var options = {};
     var defaults = {
@@ -103,7 +94,9 @@
         loopSection: true,          //DONE Section循环滚动
         loopSlide: true,            //DONE Slide循环滑动
         afterLoad: null,            //DONE 页面载入事件
-        beforeLeave: null           //DONE 页面离开事件
+        beforeLeave: null,           //DONE 页面离开事件
+        afterSlideLoad: null,        //TODO slide 载入事件
+        beforeSlideLeave: null      //TODO slide 离开事件
     };
 
 
@@ -273,7 +266,7 @@
         scrollSlide: function (slideIndex) {
 
             //获取slide包裹层
-            var slideWrap = $('.slide-wrap', sections[page.nowPage - 1]);
+            var slideWrap = $$('.slide-wrap', sections[page.nowPage - 1])[0];
 
             if (!slideWrap) {
                 console.log('This page has no slide');
@@ -295,12 +288,30 @@
             var slideDiff = slideIndex - slideNowIndex;
 
             if (slideIndex >= 1 && slideIndex <= slide.length) {
-
+                if (typeof options.beforeSlideLeave === 'function') {
+                    /**
+                     * leaveSlide           函数内部 this 指向，将要离开的 slide
+                     * page.nowPage         将要离开 section 的 index
+                     * slideNowIndex        将要离开 slide 的 index
+                     * slideIndex           将要载入 slide 的 index
+                     */
+                    options.beforeSlideLeave.call(slide[slideNowIndex - 1], page.nowPage, slideNowIndex, slideIndex);
+                }
                 slideX -= slideDiff * stepWidth;
                 setAttr().translate(slideWrap, slideX, 'x');
                 slideData.x = slideX;
                 slideData.index = slideIndex;
                 //console.log('scrollSlide to', slideIndex);
+                if (typeof options.afterSlideLoad === 'function') {
+                    options.pageSpeed = options.pageSpeed ? 500 : options.pageSpeed;
+                    setTimeout(function () {
+                        /**
+                         * nowSection 函数内部 this 指向，载入后的 section
+                         * pageIndex 载入后的 index
+                         */
+                        options.afterSlideLoad.call(slide[slideIndex - 1], page.nowPage, slideIndex);
+                    }, options.pageSpeed);
+                }
                 return true;
             }
             return false;
@@ -361,7 +372,7 @@
         },
         slide: {
             next: function () {
-                var slideWrap = $('.slide-wrap', sections[page.nowPage - 1]);
+                var slideWrap = $$('.slide-wrap', sections[page.nowPage - 1])[0];
 
                 if (!slideWrap) {
                     return false;
@@ -384,7 +395,7 @@
             },
             pre: function () {
 
-                var slideWrap = $('.slide-wrap', sections[page.nowPage - 1]);
+                var slideWrap = $$('.slide-wrap', sections[page.nowPage - 1])[0];
                 var slide = sections[page.nowPage - 1].querySelectorAll('.slide');
                 if (!slideWrap) {
                     return false;
@@ -410,7 +421,7 @@
     };
 
     /**
-     * 初始化页面主题元素
+     * 初始化页面主体元素
      * @returns {{init: init, initContent: initContent, initSlide: initSlide}}
      */
     function initEle() {
@@ -432,7 +443,7 @@
                 "display": "block"
             });
             for (var i = sections.length - 1; i >= 0; i--) {
-                sections[i].style.height = document.body.scrollHeight + 'px';
+                sections[i].style.height = stepHeight + 'px';
             }
         }
 
@@ -468,21 +479,26 @@
     function initProp() {
 
         function init() {
-            autoScroll();
-        }
-
-        function autoScroll() {
-            var timer = null;
-            if (options.autoScroll) {
-                timer = setInterval(function () {
-                    page.move.next();
-                }, options.autoScrollDuration);
+            for (var key in prop) {
+                if (prop.hasOwnProperty(key)) {
+                    prop[key]();
+                }
             }
         }
 
+        var prop = {
+            autoScroll: function () {
+                var timer = null;
+                if (options.autoScroll) {
+                    timer = setInterval(function () {
+                        page.move.next();
+                    }, options.autoScrollDuration);
+                }
+            }
+        };
+
         return {
-            init: init,
-            autoScroll: autoScroll
+            init: init
         };
     }
 
@@ -498,7 +514,8 @@
 
     function init(ele, Customize) {
 
-        sectionContent = $(ele);
+        sectionContent = $$(ele)[0];
+        sections = $$('.section');
         options = extendOption(defaults, Customize);
 
         initEle().init();
@@ -519,4 +536,5 @@
     };
 })
 ;
+
 

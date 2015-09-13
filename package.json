@@ -1,6 +1,6 @@
 {
   "name": "fullpage",
-  "version": "1.1.0",
+  "version": "1.2.1",
   "description": "simple fullpage for mobile",
   "main": "gulpfile.js",
   "scripts": {

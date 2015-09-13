@@ -11,38 +11,100 @@
 </head>
 <body>
 <div id="sectionContent" class="section-content">
-  <div class="section">
+  <div id="distribution" class="section distribution">
     <div class="slide-wrap">
-      <div class="slide" style="font-size:28px;">
-        <p>如果当前不是手机设备，请打开浏览器的开发工具，点击响应式开发，然后随意选择一款模拟设备。</p>
-
-        <p>现在你可以试着上下左右滑动。（左右滑动仅限本 页）</p>
-      </div>
+      <div class="slide">Slide1</div>
       <div class="slide">Slide2</div>
       <div class="slide">Slide3</div>
-      <div class="slide">Slide4</div>
-      <div class="slide">Slide5</div>
+    </div>
+    <div class="box">
+      <div class="triangle"></div>
+      <ul class="month-top circle-line">
+        <li class="item purple"><span class="double-circle circle-purple"></span><span
+          class="white ">独立</span><span class="number">不依赖任何库</span></li>
+        <li class="item blue"><span class="double-circle circle-blue"></span><span class="white ">轻巧</span><span
+          class="number">压缩后不足4K</span></li>
+        <li class="item yellow"><span class="double-circle circle-yellow"></span><span
+          class="white ">简单</span><span class="number">非常易于使用</span></li>
+      </ul>
+      <div class="split-line">简介</div>
+      <div class="month-bottom">
+        <div class="circle-percent">
+          <div class="percent">10%</div>
+          <div class="disc">股票</div>
+        </div>
+        <div class="circle-percent">
+          <div class="percent">20%</div>
+          <div class="disc">基金</div>
+        </div>
+        <div class="circle-percent">
+          <div class="percent">20%</div>
+          <div class="disc">现金</div>
+        </div>
+        <div class="circle-percent">
+          <div class="percent">40%</div>
+          <div class="disc">理财</div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="section">2</div>
-  <div class="section">3</div>
+  <!--class 的顺序不能更改！！！-->
+  <div class="section variation">
+    <div class="split-line">使用方法</div>
+    <div class="des">
+      <h2>使用方法</h2>
+      <ul class="ht-user">
+        <li>引入 JavaScript 文件 fullpage.min.js</li>
+        <li>引入 css 文件 fullpage.css（如果你使用less，则可以在less主文件中引入fullpage.less）</li>
+        <li>按照下面格式书写html代码（其中 id 为 sectionContent 的为包裹层，你可以自定义修改其id）</li>
+      </ul>
+      <img src="../images/code.png" alt="code"/>
+    </div>
+  </div>
+  <div class="section overview">
+    <div class="split-line">收益概览</div>
+    <p class="p-center">近一月总收益</p>
+
+    <p class="p-center number"><span class="number yellow">50000.00</span><span class="yuan">元</span></p>
+
+    <div id="columnChart" class="column-chart"></div>
+    <div class="tip">当月收益跑赢了<span class="yellow">80%</span>的用户</div>
+
+  </div>
+  <div class="section keywords">
+    <div class="wrap">
+      <div class="split-line">投资关键词</div>
+      <a class="balloon balloon-pink">高频交易
+        <span class="balloon-line"></span>
+      </a>
+      <a class="balloon balloon-purple">满仓操作
+        <span class="balloon-line"></span>
+      </a>
+      <a class="balloon balloon-green">地产板块
+        <span class="balloon-line"></span>
+      </a>
+      <a class="balloon balloon-orange">快进快出
+        <span class="balloon-line"></span>
+      </a>
+
+      <div class="btn-wrap">
+        <a class="btn" href="https://github.com/kisnows/fullpage-light.js">再看一遍</a>
+      </div>
+    </div>
+  </div>
 </div>
-<script src="js/fullpage.js"></script>
+<script src="js/fullPage.js"></script>
 <script>
   window.onload = function () {
     fullpage.init('#sectionContent', {
-//      autoScroll: true,
-      beforeLeave: function (leaveIndex, nowIndex) {
-        if (nowIndex === 2) {
-//          console.log('You will leave page 2')
-        }
-//        console.log(this, leaveIndex, nowIndex)
+      beforeSlideLeave: function (pageIndex, slideNow, slideAfter) {
+        var _this = this;
+        console.log(_this, 'beforeSlideLeave:', pageIndex, slideNow, slideAfter)
       },
-      afterLoad: function (afterIndex) {
-        if (afterIndex === 2) {
-//          console.log('You will go to page 2')
-        }
-//        console.log(this, afterIndex)
+      afterSlideLoad: function (pageIndex, slideIndex) {
+        var _this = this;
+        console.log(_this, 'afterSlideLoad:', pageIndex, slideIndex)
+        ;
       }
     });
   }
