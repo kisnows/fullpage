@@ -14,8 +14,8 @@
 |------------|-----------|-------|-----|------|
 
 ##使用方法
-* 引入 JavaScript 文件 `fullpage.min.js`
-* 引入 css 文件 `fullpage.css`（如果你使用`less`，则可以在less主文件中引入`fullpage.less`）
+* 引入 JavaScript 文件 `fullPage.min.js`
+* 引入 css 文件 `fullPage.css`（如果你使用`less`，则可以在less主文件中引入`fullPage.less`）
 * 按照下面格式书写`html`代码（其中 id 为 `sectionContent` 的为包裹层，你可以自定义修改其id）
 
 ```html
