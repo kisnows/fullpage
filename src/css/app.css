@@ -1,3 +1,36 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+.section-content {
+  margin: 0;
+  padding: 0;
+  transition: all .5s;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+}
+.section-content .section {
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.section-content .section .slide-wrap {
+  transition: all .5s;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  height: 100%;
+  width: auto;
+  position: relative;
+}
+.section-content .section .slide-wrap .slide {
+  display: inline-block;
+  height: 100%;
+  float: left;
+}
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -212,10 +245,18 @@ body {
 * {
   box-sizing: border-box;
 }
+@media screen and (min-width: 600px) {
+  * {
+    text-align: center;
+  }
+}
 ul {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+a {
+  color: #fff;
 }
 .section .wrap {
   width: 100%;
@@ -231,9 +272,6 @@ ul {
   width: 100%;
   height: 100%;
   background-color: #fff;
-}
-#fullpage {
-  display: none;
 }
 .wrong-dialog {
   width: 100%;
@@ -258,37 +296,32 @@ ul {
   bottom: 0;
   margin: auto;
 }
-html,
-body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
-}
-.section-content {
-  margin: 0;
-  padding: 0;
-  transition: all .5s;
-  -webkit-transition: all .5s;
-  -moz-transition: all .5s;
-}
-.section-content .section {
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-}
-.section-content .section .slide-wrap {
-  transition: all .5s;
-  -webkit-transition: all .5s;
-  -moz-transition: all .5s;
-  height: 100%;
-  width: auto;
-}
-.section-content .section .slide-wrap .slide {
+i.icon {
   display: inline-block;
-  height: 100%;
-  float: left;
+  width: 30px;
+  height: 20px;
+  background: url(../images/icon.png);
+  background-size: 44px auto;
+  vertical-align: middle;
+  margin-left: 20px;
+  margin-right: 8px;
+}
+.icon.icon-monthstart {
+  background-position: 34px -92px;
+}
+.icon.icon-income {
+  width: 30px;
+  height: 16px;
+  background-position: 34px -112px;
+}
+.icon.icon-takeout {
+  width: 30px;
+  height: 26px;
+  background-position: 38px 2px;
+  margin-bottom: 6px;
+}
+.icon.icon-monthend {
+  background-position: 34px -92px;
 }
 .split-line {
   font-size: 2rem;
@@ -408,7 +441,7 @@ body {
 .balloon-purple .balloon-line {
   -webkit-transform: rotateY(180deg);
           transform: rotateY(180deg);
-  margin-left: -6px;
+  margin-left: -14px;
 }
 .balloon-green {
   position: absolute;
@@ -629,60 +662,9 @@ body {
   color: #fff;
   width: 100%;
 }
-.distribution .slide-wrap {
-  margin: 0 auto;
-  height: 100%;
-  position: relative;
-}
 .distribution .slide-wrap .slide {
   text-align: center;
   margin-top: 20px;
-}
-.distribution .slide-wrap .month-title {
-  font-size: 2rem;
-  height: 50px;
-  line-height: 50px;
-  width: 100%;
-  color: rgba(255, 255, 255, 0.1);
-  position: absolute;
-  top: 0;
-  left: 0;
-  transition: all 0.3s linear;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-}
-.distribution .slide-wrap .month-title .month {
-  display: inline-block;
-  text-align: center;
-  -ms-flex: 1;
-      flex: 1;
-  -webkit-flex: 1;
-  text-indent: 2px;
-  transition: all 0.3s linear;
-}
-.distribution .slide-wrap .month-title .month-cross {
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  -ms-flex-direction: column;
-      flex-direction: column;
-  -webkit-flex-direction: column;
-  line-height: 12px;
-}
-.distribution .slide-wrap .month-title .month-cross i {
-  font-style: normal;
-  -ms-flex: 1;
-      flex: 1;
-  -webkit-flex: 1;
-}
-.distribution .slide-wrap .month-title .month-cross i:first-child {
-  line-height: 10px;
-  padding-top: 12px;
-  font-size: 12px;
-}
-.distribution .slide-wrap .month-title .month-cross i:last-child {
-  padding-bottom: 8px;
 }
 .distribution .box {
   width: 92%;
@@ -698,9 +680,11 @@ body {
   padding: 20px 10px;
 }
 .distribution .box .month-bottom {
+  padding: 0 30px;
   margin-top: -20px;
   position: relative;
   overflow: hidden;
+  transition: all 0.4s;
 }
 .distribution .box .circle-percent {
   position: absolute;
@@ -827,22 +811,8 @@ body {
     transform: translate(0, -10%);
   }
 }
-.overview .p-center {
-  text-align: center;
-}
-.overview .p-center.number {
-  font-size: 2.8rem;
-  margin: 0;
-}
-.overview .p-center.number .yuan {
-  font-size: 1.6rem;
-}
-.overview .column-chart {
-  width: 82%;
-  height: 50%;
-  margin: 10px auto;
-}
 .variation .des .ht-user {
   list-style: circle;
   padding-left: 20px;
+  margin-bottom: 20px;
 }

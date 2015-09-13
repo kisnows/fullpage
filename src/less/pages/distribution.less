@@ -6,48 +6,6 @@
       text-align: center;
       margin-top: 20px;
     }
-    .month-title {
-      font-size: @font-size-big;
-      height: 50px;
-      line-height: 50px;
-      width: 100%;
-      color: rgba(255, 255, 255, .1);
-      position: absolute;
-      top: 0;
-      left: 0;
-      .transition(all .3s linear);
-      .flexbox();
-      .month {
-        display: inline-block;
-        text-align: center;
-        flex: 1;
-        -webkit-flex: 1;
-        text-indent: 2px;
-        .transition(all .3s linear);
-      }
-      .month-cross {
-        .flexbox();
-        flex-direction: column;
-        -webkit-flex-direction: column;
-        line-height: 12px;
-        i {
-          font-style: normal;
-          flex: 1;
-          -webkit-flex: 1;
-        }
-        i:first-child {
-          line-height: 10px;
-          padding-top: 12px;
-          font-size: 12px;
-        }
-        i:last-child {
-          padding-bottom: 8px;
-        }
-      }
-    }
-    margin: 0 auto;
-    height: 100%;
-    position: relative;
   }
   .box {
     width: 92%;
@@ -61,9 +19,11 @@
     .transform(translate(-50%, 0));
     padding: 20px 10px;
     .month-bottom {
+      padding: 0 30px;
       margin-top: -20px;
       position: relative;
       overflow: hidden;
+      .transition(all .4s);
     }
     .circle-percent {
       position: absolute;

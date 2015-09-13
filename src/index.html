@@ -29,22 +29,18 @@
       </ul>
       <div class="split-line">简介</div>
       <div class="month-bottom">
-        <div class="circle-percent">
-          <div class="percent">10%</div>
-          <div class="disc">股票</div>
-        </div>
-        <div class="circle-percent">
-          <div class="percent">20%</div>
-          <div class="disc">基金</div>
-        </div>
-        <div class="circle-percent">
-          <div class="percent">20%</div>
-          <div class="disc">现金</div>
-        </div>
-        <div class="circle-percent">
-          <div class="percent">40%</div>
-          <div class="disc">理财</div>
-        </div>
+        <h2><a href="https://github.com/kisnows/fullpage-light.js" target="_blank" style="color:#fff">FullPage-light
+          v1.2.1</a></h2>
+
+        <p>一个轻巧的fullpage框架，不依赖其他任何库</p>
+
+        <p>主要针对移动端设备（同时也支持桌面端），压缩后不到4kb。 </p>
+
+        <p>轻松创建炫酷的单页滑动网站。</p>
+        <hr/>
+        <p>尝试左右滑动，或者使用方向键控制</p>
+
+        <p>当前Slide位于：<span id="nowSlide" style="color:orange">Slide1</span></p>
       </div>
     </div>
   </div>
@@ -52,62 +48,40 @@
   <div class="section variation">
     <div class="split-line">使用方法</div>
     <div class="des">
-      <h2>使用方法</h2>
       <ul class="ht-user">
         <li>引入 JavaScript 文件 fullpage.min.js</li>
         <li>引入 css 文件 fullpage.css（如果你使用less，则可以在less主文件中引入fullpage.less）</li>
         <li>按照下面格式书写html代码（其中 id 为 sectionContent 的为包裹层，你可以自定义修改其id）</li>
       </ul>
       <img src="../images/code.png" alt="code"/>
+
+      <h2><a href="https://github.com/kisnows/fullpage-light.js" target="_blank">详细使用方法请点击</a></h2>
     </div>
-  </div>
-  <div class="section overview">
-    <div class="split-line">收益概览</div>
-    <p class="p-center">近一月总收益</p>
-
-    <p class="p-center number"><span class="number yellow">50000.00</span><span class="yuan">元</span></p>
-
-    <div id="columnChart" class="column-chart"></div>
-    <div class="tip">当月收益跑赢了<span class="yellow">80%</span>的用户</div>
-
   </div>
   <div class="section keywords">
     <div class="wrap">
-      <div class="split-line">投资关键词</div>
-      <a class="balloon balloon-pink">高频交易
+      <div class="split-line">给我意见</div>
+      <a class="balloon balloon-pink">嘻
         <span class="balloon-line"></span>
       </a>
-      <a class="balloon balloon-purple">满仓操作
+      <a class="balloon balloon-purple">嘻
         <span class="balloon-line"></span>
       </a>
-      <a class="balloon balloon-green">地产板块
+      <a class="balloon balloon-green">哈
         <span class="balloon-line"></span>
       </a>
-      <a class="balloon balloon-orange">快进快出
+      <a class="balloon balloon-orange">哈
         <span class="balloon-line"></span>
       </a>
 
       <div class="btn-wrap">
-        <a class="btn" href="https://github.com/kisnows/fullpage-light.js">再看一遍</a>
+        <a class="btn" href="https://github.com/kisnows/fullpage-light.js" target="_blank">源码地址 <span
+          style="font-size:12px;">喜欢请给个star哦</span></a>
       </div>
     </div>
   </div>
 </div>
 <script src="js/fullPage.js"></script>
-<script>
-  window.onload = function () {
-    fullpage.init('#sectionContent', {
-      beforeSlideLeave: function (pageIndex, slideNow, slideAfter) {
-        var _this = this;
-        console.log(_this, 'beforeSlideLeave:', pageIndex, slideNow, slideAfter)
-      },
-      afterSlideLoad: function (pageIndex, slideIndex) {
-        var _this = this;
-        console.log(_this, 'afterSlideLoad:', pageIndex, slideIndex)
-        ;
-      }
-    });
-  }
-</script>
+<script src="js/index.js"></script>
 </body>
 </html>
