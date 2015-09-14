@@ -1,5 +1,5 @@
 /**
- * fullPage v1.2.1
+ * fullPage v1.2.3
  * https://github.com/kisnows/fullpage.js
  *
  * Apache License
@@ -77,6 +77,31 @@
         return Default;
     }
 
+    /**
+     * 动画检测
+     */
+    /* From Modernizr */
+    function whichTransitionEvent() {
+        var t;
+        var el = document.createElement('fakeelement');
+        var transitions = {
+            'transition': 'transitionend',
+            'OTransition': 'oTransitionEnd',
+            'MozTransition': 'transitionend',
+            'WebkitTransition': 'webkitTransitionEnd',
+            'MsTransition': 'msTransitionEnd'
+        }
+
+        for (t in transitions) {
+            if (el.style[t] !== undefined) {
+                return transitions[t];
+            }
+        }
+    }
+
+    /* Listen for a transition! */
+    var transitionEvent = whichTransitionEvent();
+
     //end helper=========================================================
 
     var sectionContent;
@@ -118,7 +143,7 @@
             // 初始化 x,y 值，防止点击一次后出现假 move 事件
             startPos = {};
             endPos = {};
-            event.preventDefault();
+            //event.preventDefault();
             touch = event.touches[0];
             startPos.x = touch.pageX;
             startPos.y = touch.pageY;
@@ -127,14 +152,14 @@
 
         ele.addEventListener('touchmove', function (event) {
             //TODO add eventHandel
-            event.preventDefault();
+            //event.preventDefault();
             touch = event.touches[0];
 
         }, false);
 
         ele.addEventListener('touchend', function (event) {
 
-            event.preventDefault();
+            //event.preventDefault();
             endPos.x = touch.pageX;
             endPos.y = touch.pageY;
             diffX = startPos.x - endPos.x;
@@ -178,7 +203,7 @@
 
     function bindMouseWheel() {
         document.addEventListener('mousewheel', function (event) {
-            console.log(event.wheelDeltaY, event.deltaY, event);
+            //console.log(event.wheelDeltaY, event.deltaY, event);
             var deltaY = event.deltaY;
             if (deltaY > 0) {
                 page.move.next();
@@ -216,6 +241,10 @@
      */
     var page = {
         nowPage: 1,
+        isScrolling: false,
+        modifyIsScrolling: function(){
+
+        },
         /**
          * Scroll to a specified page.
          * @param pageIndex {number} The page index you want scroll to.
@@ -227,7 +256,7 @@
             var leaveSection = sections[page.nowPage - 1];
             var nowSection = sections[pageIndex - 1];
 
-            if (pageIndex >= 1 && pageIndex <= sections.length) {
+            if (pageIndex >= 1 && pageIndex <= sections.length && !page.isScrolling) {
 
                 if (typeof options.beforeLeave === 'function') {
                     /**
@@ -240,6 +269,7 @@
 
                 translate3dY -= pageDiff * stepHeight;
                 setAttr().translate(sectionContent, translate3dY, 'y');
+                page.isScrolling = true;
                 page.nowPage = pageIndex;
                 if (typeof options.afterLoad === 'function') {
                     options.pageSpeed = options.pageSpeed ? 500 : options.pageSpeed;
@@ -287,7 +317,7 @@
 
             var slideDiff = slideIndex - slideNowIndex;
 
-            if (slideIndex >= 1 && slideIndex <= slide.length) {
+            if (slideIndex >= 1 && slideIndex <= slide.length && !page.isScrolling) {
                 if (typeof options.beforeSlideLeave === 'function') {
                     /**
                      * leaveSlide           函数内部 this 指向，将要离开的 slide
@@ -299,6 +329,7 @@
                 }
                 slideX -= slideDiff * stepWidth;
                 setAttr().translate(slideWrap, slideX, 'x');
+                page.isScrolling = true;
                 slideData.x = slideX;
                 slideData.index = slideIndex;
                 //console.log('scrollSlide to', slideIndex);
@@ -442,6 +473,9 @@
                 "-webkit-transitionDuration": options.pageSpeed + 'ms',
                 "display": "block"
             });
+            sectionContent.addEventListener(transitionEvent,function(){
+                page.isScrolling = false;
+            },false);
             for (var i = sections.length - 1; i >= 0; i--) {
                 sections[i].style.height = stepHeight + 'px';
             }
@@ -453,6 +487,7 @@
         function initSlide() {
             var slideWrap = $$('.slide-wrap');
             var slides;
+
             for (var i = slideWrap.length - 1; i >= 0; i--) {
                 slides = $$('.slide', slideWrap[i]);
                 for (var j = slides.length - 1; j >= 0; j--) {
@@ -461,6 +496,10 @@
                 slideWrap[i].style.width = slides.length * stepWidth + 'px';
                 slideWrap[i].dataset.x = '0';
                 slideWrap[i].dataset.index = '1';
+                slideWrap[i].addEventListener(transitionEvent, function () {
+                    page.isScrolling = false;
+                }, false);
+
             }
         }
 
