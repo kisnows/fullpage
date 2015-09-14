@@ -1,5 +1,5 @@
 /**
- * fullPage v1.2.3
+ * fullPage v1.2.4
  * https://github.com/kisnows/fullpage.js
  *
  * Apache License
