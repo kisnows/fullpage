@@ -137,13 +137,14 @@
             diffY;
         var touch;
         var isVertical = false;
-
         ele.addEventListener('touchstart', function (event) {
 
             // 初始化 x,y 值，防止点击一次后出现假 move 事件
             startPos = {};
             endPos = {};
-            //event.preventDefault();
+            if (event.target.tagName.toLowerCase() !== 'a') {
+                event.preventDefault();
+            }
             touch = event.touches[0];
             startPos.x = touch.pageX;
             startPos.y = touch.pageY;
@@ -152,14 +153,16 @@
 
         ele.addEventListener('touchmove', function (event) {
             //TODO add eventHandel
-            //event.preventDefault();
+            event.preventDefault();
             touch = event.touches[0];
 
         }, false);
 
         ele.addEventListener('touchend', function (event) {
 
-            //event.preventDefault();
+            if (event.target.tagName.toLowerCase() !== 'a') {
+                event.preventDefault();
+            }
             endPos.x = touch.pageX;
             endPos.y = touch.pageY;
             diffX = startPos.x - endPos.x;
@@ -242,7 +245,7 @@
     var page = {
         nowPage: 1,
         isScrolling: false,
-        modifyIsScrolling: function(){
+        modifyIsScrolling: function () {
 
         },
         /**
@@ -473,9 +476,9 @@
                 "-webkit-transitionDuration": options.pageSpeed + 'ms',
                 "display": "block"
             });
-            sectionContent.addEventListener(transitionEvent,function(){
+            sectionContent.addEventListener(transitionEvent, function () {
                 page.isScrolling = false;
-            },false);
+            }, false);
             for (var i = sections.length - 1; i >= 0; i--) {
                 sections[i].style.height = stepHeight + 'px';
             }
