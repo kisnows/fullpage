@@ -1,5 +1,5 @@
 /**
- * fullPage v1.2.5
+ * fullPage v1.2.6
  * https://github.com/kisnows/fullpage.js
  *
  * Apache License
@@ -112,7 +112,7 @@
 
     var options = {};
     var defaults = {
-        threshold: 30,              //触发滚动事件的阈值，越小越灵敏
+        threshold: 50,              //触发滚动事件的阈值，越小越灵敏
         pageSpeed: 600,             //滚屏速度，单位为毫秒 ms
         autoScroll: false,          //DONE 是否自动播放
         autoScrollDuration: 1000,   //DONE 自动播放间隔时间
@@ -137,16 +137,14 @@
         var diffX,
             diffY;
         var touch;
+        var onceTouch = false;                  //判断是否为一次触摸，保证一次触摸只触发一次事件
 
-        //阈值,灵敏度，越小越灵敏
-        var threshold = options.threshold;
+        var threshold = options.threshold;      //阈值,灵敏度，越小越灵敏
+        var isVertical;                         //是否为垂直滚动事件
 
-        var isTouching = false;
-        var timer = null;
-
-        var isVertical = false;
         ele.addEventListener('touchstart', function (event) {
-
+            //onceTouch首先置为true，表明开始了一次触摸
+            onceTouch = true;
             // 初始化 x,y 值，防止点击一次后出现假 move 事件
             startPos = {};
             endPos = {};
@@ -168,19 +166,14 @@
             diffX = startPos.x - movePos.x;
             diffY = startPos.y - movePos.y;
 
-
-            if (!isTouching && (Math.abs(diffX) > threshold || Math.abs(diffY) > threshold )) {
-                isTouching = true;
-                timer = setTimeout(function () {
-                    clearTimeout(timer);
-                    timer = null;
-                    isTouching = false;
-                }, options.pageSpeed || 500);
-            } else {
+            //如果页面正在滚动或者不是一次滚动事件，则直接return掉
+            if (page.isScrolling || !onceTouch) {
                 return false;
             }
 
             isVertical = Math.abs(diffX) - Math.abs(diffY) <= 0;
+            //如果diff大于阈值，则事件触发，将onceTouch置为false
+            onceTouch = Math.max(diffX, diffY) <= threshold;
             if (!isVertical) {
                 if (diffX > threshold) {
                     //Move to left
@@ -206,61 +199,16 @@
             if (event.target.tagName.toLowerCase() !== 'a') {
                 event.preventDefault();
             }
-            /*endPos.x = touch.pageX;
-             endPos.y = touch.pageY;
-             diffX = startPos.x - endPos.x;
-             diffY = startPos.y - endPos.y;
-             //阈值,灵敏度，越小越灵敏
-             var threshold = options.threshold;
-             //console.log('diffX:', diffX, 'diffY:', diffY);
-
-             /!**
-             * 这里有个小bug：
-             * 即如果点击屏幕没有移动的话，Math.abs(diffX) - Math.abs(diffY) = 0 ,
-             * isVertical 会默认为 true
-             * 不过并不影响程序正常运行
-             *!/
-             isVertical = Math.abs(diffX) - Math.abs(diffY) <= 0;
-             if (!isVertical) {
-             //horizontal
-             //isVertical = false;
-             if (diffX > threshold) {
-             //Move to left
-             page.slide.next();
-             } else if (diffX < -threshold) {
-             //Move to right
-             page.slide.pre();
-             }
-             } else {
-             //vertical
-             //isVertical = true;
-             if (diffY > threshold) {
-             //Move to top
-             page.move.next();
-             } else if (diffY < -threshold) {
-             //Move to bottom
-             page.move.pre();
-             }
-             }*/
-
+            //重置onceTouch为true
+            onceTouch = true;
         }, false);
     }
 
     function bindMouseWheel() {
-        var isWheelMoveing = false;
-        var timer = null;
         document.addEventListener('mousewheel', function (event) {
             //console.log(event.wheelDeltaY, event.deltaY, event);
             var deltaY = event.deltaY;
-            console.log(deltaY);
-            if (!isWheelMoveing) {
-                isWheelMoveing = true;
-                timer = setTimeout(function () {
-                    clearTimeout(timer);
-                    timer = null;
-                    isWheelMoveing = false;
-                }, options.pageSpeed || 500);
-            } else {
+            if (page.isScrolling) {
                 return false;
             }
 
