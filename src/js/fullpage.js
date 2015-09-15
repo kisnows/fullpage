@@ -1,5 +1,5 @@
 /**
- * fullPage v1.2.4
+ * fullPage v1.2.5
  * https://github.com/kisnows/fullpage.js
  *
  * Apache License
@@ -120,8 +120,8 @@
         loopSlide: true,            //DONE Slide循环滑动
         afterLoad: null,            //DONE 页面载入事件
         beforeLeave: null,           //DONE 页面离开事件
-        afterSlideLoad: null,        //TODO slide 载入事件
-        beforeSlideLeave: null      //TODO slide 离开事件
+        afterSlideLoad: null,        //DONE slide 载入事件
+        beforeSlideLeave: null      //DONE slide 离开事件
     };
 
 
@@ -132,10 +132,18 @@
     function bindTouchMove(ele) {
 
         var startPos = {},
+            movePos = {},
             endPos = {};
         var diffX,
             diffY;
         var touch;
+
+        //阈值,灵敏度，越小越灵敏
+        var threshold = options.threshold;
+
+        var isTouching = false;
+        var timer = null;
+
         var isVertical = false;
         ele.addEventListener('touchstart', function (event) {
 
@@ -155,33 +163,25 @@
             //TODO add eventHandel
             event.preventDefault();
             touch = event.touches[0];
+            movePos.x = touch.pageX;
+            movePos.y = touch.pageY;
+            diffX = startPos.x - movePos.x;
+            diffY = startPos.y - movePos.y;
 
-        }, false);
 
-        ele.addEventListener('touchend', function (event) {
-
-            if (event.target.tagName.toLowerCase() !== 'a') {
-                event.preventDefault();
+            if (!isTouching && (Math.abs(diffX) > threshold || Math.abs(diffY) > threshold )) {
+                isTouching = true;
+                timer = setTimeout(function () {
+                    clearTimeout(timer);
+                    timer = null;
+                    isTouching = false;
+                }, options.pageSpeed || 500);
+            } else {
+                return false;
             }
-            endPos.x = touch.pageX;
-            endPos.y = touch.pageY;
-            diffX = startPos.x - endPos.x;
-            diffY = startPos.y - endPos.y;
-            //阈值,灵敏度，越小越灵敏
-            var threshold = options.threshold;
-            //console.log('diffX:', diffX, 'diffY:', diffY);
 
-            /**
-             * 这里有个小bug：
-             * 即如果点击屏幕没有移动的话，Math.abs(diffX) - Math.abs(diffY) = 0 ,
-             * isVertical 会默认为 true
-             * 不过并不影响程序正常运行
-             */
             isVertical = Math.abs(diffX) - Math.abs(diffY) <= 0;
-
             if (!isVertical) {
-                //horizontal
-                //isVertical = false;
                 if (diffX > threshold) {
                     //Move to left
                     page.slide.next();
@@ -190,7 +190,6 @@
                     page.slide.pre();
                 }
             } else {
-                //vertical
                 //isVertical = true;
                 if (diffY > threshold) {
                     //Move to top
@@ -200,18 +199,77 @@
                     page.move.pre();
                 }
             }
+        }, false);
+
+        ele.addEventListener('touchend', function (event) {
+
+            if (event.target.tagName.toLowerCase() !== 'a') {
+                event.preventDefault();
+            }
+            /*endPos.x = touch.pageX;
+             endPos.y = touch.pageY;
+             diffX = startPos.x - endPos.x;
+             diffY = startPos.y - endPos.y;
+             //阈值,灵敏度，越小越灵敏
+             var threshold = options.threshold;
+             //console.log('diffX:', diffX, 'diffY:', diffY);
+
+             /!**
+             * 这里有个小bug：
+             * 即如果点击屏幕没有移动的话，Math.abs(diffX) - Math.abs(diffY) = 0 ,
+             * isVertical 会默认为 true
+             * 不过并不影响程序正常运行
+             *!/
+             isVertical = Math.abs(diffX) - Math.abs(diffY) <= 0;
+             if (!isVertical) {
+             //horizontal
+             //isVertical = false;
+             if (diffX > threshold) {
+             //Move to left
+             page.slide.next();
+             } else if (diffX < -threshold) {
+             //Move to right
+             page.slide.pre();
+             }
+             } else {
+             //vertical
+             //isVertical = true;
+             if (diffY > threshold) {
+             //Move to top
+             page.move.next();
+             } else if (diffY < -threshold) {
+             //Move to bottom
+             page.move.pre();
+             }
+             }*/
 
         }, false);
     }
 
     function bindMouseWheel() {
+        var isWheelMoveing = false;
+        var timer = null;
         document.addEventListener('mousewheel', function (event) {
             //console.log(event.wheelDeltaY, event.deltaY, event);
             var deltaY = event.deltaY;
+            console.log(deltaY);
+            if (!isWheelMoveing) {
+                isWheelMoveing = true;
+                timer = setTimeout(function () {
+                    clearTimeout(timer);
+                    timer = null;
+                    isWheelMoveing = false;
+                }, options.pageSpeed || 500);
+            } else {
+                return false;
+            }
+
             if (deltaY > 0) {
                 page.move.next();
+                console.log('next');
             } else if (deltaY < 0) {
                 page.move.pre();
+                console.log('pre');
             }
         }, false);
 

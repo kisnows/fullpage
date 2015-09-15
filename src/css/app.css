@@ -10,7 +10,7 @@ body {
 .section-content {
   margin: 0;
   padding: 0;
-  transition: all .5s;
+  transition: all 0.5s ease-in-out;
 }
 .section-content .section {
   height: 100%;
@@ -18,9 +18,9 @@ body {
   overflow: hidden;
 }
 .section-content .section .slide-wrap {
-  transition: all .5s;
-  -webkit-transition: all .5s;
-  -moz-transition: all .5s;
+  transition: all 0.5s ease-in-out;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
   height: 100%;
   width: auto;
   position: relative;
