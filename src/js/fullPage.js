@@ -1,5 +1,5 @@
 /**
- * fullPage v1.2.6
+ * fullPage v1.2.7
  * https://github.com/kisnows/fullpage.js
  *
  * Apache License
@@ -207,7 +207,8 @@
     function bindMouseWheel() {
         document.addEventListener('mousewheel', function (event) {
             //console.log(event.wheelDeltaY, event.deltaY, event);
-            var deltaY = event.deltaY;
+            //console.log(event.wheelDelta, event.deltaY);
+            var deltaY = -event.wheelDelta || event.deltaY;
             if (page.isScrolling) {
                 return false;
             }
