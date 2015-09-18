@@ -10,8 +10,8 @@
 * 鼠标滚轮控制
 
 ##兼容性
-|Android 4.1+|Safari 7.1+|IE Edge|Opera|Chrome|
-|------------|-----------|-------|-----|------|
+|Android 4.1+|Safari 7.1+|IE 9+|Opera|Chrome|firefox|
+|------------|-----------|-------|-----|------|-----|
 
 ##使用方法
 * 引入 JavaScript 文件 `fullPage.min.js`
