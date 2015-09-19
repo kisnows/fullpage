@@ -10,7 +10,7 @@
 * 鼠标滚轮控制
 
 ##兼容性
-|Android 4.1+|Safari 7.1+|IE 9+|Opera|Chrome|firefox|
+|Android 4.1+|Safari 7.1+|IE 11|Opera|Chrome|firefox|
 |------------|-----------|-------|-----|------|-----|
 
 ##使用方法
