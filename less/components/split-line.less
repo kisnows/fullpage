@@ -1,0 +1,21 @@
+.split-line {
+  font-size: @font-size-big;
+  margin: 20px auto 26px;
+  text-align: center;
+  &:before {
+    content: '';
+    display: inline-block;
+    width: ~"calc(50% - 60px)";
+    margin-right: 10px;
+    border-top: 1px solid #6DAEBC;
+    vertical-align: middle;
+  }
+  &:after {
+    content: '';
+    display: inline-block;
+    width: ~"calc(50% - 60px)";
+    margin-left: 10px;
+    border-top: 1px solid #6DAEBC;
+    vertical-align: middle;
+  }
+}
