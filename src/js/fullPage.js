@@ -1,5 +1,5 @@
 /**
- * fullPage v1.2.7
+ * fullPage v1.2.8
  * https://github.com/kisnows/fullpage.js
  *
  * Apache License
@@ -142,7 +142,7 @@
         var threshold = options.threshold;      //阈值,灵敏度，越小越灵敏
         var isVertical;                         //是否为垂直滚动事件
 
-        ele.addEventListener('touchstart', function (event) {
+        function touchstartHandle(event) {
             //onceTouch首先置为true，表明开始了一次触摸
             onceTouch = true;
             // 初始化 x,y 值，防止点击一次后出现假 move 事件
@@ -155,9 +155,10 @@
             startPos.x = touch.pageX;
             startPos.y = touch.pageY;
             //console.log(startPos.x,startPos.y);
-        }, false);
+        }
 
-        ele.addEventListener('touchmove', function (event) {
+        function touchmoveHandle(event) {
+
             //TODO add eventHandel
             event.preventDefault();
             touch = event.touches[0];
@@ -192,41 +193,53 @@
                     page.move.pre();
                 }
             }
-        }, false);
+        }
 
-        ele.addEventListener('touchend', function (event) {
-
+        function touchendHandle(event) {
             if (event.target.tagName.toLowerCase() !== 'a') {
                 event.preventDefault();
             }
             //重置onceTouch为true
             onceTouch = true;
-        }, false);
+        }
+
+        ele.addEventListener('touchstart', touchstartHandle, false);
+
+        ele.addEventListener('touchmove', touchmoveHandle, false);
+
+        ele.addEventListener('touchend', touchendHandle, false);
     }
 
     function bindMouseWheel() {
-        document.addEventListener('mousewheel', function (event) {
-            //console.log(event.wheelDeltaY, event.deltaY, event);
-            //console.log(event.wheelDelta, event.deltaY);
-            var deltaY = -event.wheelDelta || event.deltaY;
+        //FIXME change the way binding event.
+        var type;
+        var deltaY;
+
+        if (navigator.userAgent.toLowerCase().indexOf('firefox') !== -1) {
+            type = 'DOMMouseScroll';
+        } else {
+            type = 'mousewheel';
+        }
+
+        function mouseWheelHandle(event) {
             if (page.isScrolling) {
                 return false;
             }
-
+            deltaY = event.detail || -event.wheelDelta || event.deltaY;
             if (deltaY > 0) {
                 page.move.next();
-                console.log('next');
+                //console.log('next');
             } else if (deltaY < 0) {
                 page.move.pre();
-                console.log('pre');
+                //console.log('pre');
             }
-        }, false);
+        }
 
+        document.addEventListener(type, mouseWheelHandle, false);
     }
 
     function bindKeyboard() {
-        document.addEventListener('keydown', function (event) {
-            //37 left 38 top 39 right 40 down
+        function keyboardHandle(event) {
             var key = event.keyCode || event.which;
             switch (key) {
                 case 37:
@@ -242,7 +255,9 @@
                     page.move.next();
                     break;
             }
-        }, false);
+        }
+
+        document.addEventListener('keydown', keyboardHandle, false);
     }
 
     /**
@@ -583,7 +598,6 @@
         slideToNext: page.slide.next,
         slideToPre: page.slide.pre
     };
-})
-;
+});
 
 
