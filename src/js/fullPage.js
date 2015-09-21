@@ -90,7 +90,7 @@
             'MozTransition': 'transitionend',
             'WebkitTransition': 'webkitTransitionEnd',
             'MsTransition': 'msTransitionEnd'
-        }
+        };
 
         for (t in transitions) {
             if (el.style[t] !== undefined) {
@@ -513,6 +513,10 @@
             var slideWrap = $$('.slide-wrap');
             var slides;
 
+            function slideWrapInitHandle() {
+                page.isScrolling = false;
+            }
+
             for (var i = slideWrap.length - 1; i >= 0; i--) {
                 slides = $$('.slide', slideWrap[i]);
                 for (var j = slides.length - 1; j >= 0; j--) {
@@ -521,10 +525,7 @@
                 slideWrap[i].style.width = slides.length * stepWidth + 'px';
                 slideWrap[i].dataset.x = '0';
                 slideWrap[i].dataset.index = '1';
-                slideWrap[i].addEventListener(transitionEvent, function () {
-                    page.isScrolling = false;
-                }, false);
-
+                slideWrap[i].addEventListener(transitionEvent, slideWrapInitHandle, false);
             }
         }
 
