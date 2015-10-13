@@ -113,7 +113,7 @@
     var options = {};
     var defaults = {
         threshold: 50,              //触发滚动事件的阈值，越小越灵敏
-        pageSpeed: 600,             //滚屏速度，单位为毫秒 ms
+        pageSpeed: 500,             //滚屏速度，单位为毫秒 ms
         autoScroll: false,          //DONE 是否自动播放
         autoScrollDuration: 1000,   //DONE 自动播放间隔时间
         loopSection: true,          //DONE Section循环滚动
@@ -297,7 +297,7 @@
                 page.isScrolling = true;
                 page.nowPage = pageIndex;
                 if (typeof options.afterLoad === 'function') {
-                    options.pageSpeed = options.pageSpeed ? 500 : options.pageSpeed;
+                    options.pageSpeed = options.pageSpeed ? options.pageSpeed : 500;
                     setTimeout(function () {
                         /**
                          * nowSection 函数内部 this 指向，载入后的 section
@@ -359,7 +359,7 @@
                 slideData.index = slideIndex;
                 //console.log('scrollSlide to', slideIndex);
                 if (typeof options.afterSlideLoad === 'function') {
-                    options.pageSpeed = options.pageSpeed ? 500 : options.pageSpeed;
+                    options.pageSpeed = options.pageSpeed ? options.pageSpeed : 500;
                     setTimeout(function () {
                         /**
                          * nowSection 函数内部 this 指向，载入后的 section
