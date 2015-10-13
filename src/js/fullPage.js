@@ -1,5 +1,5 @@
 /**
- * fullPage v1.2.8
+ * fullPage v1.3.0
  * https://github.com/kisnows/fullpage.js
  *
  * Apache License
@@ -113,7 +113,7 @@
     var options = {};
     var defaults = {
         threshold: 50,              //触发滚动事件的阈值，越小越灵敏
-        pageSpeed: 600,             //滚屏速度，单位为毫秒 ms
+        pageSpeed: 500,             //滚屏速度，单位为毫秒 ms
         autoScroll: false,          //DONE 是否自动播放
         autoScrollDuration: 1000,   //DONE 自动播放间隔时间
         loopSection: true,          //DONE Section循环滚动
@@ -159,7 +159,7 @@
 
         function touchmoveHandle(event) {
 
-            //TODO add eventHandel
+            //DONE add eventHandel
             event.preventDefault();
             touch = event.touches[0];
             movePos.x = touch.pageX;
@@ -210,6 +210,9 @@
         ele.addEventListener('touchend', touchendHandle, false);
     }
 
+    /**
+     * 绑定鼠标滚动事件
+     */
     function bindMouseWheel() {
         //FIXME change the way binding event.
         var type;
@@ -238,6 +241,9 @@
         document.addEventListener(type, mouseWheelHandle, false);
     }
 
+    /**
+     * 绑定键盘事件
+     */
     function bindKeyboard() {
         function keyboardHandle(event) {
             var key = event.keyCode || event.which;
@@ -280,8 +286,8 @@
             var pageDiff = pageIndex - page.nowPage;
             var leaveSection = sections[page.nowPage - 1];
             var nowSection = sections[pageIndex - 1];
-
-            if (pageIndex >= 1 && pageIndex <= sections.length && !page.isScrolling) {
+            var controllers = $$('.fp-controller-dotted');
+            if (pageIndex >= 1 && pageIndex <= sections.length && !page.isScrolling && pageDiff) {
 
                 if (typeof options.beforeLeave === 'function') {
                     /**
@@ -292,10 +298,14 @@
                     options.beforeLeave.call(leaveSection, page.nowPage, pageIndex);
                 }
 
+                leaveSection.classList.remove('active');
+                addClassToOneEle(controllers, pageIndex - 1);
                 translate3dY -= pageDiff * stepHeight;
                 setAttr().translate(sectionContent, translate3dY, 'y');
                 page.isScrolling = true;
                 page.nowPage = pageIndex;
+                nowSection.classList.add('active');
+
                 if (typeof options.afterLoad === 'function') {
                     options.pageSpeed = options.pageSpeed ? 500 : options.pageSpeed;
                     setTimeout(function () {
@@ -306,8 +316,6 @@
                         options.afterLoad.call(nowSection, pageIndex);
                     }, options.pageSpeed);
                 }
-
-                //console.log('scrollPage to', pageIndex);
                 return true;
             } else {
                 return false;
@@ -321,7 +329,7 @@
         scrollSlide: function (slideIndex) {
 
             //获取slide包裹层
-            var slideWrap = $$('.slide-wrap', sections[page.nowPage - 1])[0];
+            var slideWrap = $$('.fp-slide-wrap', sections[page.nowPage - 1])[0];
 
             if (!slideWrap) {
                 console.log('This page has no slide');
@@ -329,7 +337,7 @@
             }
 
             //当前页面下所有的slide
-            var slide = sections[page.nowPage - 1].querySelectorAll('.slide');
+            var slide = sections[page.nowPage - 1].querySelectorAll('.fp-slide');
 
             //当前页面上存储的数据
             var slideData = slideWrap.dataset;
@@ -352,12 +360,15 @@
                      */
                     options.beforeSlideLeave.call(slide[slideNowIndex - 1], page.nowPage, slideNowIndex, slideIndex);
                 }
+
+                slide[slideNowIndex - 1].classList.remove('active');
                 slideX -= slideDiff * stepWidth;
                 setAttr().translate(slideWrap, slideX, 'x');
                 page.isScrolling = true;
                 slideData.x = slideX;
                 slideData.index = slideIndex;
-                //console.log('scrollSlide to', slideIndex);
+                slide[slideIndex - 1].classList.add('active');
+
                 if (typeof options.afterSlideLoad === 'function') {
                     options.pageSpeed = options.pageSpeed ? 500 : options.pageSpeed;
                     setTimeout(function () {
@@ -389,7 +400,6 @@
             } else {
                 return false;
             }
-
         },
         move: {
             next: function (callback) {
@@ -428,7 +438,7 @@
         },
         slide: {
             next: function () {
-                var slideWrap = $$('.slide-wrap', sections[page.nowPage - 1])[0];
+                var slideWrap = $$('.fp-slide-wrap', sections[page.nowPage - 1])[0];
 
                 if (!slideWrap) {
                     return false;
@@ -451,8 +461,8 @@
             },
             pre: function () {
 
-                var slideWrap = $$('.slide-wrap', sections[page.nowPage - 1])[0];
-                var slide = sections[page.nowPage - 1].querySelectorAll('.slide');
+                var slideWrap = $$('.fp-slide-wrap', sections[page.nowPage - 1])[0];
+                var slide = sections[page.nowPage - 1].querySelectorAll('.fp-slide');
                 if (!slideWrap) {
                     return false;
                 } else {
@@ -476,6 +486,55 @@
         }
     };
 
+    function pageController() {
+        function init() {
+            creatControllerNode();
+            bindEvent();
+        }
+
+        function creatControllerNode() {
+            var controllerWrap = document.createElement('div');
+            var controllerText = '';
+            controllerWrap.className = 'fp-controller';
+            for (var i = sections.length; i--; i > 0) {
+                controllerText += '<div class="fp-controller-dotted"></div>';
+            }
+            controllerWrap.innerHTML = controllerText;
+            document.body.appendChild(controllerWrap);
+        }
+
+        function bindEvent() {
+            var controllers = $$('.fp-controller-dotted');
+            for (var i = controllers.length - 1; i >= 0; i--) {
+                controllers[i].addEventListener('click', helper(i + 1), false)
+            }
+            function helper(i) {
+                return function () {
+                    addClassToOneEle(controllers, i - 1);
+                    //for (var j = controllers.length - 1; j >= 0; j--) {
+                    //    controllers[j].classList.remove('active');
+                    //}
+                    page.moveTo(i);
+                    //controllers[i - 1].classList.add('active');
+                }
+            }
+        }
+
+        return init();
+    }
+
+    /**
+     * 只给一组元素中的某一个元素添加class
+     * @param els 一组元素
+     * @param theOne 要添加元素的index值
+     */
+    function addClassToOneEle(els, theOne) {
+        for (var j = els.length - 1; j >= 0; j--) {
+            els[j].classList.remove('active');
+        }
+        els[theOne].classList.add('active');
+    }
+
     /**
      * 初始化页面主体元素
      * @returns {{init: init, initContent: initContent, initSlide: initSlide}}
@@ -485,6 +544,8 @@
         function init() {
             initContent();
             initSlide();
+            pageController();
+            initController();
         }
 
         /**
@@ -504,13 +565,14 @@
             for (var i = sections.length - 1; i >= 0; i--) {
                 sections[i].style.height = stepHeight + 'px';
             }
+            sections[page.nowPage-1].classList.add('active');
         }
 
         /**
          * 初始化 Slide
          */
         function initSlide() {
-            var slideWrap = $$('.slide-wrap');
+            var slideWrap = $$('.fp-slide-wrap');
             var slides;
 
             function slideWrapInitHandle() {
@@ -518,7 +580,7 @@
             }
 
             for (var i = slideWrap.length - 1; i >= 0; i--) {
-                slides = $$('.slide', slideWrap[i]);
+                slides = $$('.fp-slide', slideWrap[i]);
                 for (var j = slides.length - 1; j >= 0; j--) {
                     slides[j].style.width = stepWidth + 'px';
                 }
@@ -529,6 +591,10 @@
             }
         }
 
+        function initController(){
+            var controllers = $$('.fp-controller-dotted');
+            controllers[page.nowPage-1].classList.add('active');
+        }
 
         return {
             init: init,
@@ -580,7 +646,7 @@
     function init(ele, Customize) {
 
         sectionContent = $$(ele)[0];
-        sections = $$('.section');
+        sections = $$('.fp-section');
         options = extendOption(defaults, Customize);
 
         initEle().init();
