@@ -727,35 +727,56 @@ i.icon {
   top: -14px;
 }
 .keywords {
-  background-image: url(../images/last-bg.png);
-  background-repeat: no-repeat;
   background-size: 100% 100%;
+  background: url(../images/last-bg.png) no-repeat;
+}
+.keywords .balloon-pink,
+.keywords .balloon-purple,
+.keywords .balloon-green,
+.keywords .balloon-orange {
+  top: 100%;
 }
 .keywords .balloon-pink {
-  top: 14%;
   left: 26%;
   z-index: 1;
+  transition-delay: .3s;
+}
+.keywords .balloon-purple {
+  left: 60%;
+  z-index: 2;
+  transition-delay: .6s;
+}
+.keywords .balloon-green {
+  left: 20%;
+  z-index: 3;
+  transition-delay: .8s;
+}
+.keywords .balloon-orange {
+  left: 50%;
+  z-index: 4;
+  transition-delay: 1s;
+}
+.keywords.active .balloon-pink {
+  top: 14%;
+  transition: all 1.4s ease-in-out;
   -webkit-animation: balloon-move 5s linear 0.1s infinite normal;
   animation: balloon-move 5s linear 0.1s infinite normal;
 }
-.keywords .balloon-purple {
+.keywords.active .balloon-purple {
   top: 10%;
-  left: 60%;
-  z-index: 2;
+  transition: all 1.4s ease-in-out;
   -webkit-animation: balloon-move-reversed 5s linear 0.1s infinite normal;
   animation: balloon-move-reversed 5s linear 0.1s infinite normal;
 }
-.keywords .balloon-green {
+.keywords.active .balloon-green {
   top: 40%;
-  left: 20%;
-  z-index: 3;
+  transition: all 1.4s ease-in-out;
   -webkit-animation: balloon-move-reversed 5s linear 0.1s infinite normal;
   animation: balloon-move-reversed 5s linear 0.1s infinite normal;
 }
-.keywords .balloon-orange {
+.keywords.active .balloon-orange {
   top: 34%;
-  left: 50%;
-  z-index: 4;
+  transition: all 1.4s ease-in-out;
   -webkit-animation: balloon-move 5s linear 0.1s infinite normal;
   animation: balloon-move 5s linear 0.1s infinite normal;
 }
