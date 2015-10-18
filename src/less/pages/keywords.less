@@ -1,0 +1,114 @@
+.keywords {
+  background-size: 100% 100%;
+  background: url(../images/last-bg.png) no-repeat;
+  .balloon-pink,
+  .balloon-purple,
+  .balloon-green,
+  .balloon-orange{
+    top: 100%;
+  }
+  .balloon-pink {
+    left: 26%;
+    z-index: 1;
+    transition-delay: .3s;
+  }
+  .balloon-purple {
+    left: 60%;
+    z-index: 2;
+    transition-delay: .6s;
+  }
+  .balloon-green {
+    left: 20%;
+    z-index: 3;
+    transition-delay: .8s;
+  }
+  .balloon-orange {
+    left: 50%;
+    z-index: 4;
+    transition-delay: 1s;
+  }
+  &.active {
+    .balloon-pink {
+      top: 14%;
+      transition: all 1.4s ease-in-out;
+      .animation(balloon-move 5s linear .1s infinite normal);
+    }
+    .balloon-purple {
+      top: 10%;
+      transition: all 1.4s ease-in-out;
+      .animation(balloon-move-reversed 5s linear .1s infinite normal);
+    }
+    .balloon-green {
+      top: 40%;
+      transition: all 1.4s ease-in-out;
+      .animation(balloon-move-reversed 5s linear .1s infinite normal);
+    }
+    .balloon-orange {
+      top: 34%;
+      transition: all 1.4s ease-in-out;
+      .animation(balloon-move 5s linear .1s infinite normal);
+    }
+  }
+  .btn-wrap {
+    position: absolute;
+    width: 100%;
+    bottom: 10px;
+    .btn {
+      margin: 0 auto 18px;
+      display: block;
+      width: 82%;
+      height: 48px;
+      line-height: 48px;
+      border: 1px solid #fff;
+      border-radius: 48px;
+      text-align: center;
+      font-size: @font-size-number;
+    }
+    .btn-yellow {
+      background: #F8E261;
+      color: #c9723d;
+      border: none;
+    }
+    a.btn {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+  .cover {
+    width: 20%;
+    height: 40px;
+    .gradient(#443769, #433A6B);
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    bottom: 4px;
+  }
+  @-webkit-keyframes balloon-move {
+    0% {
+      .translate(-10%, 0);
+    }
+    33% {
+      .translate(0, 10%);
+    }
+    66% {
+      .translate(0, -10%);
+    }
+    100% {
+      .translate(-10%, 0);
+    }
+  }
+  @-webkit-keyframes balloon-move-reversed {
+    0% {
+      .translate(0, -10%);
+    }
+    33% {
+      .translate(10%, 0);
+    }
+    66% {
+      .translate(-10%, 0)
+    }
+    100% {
+      .translate(0, -10%);
+    }
+  }
+}

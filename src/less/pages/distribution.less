@@ -1,0 +1,43 @@
+.distribution {
+  color: #fff;
+  width: 100%;
+  .fp-slide-wrap {
+    .fp-slide {
+      text-align: center;
+      margin-top: 20px;
+    }
+  }
+  .box {
+    width: 92%;
+    height: 86%;
+    height: ~"calc(100% - 74px)";
+    background: rgba(255, 255, 255, .08);
+    border-radius: 8px;
+    position: absolute;
+    top: 64px;
+    left: 50%;
+    .transform(translate(-50%, 0));
+    padding: 20px 10px;
+    .month-bottom {
+      padding: 0 30px;
+      margin-top: -20px;
+      position: relative;
+      overflow: hidden;
+      .transition(all .4s);
+    }
+    .circle-percent {
+      position: absolute;
+      -webkit-transition: all .6s;
+      -moz-transition: all .6s;
+      -o-transition: all .6s;
+      transition: all .6s;
+    }
+    .triangle {
+      .triangle(up, 14px, rgba(255, 255, 255, .08));
+      position: absolute;
+      left: 50%;
+      margin-left: -14px;
+      top: -14px;
+    }
+  }
+}
