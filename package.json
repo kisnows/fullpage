@@ -4,7 +4,8 @@
   "description": "simple fullpage for mobile",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "./node_modules/.bin/webpack --watch --inline"
   },
   "repository": {
     "type": "git",
@@ -20,13 +21,19 @@
   },
   "homepage": "https://github.com/kisnows/fullpage.js#readme",
   "devDependencies": {
+    "autoprefixer-loader": "^3.1.0",
+    "babel-core": "^6.0.16",
+    "babel-loader": "^6.0.0",
     "browser-sync": "^2.8.1",
+    "css-loader": "^0.21.0",
     "del": "^1.2.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.3.1",
     "gulp-less": "^3.0.3",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.2.0",
-    "jshint-stylish": "^2.0.1"
+    "jshint-stylish": "^2.0.1",
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.2"
   }
 }

@@ -12,6 +12,34 @@ var reload = browserSync.reload;
 var jsmin = require('gulp-uglify');
 var rename = require('gulp-rename');
 
+
+/**
+ * gulp.task('webpack:dev-server', function () {
+  var devServerConfig = Object.create(myConfig)
+  // webpack need this to send request to webpack-dev-server
+  devServerConfig.plugins = devServerConfig.plugins || []
+  devServerConfig.plugins.push(new webpack.HotModuleReplacementPlugin())
+  // inline mode
+  devServerConfig.entry.unshift('webpack-dev-server/client?http://localhost:8080', 'webpack/hot/dev-server')
+  var compiler = webpack(devServerConfig)
+  new WebpackDevServer(compiler, {
+    // contentBase: {target: 'http://localhost:3000/'},
+    // Set this as true if you want to access dev server from arbitrary url.
+    // This is handy if you are using a html5 router.
+    historyApiFallback: false,
+    proxy: {
+      '*': 'http://localhost:3000'
+    },
+    publicPath: '/build/',
+    lazy: false,
+    hot: true
+  }).listen(8080, 'localhost', function (err) {
+    if (err) throw new gutil.PluginError('webpack-dev-server', err)
+    // Server listening
+    gutil.log('[webpack-dev-server]', 'http://localhost:8080/')
+  })
+})
+ */
 /**
  * BrowserSync config
  */
