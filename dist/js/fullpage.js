@@ -5,6 +5,7 @@
  * Apache License
  *
  * A light JavaScript framework for developer to build some fullPage site by a simple way.Write with pure JavaScript.
+ *
  * Author: yq12315@gmail.com
  */
 

@@ -6,7 +6,6 @@
 var gulp         = require('gulp');
 var del          = require('del');
 var less         = require('gulp-less');
-var sourcemaps   = require('gulp-sourcemaps');
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync  = require('browser-sync');
 var reload       = browserSync.reload;
@@ -71,7 +70,7 @@ gulp.task('js', function () {
 
 //build==================================
 gulp.task('jsmin', function () {
-    return gulp.src('src/js/fullPage.js')
+    return gulp.src(['src/js/fullpage.js','src/js/fullpage-es6'])
         .pipe(jsmin())
         .pipe(rename({
             extname: '.min.js'
@@ -89,7 +88,7 @@ gulp.task('fullpage-css', function () {
         .pipe(gulp.dest('dist/css'));
 });
 gulp.task('copy', function () {
-    gulp.src(['src/less/fullPage.less', 'src/js/fullPage.js'], {base: './src'})
+    gulp.src(['src/less/fullPage.less', 'src/js/fullpage.js'], {base: './src'})
         .pipe(gulp.dest('dist'));
 });
 
