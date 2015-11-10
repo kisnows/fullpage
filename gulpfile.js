@@ -78,7 +78,7 @@ gulp.task('jsmin', function () {
         .pipe(gulp.dest('dist/js'));
 });
 gulp.task('fullpage-css', function () {
-    gulp.src('src/less/fullPage.less')
+    gulp.src('src/less/fullpage.less')
         .pipe(less())
         .pipe(autoprefixer({
             browsers: ['last 2 versions'],
@@ -88,7 +88,7 @@ gulp.task('fullpage-css', function () {
         .pipe(gulp.dest('dist/css'));
 });
 gulp.task('copy', function () {
-    gulp.src(['src/less/fullPage.less', 'src/js/fullpage.js'], {base: './src'})
+    gulp.src(['src/less/fullpage.less', 'src/js/fullpage.js'], {base: './src'})
         .pipe(gulp.dest('dist'));
 });
 
