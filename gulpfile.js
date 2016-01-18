@@ -88,7 +88,7 @@ gulp.task('fullpage-css', function () {
         .pipe(gulp.dest('dist/css'));
 });
 gulp.task('copy', function () {
-    gulp.src(['src/less/fullpage.less', 'src/js/fullpage.js'], {base: './src'})
+    gulp.src(['src/less/fullpage.less', 'src/js/fullpage*.js'], {base: './src'})
         .pipe(gulp.dest('dist'));
 });
 

@@ -1,4 +1,4 @@
-# FullPage-light v1.3.0
+# FullPage-light v1.3.1
 ![](https://travis-ci.org/kisnows/fullpage-light.js.svg?branch=master)
 
 一个轻巧的`fullpage`框架，不依赖其他任何库，主要针对移动端设备（同时也支持桌面端），压缩后不到4kb。
