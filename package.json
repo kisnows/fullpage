@@ -4,7 +4,8 @@
   "description": "simple fullpage for mobile",
   "main": "gulpfile.js",
   "scripts": {
-
+      "lint": "jshint ./src/js/fullpage.js",
+      "build": "gulp build"
   },
   "repository": {
     "type": "git",

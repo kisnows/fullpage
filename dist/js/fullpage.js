@@ -406,7 +406,7 @@
           var arg = Array.prototype.slice.call(arguments, 1);
 
           if (typeof callback === 'function') {
-            callback.call(null, arg);
+            callback(arg);
           }
           return true;
         } else if (options.loopSection) {
@@ -425,7 +425,7 @@
           var arg = Array.prototype.slice.call(arguments, 1);
 
           if (typeof callback === 'function') {
-            callback.call(null, arg);
+            callback(arg);
           }
           return true;
         } else {
@@ -656,5 +656,3 @@
     slideToPre: page.slide.pre
   };
 });
-
-
