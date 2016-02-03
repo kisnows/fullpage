@@ -1,5 +1,4 @@
 import {bootstrap, page} from './bootstrap'
-
 let fullpage = {
   init: bootstrap,
   scrollPage: page.scrollPage,
@@ -15,5 +14,4 @@ let fullpage = {
   global.fullpage = fullpage
 })(window)
 
-
-export default fullpage;
+export default fullpage
