@@ -1,11 +1,11 @@
-class Utils {
+let utils = {
   $$(el, parent) {
     if (!parent) {
       return document.querySelectorAll(el);
     } else {
       return parent.querySelectorAll(el);
     }
-  }
+  },
 
   setCss(el, props) {
     let prop;
@@ -15,7 +15,7 @@ class Utils {
       }
     }
     return el;
-  }
+  },
 
   translate(el, value, direction) {
     if (direction === 'y') {
@@ -30,9 +30,22 @@ class Utils {
         "-webkit-transform": "translate3d(" + value + "px,0,0)"
       });
     }
-  }
+  },
+
+  /**
+ * 只给一组元素中的某一个元素添加class
+ * @param els 一组元素
+ * @param theOne 要添加元素的index值
+ */
+  addClassToOneEle(els, theOne) {
+    for (let j = els.length - 1; j >= 0; j--) {
+      els[j].classList.remove('active');
+    }
+    els[theOne].classList.add('active');
+  },
+  transitionEvent: whichTransitionEvent()
+
 }
-Utils.transisitonEvent = whichTransitionEvent();
 
 
 function whichTransitionEvent() {
@@ -53,4 +66,4 @@ function whichTransitionEvent() {
   }
 }
 
-export default new Utils()
+export default Object.create(utils)

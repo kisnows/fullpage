@@ -9,9 +9,10 @@ Release under ${pkg.license}.
 `;
 
 var config = {
+  devtool: 'cheap-module-eval-source-map',
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, 'bulid'),
+    path: path.resolve(__dirname, 'build'),
     filename: 'fullpage.js',
     publicPath: path.resolve(__dirname, 'static')
   },
