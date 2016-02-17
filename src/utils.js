@@ -1,5 +1,5 @@
 let utils = {
-  $$(el, parent) {
+  $$ (el, parent) {
     if (!parent) {
       return document.querySelectorAll(el)
     } else {
@@ -7,7 +7,7 @@ let utils = {
     }
   },
 
-  setCss(el, props) {
+  setCss (el, props) {
     let prop
     for (prop in props) {
       if (props.hasOwnProperty(prop)) {
@@ -17,7 +17,7 @@ let utils = {
     return el
   },
 
-  translate(el, value, direction) {
+  translate (el, value, direction) {
     if (direction === 'y') {
       this.setCss(el, {
         'transform': 'translate3d(0,' + value + 'px,0)',
@@ -37,7 +37,7 @@ let utils = {
    * @param els 一组元素
    * @param theOne 要添加元素的index值
    */
-  addClassToOneEle(els, theOne) {
+  addClassToOneEle (els, theOne) {
     for (let j = els.length - 1; j >= 0; j--) {
       els[j].classList.remove('active')
     }
@@ -47,7 +47,7 @@ let utils = {
 
 }
 
-function whichTransitionEvent() {
+function whichTransitionEvent () {
   let t
   let el = document.createElement('fakeelement')
   let transitions = {

@@ -7,7 +7,7 @@ let sections
 let options
 let page
 
-function bootstrap(ele, Customize) {
+function bootstrap (ele, Customize) {
   sectionContent = utils.$$(ele)[0]
   sections = utils.$$('.fp-section')
   options = Object.assign({}, defaults, Customize)
@@ -15,9 +15,8 @@ function bootstrap(ele, Customize) {
   bindEvent(options, page)
 }
 
-function initEle() {
-
-  function init() {
+function initEle () {
+  function init () {
     initContent()
     initSlide()
     pageController()
@@ -28,7 +27,7 @@ function initEle() {
   /**
    * 初始化 Section
    */
-  function initContent() {
+  function initContent () {
     utils.setCss(sectionContent, {
       'transform': 'translate3d(0,0,0)',
       '-webkit-transform': 'translate3d(0,0,0)',
@@ -51,11 +50,11 @@ function initEle() {
   /**
    * 初始化 Slide
    */
-  function initSlide() {
+  function initSlide () {
     let slideWrap = utils.$$('.fp-slide-wrap')
     let slides
 
-    function slideWrapInitHandle() {
+    function slideWrapInitHandle () {
       page.isScrolling = false
     }
 
@@ -74,8 +73,8 @@ function initEle() {
   /**
    * 初始化翻页控制点
    */
-  function pageController() {
-    function init() {
+  function pageController () {
+    function init () {
       createControllerNode()
       bindEvent()
       initController()
@@ -83,7 +82,7 @@ function initEle() {
 
     init()
     // 插入控制点
-    function createControllerNode() {
+    function createControllerNode () {
       let controllerWrap = document.createElement('div')
       let controllerText = ''
       controllerWrap.className = 'fp-controller'
@@ -94,13 +93,13 @@ function initEle() {
       document.body.appendChild(controllerWrap)
     }
 
-    //给控制点绑定切换事件
-    function bindEvent() {
+    // 给控制点绑定切换事件
+    function bindEvent () {
       let controllers = utils.$$('.fp-controller-dotted')
       for (let i = controllers.length - 1; i >= 0; i--) {
         controllers[i].addEventListener('click', helper(i + 1), false)
       }
-      function helper(i) {
+      function helper (i) {
         return function () {
           utils.addClassToOneEle(controllers, i - 1)
           page.moveTo(i)
@@ -108,8 +107,8 @@ function initEle() {
       }
     }
 
-    //获取控制点初试状态
-    function initController() {
+    // 获取控制点初试状态
+    function initController () {
       let controllers = utils.$$('.fp-controller-dotted')
       controllers[page.nowPage - 1].classList.add('active')
     }
@@ -118,14 +117,15 @@ function initEle() {
   /**
    * 初始化定制内容
    */
-  function customize() {
+  function customize () {
     let prop = {
       autoScroll: function () {
         let timer = null
         if (options.autoScroll) {
           timer = setInterval(function () {
             page.move.next()
-          }, options.autoScrollDuration)
+            timer = null
+          }, options.autoScroll)
         }
       }
     }
@@ -148,13 +148,11 @@ page = {
    * @returns {boolean}
    */
   scrollPage: function (pageIndex) {
-
     let pageDiff = pageIndex - page.nowPage
     let leaveSection = sections[page.nowPage - 1]
     let nowSection = sections[pageIndex - 1]
     let controllers = utils.$$('.fp-controller-dotted')
     if (pageIndex >= 1 && pageIndex <= sections.length && !page.isScrolling && pageDiff) {
-
       if (typeof options.beforeLeave === 'function') {
         /**
          * leaveSection 函数内部 this 指向，将要离开的 section
@@ -193,8 +191,7 @@ page = {
    * @returns {boolean}
    */
   scrollSlide: function (slideIndex) {
-
-    //获取slide包裹层
+    // 获取slide包裹层
     let slideWrap = utils.$$('.fp-slide-wrap', sections[page.nowPage - 1])[0]
 
     if (!slideWrap) {
@@ -209,7 +206,7 @@ page = {
     let slideData = slideWrap.dataset
 
     // 当前页面上slide的index
-    let slideNowIndex = parseInt(slideData.index)
+    let slideNowIndex = parseInt(slideData.index, 10)
 
     // 当前页面上slide的x轴偏移值
     let slideX = slideData.x
@@ -256,10 +253,10 @@ page = {
    * @returns {boolean}
    */
   moveTo: function (pageIndex, slideIndex) {
-    //DONE move to a specify section or slide
+    // DONE move to a specify section or slide
     if (page.scrollPage(pageIndex)) {
       if (slideIndex) {
-        //DONE move to a specify slide
+        // DONE move to a specify slide
         return !!page.scrollSlide(slideIndex)
       }
       return true
@@ -269,17 +266,14 @@ page = {
   },
   move: {
     next: function (callback) {
-
       if (page.scrollPage(page.nowPage + 1)) {
-
         let arg = Array.prototype.slice.call(arguments, 1)
 
         if (typeof callback === 'function') {
-          callback.call(null, arg)
+          callback(arg)
         }
         return true
       } else if (options.loopSection) {
-
         page.moveTo(1)
 
         return true
@@ -288,13 +282,11 @@ page = {
       }
     },
     pre: function (callback) {
-
       if (page.scrollPage(page.nowPage - 1)) {
-
         let arg = Array.prototype.slice.call(arguments, 1)
 
         if (typeof callback === 'function') {
-          callback.call(null, arg)
+          callback(arg)
         }
         return true
       } else {
@@ -326,10 +318,9 @@ page = {
         return false
       } else {
         let slideData = slideWrap.dataset
-        let slideNowIndex = parseInt(slideData.index)
+        let slideNowIndex = parseInt(slideData.index, 10)
 
         if (page.scrollSlide(slideNowIndex + slideNowIndexChange)) {
-
           slideData.index = slideNowIndex + slideNowIndexChange
           return true
         } else if (options.loopSlide && page.scrollSlide(slideWillBe)) {
@@ -347,6 +338,5 @@ page = {
     }
   }
 }
-
 
 export {bootstrap, page}

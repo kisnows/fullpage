@@ -1,10 +1,10 @@
-function bindEvent(options, page) {
+function bindEvent (options, page) {
   const Events = []
+
   /**
    * 绑定触摸事件
    */
-  function bindTouchMove() {
-
+  function bindTouchMove () {
     let startPos = {}
     let movePos = {}
     let diffX
@@ -15,7 +15,7 @@ function bindEvent(options, page) {
     let threshold = options.threshold      //  阈值,灵敏度，越小越灵敏
     let isVertical                         //  是否为垂直滚动事件
 
-    function touchstartHandle(event) {
+    function touchstartHandle (event) {
       //  onceTouch首先置为true，表明开始了一次触摸
       onceTouch = true
       //  初始化 x,y 值，防止点击一次后出现假 move 事件
@@ -28,8 +28,7 @@ function bindEvent(options, page) {
       startPos.y = touch.pageY
     }
 
-    function touchmoveHandle(event) {
-
+    function touchmoveHandle (event) {
       event.preventDefault()
       touch = event.touches[0]
       movePos.x = touch.pageX
@@ -65,7 +64,7 @@ function bindEvent(options, page) {
       }
     }
 
-    function touchendHandle(event) {
+    function touchendHandle (event) {
       if (event.target.tagName.toLowerCase() !== 'a') {
         event.preventDefault()
       }
@@ -83,7 +82,7 @@ function bindEvent(options, page) {
   /**
    * 绑定鼠标滚动事件
    */
-  function bindMouseWheel() {
+  function bindMouseWheel () {
     // FIXME change the way binding event.
     let type
     let deltaY
@@ -94,7 +93,7 @@ function bindEvent(options, page) {
       type = 'mousewheel'
     }
 
-    function mouseWheelHandle(event) {
+    function mouseWheelHandle (event) {
       if (page.isScrolling) {
         return false
       }
@@ -114,8 +113,8 @@ function bindEvent(options, page) {
   /**
    * 绑定键盘事件
    */
-  function bindKeyboard() {
-    function keyboardHandle(event) {
+  function bindKeyboard () {
+    function keyboardHandle (event) {
       let key = event.keyCode || event.which
       switch (key) {
         case 37:

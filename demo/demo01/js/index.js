@@ -2,6 +2,8 @@
 "use strict";
 window.onload = function () {
   fullpage.init('#sectionContent', {
+    autoScroll: 3000,
+    pageSpeed: 500,
     beforeLeave: function (leaveIndex, nowIndex) {
       if (nowIndex === 2) {
         //console.log('You will leave page 2');

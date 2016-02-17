@@ -7,8 +7,5 @@
   },
   "ecmaFeatures": {
     "modules": true
-  },
-  "rule": {
-    "Space after function name": 0
   }
 }
