@@ -1,0 +1,38 @@
+var path = require('path');
+var webpack = require('webpack')
+var pkg = require('./package.json')
+
+var banner = `${pkg.name} ${pkg.version}
+Author: ${pkg.author}
+Homepage: ${pkg.homepage}
+Release under ${pkg.license}.
+`;
+
+var config = {
+  devtool: 'cheap-module-eval-source-map',
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'build'),
+    filename: 'fullpage.js',
+    publicPath: path.resolve(__dirname, 'static')
+  },
+  plugins: [
+    new webpack.BannerPlugin(banner),
+    new webpack.NoErrorsPlugin()
+  ],
+  module: {
+    loaders: [
+      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
+    ]
+  }
+}
+
+if (process.env.NODE_ENV === 'production') {
+  config.output = {
+    path: path.resolve(__dirname, 'build'),
+    filename: 'fullpage.min.js'
+  };
+  config.plugins.push(new webpack.optimize.UglifyJsPlugin())
+}
+
+module.exports = config;
