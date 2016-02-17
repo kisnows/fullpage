@@ -1,6 +1,6 @@
 node_modules
+.idea
 .tmp
 app.yaml
-.idea
 bower_components
 .vscode

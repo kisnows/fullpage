@@ -1,4 +1,4 @@
-var path = require('path');
+var path = require('path')
 var webpack = require('webpack')
 var pkg = require('./package.json')
 
@@ -6,7 +6,7 @@ var banner = `${pkg.name} ${pkg.version}
 Author: ${pkg.author}
 Homepage: ${pkg.homepage}
 Release under ${pkg.license}.
-`;
+`
 
 var config = {
   devtool: 'cheap-module-eval-source-map',
@@ -22,7 +22,7 @@ var config = {
   ],
   module: {
     loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
     ]
   }
 }
@@ -31,8 +31,8 @@ if (process.env.NODE_ENV === 'production') {
   config.output = {
     path: path.resolve(__dirname, 'build'),
     filename: 'fullpage.min.js'
-  };
+  }
   config.plugins.push(new webpack.optimize.UglifyJsPlugin())
 }
 
-module.exports = config;
+module.exports = config
