@@ -1,4 +1,4 @@
-# FullPage-light v1.3.1
+# FullPage-light v1.4.0
 [![Build Status](https://travis-ci.org/kisnows/fullpage-light.js.svg?branch=master)](https://travis-ci.org/kisnows/fullpage-light.js)
 
 一个轻巧的`fullpage`框架，不依赖其他任何库，压缩后不到4kb。
@@ -44,8 +44,7 @@
     fullpage.init('#sectionContent',{
         threshold: 10,              //触发滚动事件的阈值，越小越灵敏
         pageSpeed: 600,             //滚屏速度，单位为毫秒 ms
-        autoScroll: false,          //是否自动播放
-        autoScrollDuration: 1000,   //自动播放间隔时间
+        autoScroll: 0,          //自动播放时间间隔，如果为 0 则不自动播放，单位 ms
         loopSection: true,          //Section循环滚动
         loopSlide: true,            //Slide循环滑动
         afterLoad: null,            //页面载入事件，具体查看下面的 afterLoad 函数
@@ -113,13 +112,12 @@
 
 
 ## LICENSE
+The MIT License (MIT)
+Copyright (c) <2016> <抹桥 yq12315@gmail.com>
 
-Copyright 2015 kisnows(https://github.com/kisnows)
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-Licensed under the Apache License, Version 2.0 (the "License");you may not use this file except in compliance with the License.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-You may obtain a copy of the License at
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
