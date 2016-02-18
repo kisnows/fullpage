@@ -1,4 +1,4 @@
-# FullPage-light v1.4.0
+# fullPage v1.4.0
 [![Build Status](https://travis-ci.org/kisnows/fullpage-light.js.svg?branch=master)](https://travis-ci.org/kisnows/fullpage-light.js)
 
 一个轻巧的`fullpage`框架，不依赖其他任何库，压缩后不到4kb。
@@ -29,8 +29,8 @@
               <div class="fp-slide">5</div>
             </div>
           </div>
-          <div class="fp-section">2</div>
-          <div class="fp-section">3</div>
+        <div class="fp-section">2</div>
+        <div class="fp-section">3</div>
     </div>
 ```
 
@@ -44,7 +44,7 @@
     fullpage.init('#sectionContent',{
         threshold: 10,              //触发滚动事件的阈值，越小越灵敏
         pageSpeed: 600,             //滚屏速度，单位为毫秒 ms
-        autoScroll: 0,          //自动播放时间间隔，如果为 0 则不自动播放，单位 ms
+        autoScroll: 0,              //自动播放时间间隔，如果为 0 则不自动播放，单位 ms
         loopSection: true,          //Section循环滚动
         loopSlide: true,            //Slide循环滑动
         afterLoad: null,            //页面载入事件，具体查看下面的 afterLoad 函数

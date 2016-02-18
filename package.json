@@ -12,9 +12,9 @@
     "url": "git+https://github.com/kisnows/fullpage.js.git"
   },
   "keywords": [
-    "fullpage"
+    "fullpage,slide"
   ],
-  "author": "抹桥 yq12315@gmail.com",
+  "author": "抹桥 <yq12315@gmail.com>(http://www.kisnows.com)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kisnows/fullpage.js/issues"

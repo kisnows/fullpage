@@ -4,3 +4,4 @@ node_modules
 app.yaml
 bower_components
 .vscode
+*.less
