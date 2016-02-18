@@ -28,6 +28,7 @@ var config = {
 }
 
 if (process.env.NODE_ENV === 'production') {
+  config.devtool = null
   config.output = {
     path: path.resolve(__dirname, 'build'),
     filename: 'fullpage.min.js'

@@ -1,7 +1,7 @@
 {
   "name": "fullpage",
   "version": "1.4.0",
-  "description": "A light JavaScript framework to build fullPage site by a simple way,Write with pure JavaScript.",
+  "description": "A light JavaScript framework to build fullpage site in a simple way, write with pure JavaScript.",
   "scripts": {
     "lint": "eslint src test ./src/**.js",
     "dev": "webpack --watch --devtool eval --progress --colors ",
