@@ -1,5 +1,7 @@
-# fullpage v1.4.0
+# fullpage
 [![Build Status](https://travis-ci.org/kisnows/fullpage-light.js.svg?branch=master)](https://travis-ci.org/kisnows/fullpage-light.js)
+[![GitHub issues](https://img.shields.io/github/issues/kisnows/fullpage.svg)](https://github.com/kisnows/fullpage/issues)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/kisnows/fullpage/master/LICENSE)
 
 一个轻巧的`fullpage`框架，不依赖其他任何库，压缩后不到10kb。
 轻松创建炫酷的单页滑动网站。
@@ -14,11 +16,20 @@
 |------------|-----------|-------|-----|------|-----|
 
 ##使用方法
-* 引入 JavaScript 文件 `fullpage.min.js`
+通过 npm 下载 fullpage 文件
+```bash
+npm install fullpage
+```
+* 引入位于 build 目录下的 `fullpage.min.js`（或 fullpage.js 做为开发环境）
 * 引入 css 文件 `fullpage.css`
 * 按照下面格式书写`html`代码（其中 id 为 `sectionContent` 的为包裹层，你可以自定义修改其id）
 
 ```html
+    <head>
+      <link rel='stylesheet' href='fullpage.css'>
+      <script src='fullpage.min.js'></script>
+    </head>
+    <body>
     <div id="sectionContent" class="fp-section-content">
         <div class="fp-section">
             <div class="fp-slide-wrap">
@@ -32,6 +43,7 @@
         <div class="fp-section">2</div>
         <div class="fp-section">3</div>
     </div>
+    </body>
 ```
 
 ##初始化
