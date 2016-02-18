@@ -120,11 +120,12 @@ function initEle () {
   function customize () {
     let prop = {
       autoScroll: function () {
+        /* eslint-disable */
         let timer = null
+        /* eslint-enable */
         if (options.autoScroll) {
           timer = setInterval(function () {
             page.move.next()
-            timer = null
           }, options.autoScroll)
         }
       }
