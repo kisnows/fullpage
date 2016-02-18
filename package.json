@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kisnows/fullpage.js.git"
+    "url": "git+https://github.com/kisnows/fullpage.git"
   },
   "keywords": [
     "fullpage,slide"
@@ -17,9 +17,9 @@
   "author": "抹桥 <yq12315@gmail.com>(http://www.kisnows.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kisnows/fullpage.js/issues"
+    "url": "https://github.com/kisnows/fullpage/issues"
   },
-  "homepage": "https://github.com/kisnows/fullpage.js#readme",
+  "homepage": "https://github.com/kisnows/fullpage#readme",
   "devDependencies": {
     "babel-core": "^6.4.5",
     "babel-loader": "^6.2.1",
