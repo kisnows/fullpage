@@ -1,6 +1,6 @@
 {
   "name": "fullpage",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "A light JavaScript framework to build fullpage site in a simple way, write with pure JavaScript.",
   "scripts": {
     "lint": "eslint src test ./src/**.js",
