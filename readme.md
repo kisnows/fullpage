@@ -1,5 +1,5 @@
 # fullpage
-[![Build Status](https://travis-ci.org/kisnows/fullpage-light.js.svg?branch=master)](https://travis-ci.org/kisnows/fullpage-light.js)
+[![Build Status](https://travis-ci.org/kisnows/fullpage.svg?branch=master)](https://travis-ci.org/kisnows/fullpage)
 [![GitHub issues](https://img.shields.io/github/issues/kisnows/fullpage.svg)](https://github.com/kisnows/fullpage/issues)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/kisnows/fullpage/master/LICENSE)
 
