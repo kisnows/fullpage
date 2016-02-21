@@ -6,7 +6,7 @@
 一个轻巧的`fullpage`框架，不依赖其他任何库，压缩后不到10kb。
 轻松创建炫酷的单页滑动网站。
 
-[一个简单的DEMO](http://kisnows.com/fullpage-light.js/)
+[一个简单的DEMO](http://www.kisnows.com/fullpage/)
 ##功能
 * 触摸/键盘/鼠标滚轮控制
 * 垂直/水平翻页
