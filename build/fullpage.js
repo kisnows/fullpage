@@ -1,8 +1,10 @@
 /*!
- * fullpage 1.4.0
+ * 
+ * fullpage 1.4.2
  * Author: 抹桥 <yq12315@gmail.com>(http://www.kisnows.com)
  * Homepage: https://github.com/kisnows/fullpage#readme
  * Release under MIT.
+ * update 2016-2-24
  * 
  */
 /******/ (function(modules) { // webpackBootstrap

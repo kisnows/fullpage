@@ -1,11 +1,16 @@
 var path = require('path')
 var webpack = require('webpack')
 var pkg = require('./package.json')
-
-var banner = `${pkg.name} ${pkg.version}
+var date = new Date();
+var year = date.getFullYear();
+var month = date.getMonth() + 1;
+var day = date.getDate();
+var banner = `
+${pkg.name} ${pkg.version}
 Author: ${pkg.author}
 Homepage: ${pkg.homepage}
 Release under ${pkg.license}.
+update ${year}-${month}-${day}
 `
 
 var config = {
