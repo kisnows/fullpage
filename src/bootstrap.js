@@ -1,18 +1,16 @@
 import utils from './utils'
 import {defaults, stepHeight, stepWidth} from './constant'
 import bindEvent from './events'
-
 let sectionContent
 let sections
 let options
 let page
-
 function bootstrap (ele, Customize) {
   sectionContent = utils.$$(ele)[0]
   sections = utils.$$('.fp-section')
   options = Object.assign({}, defaults, Customize)
   initEle()
-  bindEvent(options, page)
+  bindEvent(options, page, sectionContent)
 }
 
 function initEle () {
@@ -138,7 +136,6 @@ function initEle () {
     }
   }
 }
-
 page = {
   nowPage: 1,
   isScrolling: false,
@@ -339,5 +336,4 @@ page = {
     }
   }
 }
-
 export {bootstrap, page}

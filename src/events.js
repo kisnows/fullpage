@@ -1,4 +1,4 @@
-function bindEvent (options, page) {
+function bindEvent (options, page, el) {
   const Events = []
 
   /**
@@ -72,11 +72,11 @@ function bindEvent (options, page) {
       onceTouch = true
     }
 
-    document.addEventListener('touchstart', touchstartHandle, false)
+    el.addEventListener('touchstart', touchstartHandle, false)
 
-    document.addEventListener('touchmove', touchmoveHandle, false)
+    el.addEventListener('touchmove', touchmoveHandle, false)
 
-    document.addEventListener('touchend', touchendHandle, false)
+    el.addEventListener('touchend', touchendHandle, false)
   }
 
   /**
@@ -107,7 +107,7 @@ function bindEvent (options, page) {
       }
     }
 
-    document.addEventListener(type, mouseWheelHandle, false)
+    el.addEventListener(type, mouseWheelHandle, false)
   }
 
   /**
@@ -132,7 +132,7 @@ function bindEvent (options, page) {
       }
     }
 
-    document.addEventListener('keydown', keyboardHandle, false)
+    el.addEventListener('keydown', keyboardHandle, false)
   }
 
   Events.push(bindTouchMove, bindKeyboard, bindMouseWheel)
