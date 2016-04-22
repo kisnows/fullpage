@@ -1,17 +1,30 @@
 import utils from './utils'
-import {defaults, stepHeight, stepWidth} from './constant'
 import bindEvent from './events'
 import page from './page'
 
 let sectionContent
 let sections
 let options
-
+let stepHeight
+let stepWidth
+const defaults = {
+  threshold: 50,              // 触发滚动事件的阈值，越小越灵敏
+  pageSpeed: 500,             // 滚屏速度，单位为毫秒 ms
+  autoScroll: 0,              // 自动播放事件间隔，如果为 0 则不自动播放
+  loopSection: true,          // Section循环滚动
+  loopSlide: true,            // Slide循环滑动
+  afterLoad: null,            // 页面载入事件
+  beforeLeave: null,          // 页面离开事件
+  afterSlideLoad: null,       // slide 载入事件
+  beforeSlideLeave: null      // slide 离开事件
+}
 
 function init (ele, Customize) {
   sectionContent = utils.$$(ele)[0]
   sections = utils.$$('.fp-section')
   options = Object.assign({}, defaults, Customize)
+  stepHeight = utils.$$(ele)[0].offsetHeight
+  stepWidth = utils.$$(ele)[0].offsetWidth
   initEle()
   bindEvent(options, page, sectionContent)
 }
@@ -45,7 +58,7 @@ function initEle () {
       sections[i].style.height = stepHeight + 'px'
     }
 
-    sections[page.nowPage].classList.add('active')
+    sections[page.nowPage - 1].classList.add('active')
   }
 
   /**
@@ -111,7 +124,7 @@ function initEle () {
     // 获取控制点初试状态
     function initController () {
       let controllers = utils.$$('.fp-controller-dotted')
-      controllers[page.nowPage].classList.add('active')
+      controllers[page.nowPage - 1].classList.add('active')
     }
   }
 
@@ -140,5 +153,11 @@ function initEle () {
   }
 }
 
-
-export {init, sectionContent, sections, options}
+export {
+  init,
+  stepHeight,
+  stepWidth,
+  sectionContent,
+  sections,
+  options
+}

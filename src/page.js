@@ -1,6 +1,5 @@
 import utils from './utils'
-import {sectionContent, sections, options} from './init'
-import {stepHeight, stepWidth} from './constant'
+import {stepHeight, stepWidth, sectionContent, sections, options} from './init'
 
 let page = {
   nowPage: 1,
