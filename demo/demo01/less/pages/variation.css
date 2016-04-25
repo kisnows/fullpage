@@ -1,0 +1,11 @@
+.variation {
+  transition: all 0.6s ease-in-out;
+}
+.variation.active {
+  transform: rotate(360deg);
+}
+.variation .des .ht-user {
+  list-style: circle;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
