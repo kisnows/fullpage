@@ -25,25 +25,25 @@ npm install fullpage
 * 按照下面格式书写`html`代码（其中 id 为 `sectionContent` 的为包裹层，你可以自定义修改其id）
 
 ```html
-    <head>
-      <link rel='stylesheet' href='fullpage.css'>
-      <script src='fullpage.min.js'></script>
-    </head>
-    <body>
-    <div id="sectionContent" class="fp-section-content">
-        <div class="fp-section">
-            <div class="fp-slide-wrap">
-              <div class="fp-slide">1</div>
-              <div class="fp-slide">2</div>
-              <div class="fp-slide">3</div>
-              <div class="fp-slide">4</div>
-              <div class="fp-slide">5</div>
-            </div>
-          </div>
-        <div class="fp-section">2</div>
-        <div class="fp-section">3</div>
-    </div>
-    </body>
+<head>
+  <link rel='stylesheet' href='fullpage.css'>
+  <script src='fullpage.min.js'></script>
+</head>
+<body>
+<div class="fp-wrap">
+  <div id="sectionContent" class="fp-section-content">
+    <div class="fp-section">
+      <div class="fp-slide-wrap">
+        <div class="fp-slide">1</div>
+        <div class="fp-slide">2</div>
+        <div class="fp-slide">3</div>
+      </div>
+      </div>
+    <div class="fp-section">2</div>
+    <div class="fp-section">3</div>
+  </div>
+</div>
+</body>
 ```
 
 ##初始化

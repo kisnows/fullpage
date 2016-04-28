@@ -131,7 +131,9 @@ function bindEvent (options, page, el) {
           break
       }
     }
-
+    // in order to bind key event to a normal element,we should add a tabindex attribute on it.
+    el.setAttribute('tabindex', '1')
+    el.focus()
     el.addEventListener('keydown', keyboardHandle, false)
   }
 
