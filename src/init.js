@@ -11,8 +11,10 @@ const defaults = {
   threshold: 50,              // 触发滚动事件的阈值，越小越灵敏
   pageSpeed: 500,             // 滚屏速度，单位为毫秒 ms
   autoScroll: 0,              // 自动播放事件间隔，如果为 0 则不自动播放
-  loopSection: true,          // Section循环滚动
-  loopSlide: true,            // Slide循环滑动
+  loopSection: true,          // Section 循环滚动
+  hasSectionPagination: true, // Section 编码页
+  loopSlide: true,            // Slide 循环滑动
+  hasSlidePagination: true,   // Slide 编码页
   afterLoad: null,            // 页面载入事件
   beforeLeave: null,          // 页面离开事件
   afterSlideLoad: null,       // slide 载入事件
@@ -31,7 +33,7 @@ function init (ele, Customize) {
 
 function initEle () {
   function init () {
-    initContent()
+    initSection()
     initSlide()
     pageController()
     customize()
@@ -41,7 +43,7 @@ function initEle () {
   /**
    * 初始化 Section
    */
-  function initContent () {
+  function initSection () {
     utils.setCss(sectionContent, {
       'transform': 'translate3d(0,0,0)',
       '-webkit-transform': 'translate3d(0,0,0)',
@@ -58,7 +60,7 @@ function initEle () {
       sections[i].style.height = stepHeight + 'px'
     }
 
-    sections[page.nowPage - 1].classList.add('active')
+    sections[page.nowPage].classList.add('active')
   }
 
   /**
@@ -79,7 +81,7 @@ function initEle () {
       }
       slideWrap[i].style.width = slides.length * stepWidth + 'px'
       slideWrap[i].dataset.x = '0'
-      slideWrap[i].dataset.index = '1'
+      slideWrap[i].dataset.index = '0'
       slideWrap[i].addEventListener(utils.transitionEvent, slideWrapInitHandle, false)
     }
   }
@@ -124,7 +126,7 @@ function initEle () {
     // 获取控制点初试状态
     function initController () {
       let controllers = utils.$$('.fp-controller-dotted')
-      controllers[page.nowPage - 1].classList.add('active')
+      controllers[page.nowPage].classList.add('active')
     }
   }
 

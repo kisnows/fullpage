@@ -2,7 +2,7 @@ import utils from './utils'
 import {stepHeight, stepWidth, sectionContent, sections, options} from './init'
 
 let page = {
-  nowPage: 1,
+  nowPage: 0,
   isScrolling: false,
   translate3dY: 0,
   /**
@@ -12,13 +12,13 @@ let page = {
    */
   scrollPage: function (pageIndex) {
     let pageDiff = pageIndex - page.nowPage
-    let leaveSection = sections[page.nowPage - 1]
-    let nowSection = sections[pageIndex - 1]
+    let leaveSection = sections[page.nowPage]
+    let nowSection = sections[pageIndex]
     let controllers = utils.$$('.fp-controller-dotted')
-    if (pageIndex >= 1 && pageIndex <= sections.length && !page.isScrolling && pageDiff) {
+    if (pageIndex >= 0 && pageIndex <= sections.length - 1 && !page.isScrolling && pageDiff) {
       if (typeof options.beforeLeave === 'function') {
         /**
-         * leaveSection 函数内部 this 指向，将要离开的 section
+         * leaveSection 函数内部 this 指向，为将要离开的 section
          * page.nowPage 将要离开页面的 index
          * pageIndex    将要载入页面的 index
          */
@@ -26,7 +26,7 @@ let page = {
       }
 
       leaveSection.classList.remove('active')
-      utils.addClassToOneEle(controllers, pageIndex - 1)
+      utils.addClassToOneEle(controllers, pageIndex)
       page.translate3dY -= pageDiff * stepHeight
       utils.translate(sectionContent, page.translate3dY, 'y')
       page.isScrolling = true
@@ -37,7 +37,7 @@ let page = {
         options.pageSpeed = options.pageSpeed ? 500 : options.pageSpeed
         setTimeout(function () {
           /**
-           * nowSection 函数内部 this 指向，载入后的 section
+           * nowSection 函数内部 this 指向,为载入后的 section
            * pageIndex 载入后的 index
            */
           options.afterLoad.call(nowSection, pageIndex)
@@ -55,7 +55,7 @@ let page = {
    */
   scrollSlide: function (slideIndex) {
     // 获取slide包裹层
-    let slideWrap = utils.$$('.fp-slide-wrap', sections[page.nowPage - 1])[0]
+    let slideWrap = utils.$$('.fp-slide-wrap', sections[page.nowPage])[0]
 
     if (!slideWrap) {
       console.log('This page has no slide')
@@ -63,7 +63,7 @@ let page = {
     }
 
     // 当前页面下所有的slide
-    let slide = sections[page.nowPage - 1].querySelectorAll('.fp-slide')
+    let slide = sections[page.nowPage].querySelectorAll('.fp-slide')
 
     // 当前页面上存储的数据
     let slideData = slideWrap.dataset
@@ -76,7 +76,7 @@ let page = {
 
     let slideDiff = slideIndex - slideNowIndex
 
-    if (slideIndex >= 1 && slideIndex <= slide.length && !page.isScrolling) {
+    if (slideIndex >= 0 && slideIndex <= slide.length - 1 && !page.isScrolling) {
       if (typeof options.beforeSlideLeave === 'function') {
         /**
          * leaveSlide           函数内部 this 指向，将要离开的 slide
@@ -84,25 +84,26 @@ let page = {
          * slideNowIndex        将要离开 slide 的 index
          * slideIndex           将要载入 slide 的 index
          */
-        options.beforeSlideLeave.call(slide[slideNowIndex - 1], page.nowPage, slideNowIndex, slideIndex)
+        options.beforeSlideLeave.call(slide[slideNowIndex], page.nowPage, slideNowIndex, slideIndex)
       }
 
-      slide[slideNowIndex - 1].classList.remove('active')
+      slide[slideNowIndex].classList.remove('active')
       slideX -= slideDiff * stepWidth
       utils.translate(slideWrap, slideX, 'x')
       page.isScrolling = true
       slideData.x = slideX
       slideData.index = slideIndex
-      slide[slideIndex - 1].classList.add('active')
+      slide[slideIndex].classList.add('active')
 
       if (typeof options.afterSlideLoad === 'function') {
         options.pageSpeed = options.pageSpeed ? 500 : options.pageSpeed
         setTimeout(function () {
           /**
-           * nowSection 函数内部 this 指向，载入后的 section
-           * pageIndex 载入后的 index
+           * nowSection           函数内部 this 指向，载入后的 section
+           * page.nowPage         将要载入 section 的 index
+           * pageIndex            载入后的 Slide 的 index
            */
-          options.afterSlideLoad.call(slide[slideIndex - 1], page.nowPage, slideIndex)
+          options.afterSlideLoad.call(slide[slideIndex], page.nowPage, slideIndex)
         }, options.pageSpeed)
       }
       return true
@@ -117,8 +118,8 @@ let page = {
    */
   moveTo: function (pageIndex, slideIndex) {
     // DONE move to a specify section or slide
-    if (page.scrollPage(pageIndex)) {
-      if (slideIndex) {
+    if (page.nowPage === pageIndex || page.scrollPage(pageIndex)) {
+      if (typeof slideIndex !== 'undefined') {
         // DONE move to a specify slide
         return !!page.scrollSlide(slideIndex)
       }
@@ -137,7 +138,7 @@ let page = {
         }
         return true
       } else if (options.loopSection) {
-        page.moveTo(1)
+        page.moveTo(0)
 
         return true
       } else {
@@ -164,18 +165,18 @@ let page = {
      * @returns {boolean}
      */
     move: function (direction) {
-      let slideWrap = utils.$$('.fp-slide-wrap', sections[page.nowPage - 1])[0]
-      let slide = sections[page.nowPage - 1].querySelectorAll('.fp-slide')
+      let slideWrap = utils.$$('.fp-slide-wrap', sections[page.nowPage])[0]
+      let slide = sections[page.nowPage].querySelectorAll('.fp-slide')
       // slideNowIndexChange slideNowIndex 将要的变化
       let slideNowIndexChange
       // slideWillBe 将要滚到slide的index
       let slideWillBe
       if (direction === 'next') {
         slideNowIndexChange = 1
-        slideWillBe = 1
+        slideWillBe = 0
       } else if (direction === 'pre') {
         slideNowIndexChange = -1
-        slideWillBe = slide.length
+        slideWillBe = slide.length - 1
       }
       if (!slideWrap) {
         return false
@@ -194,10 +195,10 @@ let page = {
       }
     },
     next: function () {
-      this.move('next')
+      page.slide.move('next')
     },
     pre: function () {
-      this.move('pre')
+      page.slide.move('pre')
     }
   }
 }
