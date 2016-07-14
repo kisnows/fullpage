@@ -1,4 +1,4 @@
-function bindEvent (options, page) {
+function bindEvent (options, page, el) {
   const Events = []
 
   /**
@@ -72,11 +72,11 @@ function bindEvent (options, page) {
       onceTouch = true
     }
 
-    document.addEventListener('touchstart', touchstartHandle, false)
+    el.addEventListener('touchstart', touchstartHandle, false)
 
-    document.addEventListener('touchmove', touchmoveHandle, false)
+    el.addEventListener('touchmove', touchmoveHandle, false)
 
-    document.addEventListener('touchend', touchendHandle, false)
+    el.addEventListener('touchend', touchendHandle, false)
   }
 
   /**
@@ -107,7 +107,7 @@ function bindEvent (options, page) {
       }
     }
 
-    document.addEventListener(type, mouseWheelHandle, false)
+    el.addEventListener(type, mouseWheelHandle, false)
   }
 
   /**
@@ -131,8 +131,10 @@ function bindEvent (options, page) {
           break
       }
     }
-
-    document.addEventListener('keydown', keyboardHandle, false)
+    // in order to bind key event to a normal element,we should add a tabindex attribute on it.
+    el.setAttribute('tabindex', '1')
+    el.focus()
+    el.addEventListener('keydown', keyboardHandle, false)
   }
 
   Events.push(bindTouchMove, bindKeyboard, bindMouseWheel)

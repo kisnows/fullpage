@@ -1,6 +1,8 @@
-import {bootstrap, page} from './bootstrap'
+import {init} from './init'
+import page from './page'
+
 let fullpage = {
-  init: bootstrap,
+  init: init,
   scrollPage: page.scrollPage,
   scrollSlide: page.scrollSlide,
   moveTo: page.moveTo,
