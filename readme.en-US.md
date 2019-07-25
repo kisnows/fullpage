@@ -124,9 +124,6 @@ npm install fullpage
 ### slideToPre()
 水平滚动到上一个页面（页面向右滚动）
 
-## 捐赠
-如果你觉得本项目对你有帮助，可以考虑请我喝咖啡。
-![wechat](./doc/wechatpay.png)
 
 ## LICENSE
 The MIT License (MIT)
