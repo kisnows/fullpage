@@ -1,90 +1,132 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-cn">
-<head>
-  <meta charset="UTF-8">
-  <title>Fullpage</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <link rel="stylesheet" href="../../src/fullpage.css">
-  <link rel="stylesheet" href="./css/app.css"/>
-</head>
-<body>
-<div class="fp-wrap">
-  <div id="sectionContent" class="fp-section-content">
-    <div class="fp-section distribution">
-      <div class="fp-slide-wrap">
-        <div class="fp-slide">Slide1</div>
-        <div class="fp-slide">Slide2</div>
-        <div class="fp-slide">Slide3</div>
-      </div>
-      <div class="box">
-        <div class="triangle"></div>
-        <ul class="month-top circle-line">
-          <li class="item purple"><span class="double-circle circle-purple"></span><span
-            class="white ">独立</span><span class="number">不依赖任何库</span></li>
-          <li class="item blue"><span class="double-circle circle-blue"></span><span class="white ">轻巧</span><span
-            class="number">压缩后不足10K</span></li>
-          <li class="item yellow"><span class="double-circle circle-yellow"></span><span
-            class="white ">简单</span><span class="number">非常易于使用</span></li>
-        </ul>
-        <div class="split-line">简介</div>
-        <div class="month-bottom">
-          <h2><a href="https://github.com/kisnows/fullpage-light.js" target="_blank" style="color:#fff">FullPage-light
-            v1.3.0</a></h2>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fullpage</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <link rel="stylesheet" href="../../src/fullpage.css" />
+    <link rel="stylesheet" href="./css/app.css" />
+  </head>
+  <body>
+    <div class="fp-wrap">
+      <div id="sectionContent" class="fp-section-content">
+        <div class="fp-section distribution">
+          <div class="fp-slide-wrap">
+            <div class="fp-slide">Slide1</div>
+            <div class="fp-slide">Slide2</div>
+            <div class="fp-slide">Slide3</div>
+          </div>
+          <div class="box">
+            <div class="triangle"></div>
+            <ul class="month-top circle-line">
+              <li class="item purple">
+                <span class="double-circle circle-purple"></span
+                ><span class="white ">独立</span
+                ><span class="number">不依赖任何库</span>
+              </li>
+              <li class="item blue">
+                <span class="double-circle circle-blue"></span
+                ><span class="white ">轻巧</span
+                ><span class="number">gzip后不足1K</span>
+              </li>
+              <li class="item yellow">
+                <span class="double-circle circle-yellow"></span
+                ><span class="white ">简单</span
+                ><span class="number">非常易于使用</span>
+              </li>
+            </ul>
+            <div class="split-line">简介</div>
+            <div class="month-bottom">
+              <h2>
+                <a
+                  href="https://github.com/kisnows/fullpage-light.js"
+                  target="_blank"
+                  style="color:#fff"
+                  >FullPage-light v1.3.0</a
+                >
+              </h2>
 
-          <p>一个轻巧的fullpage框架，不依赖其他任何库</p>
+              <p>一个轻巧的fullpage框架，不依赖其他任何库</p>
 
-          <p>主要针对移动端设备（同时也支持桌面端），压缩后不到4kb。 </p>
+              <p>主要针对移动端设备（同时也支持桌面端），压缩后不到4kb。</p>
 
-          <p>轻松创建炫酷的单页滑动网站。</p>
-          <hr/>
-          <p>尝试左右滑动，或者使用方向键控制</p>
+              <p>轻松创建炫酷的单页滑动网站。</p>
+              <hr />
+              <p>尝试左右滑动，或者使用方向键控制</p>
 
-          <p>当前Slide位于：<span id="nowSlide" style="color:orange">Slide1</span></p>
+              <p>
+                当前Slide位于：<span id="nowSlide" style="color:orange"
+                  >Slide1</span
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="fp-section variation">
+          <div class="split-line">使用方法</div>
+          <div class="des">
+            <ul class="ht-user">
+              <li>引入 JavaScript 文件 fullpage.min.js</li>
+              <li>
+                引入 css 文件
+                fullpage.css（如果你使用less，则可以在less主文件中引入fullpage.less）
+              </li>
+              <li>
+                按照下面格式书写html代码（其中 id 为 sectionContent
+                的为包裹层，你可以自定义修改其id）
+              </li>
+            </ul>
+            <img src="images/code.png" alt="code" />
+
+            <h2>
+              <a
+                href="https://github.com/kisnows/fullpage-light.js"
+                target="_blank"
+                >详细使用方法请点击</a
+              >
+            </h2>
+          </div>
+        </div>
+        <div class="fp-section keywords">
+          <div class="wrap">
+            <div class="split-line">给我意见</div>
+            <a class="balloon balloon-pink"
+              >嘻
+              <span class="balloon-line"></span>
+            </a>
+            <a class="balloon balloon-purple"
+              >嘻
+              <span class="balloon-line"></span>
+            </a>
+            <a class="balloon balloon-green"
+              >哈
+              <span class="balloon-line"></span>
+            </a>
+            <a class="balloon balloon-orange"
+              >哈
+              <span class="balloon-line"></span>
+            </a>
+
+            <div class="btn-wrap">
+              <a
+                class="btn"
+                href="https://github.com/kisnows/fullpage-light.js"
+                target="_blank"
+                >源码地址
+                <span style="font-size:12px;">喜欢请给个star哦</span></a
+              >
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="fp-section variation">
-      <div class="split-line">使用方法</div>
-      <div class="des">
-        <ul class="ht-user">
-          <li>引入 JavaScript 文件 fullpage.min.js</li>
-          <li>引入 css 文件 fullpage.css（如果你使用less，则可以在less主文件中引入fullpage.less）</li>
-          <li>按照下面格式书写html代码（其中 id 为 sectionContent 的为包裹层，你可以自定义修改其id）</li>
-        </ul>
-        <img src="images/code.png" alt="code"/>
-
-        <h2><a href="https://github.com/kisnows/fullpage-light.js" target="_blank">详细使用方法请点击</a></h2>
-      </div>
-    </div>
-    <div class="fp-section keywords">
-      <div class="wrap">
-        <div class="split-line">给我意见</div>
-        <a class="balloon balloon-pink">嘻
-          <span class="balloon-line"></span>
-        </a>
-        <a class="balloon balloon-purple">嘻
-          <span class="balloon-line"></span>
-        </a>
-        <a class="balloon balloon-green">哈
-          <span class="balloon-line"></span>
-        </a>
-        <a class="balloon balloon-orange">哈
-          <span class="balloon-line"></span>
-        </a>
-
-        <div class="btn-wrap">
-          <a class="btn" href="https://github.com/kisnows/fullpage-light.js" target="_blank">源码地址 <span
-            style="font-size:12px;">喜欢请给个star哦</span></a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<script src="../../build/fullpage.js"></script>
-<script src="./js/index.js"></script>
-</body>
+    <script src="../../build/fullpage.js"></script>
+    <script src="./js/index.js"></script>
+  </body>
 </html>
