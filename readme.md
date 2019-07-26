@@ -126,7 +126,8 @@ npm install fullpage
 
 ## 捐赠
 如果你觉得本项目对你有帮助，可以考虑请我喝咖啡。
-![wechat](./doc/wechatpay.png)
+
+<img src="./doc/wechatpay.png" width="250" />
 
 ## LICENSE
 The MIT License (MIT)
