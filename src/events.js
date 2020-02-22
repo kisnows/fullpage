@@ -72,11 +72,16 @@ function bindEvent (options, page, el) {
       onceTouch = true
     }
 
-    el.addEventListener('touchstart', touchstartHandle, false)
+    let = bindOptions = {
+      capture: false,
+      passive: false
+    }
 
-    el.addEventListener('touchmove', touchmoveHandle, false)
+    document.addEventListener('touchstart', touchstartHandle, bindOptions)
 
-    el.addEventListener('touchend', touchendHandle, false)
+    document.addEventListener('touchmove', touchmoveHandle, bindOptions)
+
+    document.addEventListener('touchend', touchendHandle, bindOptions)
   }
 
   /**
