@@ -72,7 +72,7 @@ function bindEvent (options, page, el) {
       onceTouch = true
     }
 
-    let = bindOptions = {
+    let bindOptions = {
       capture: false,
       passive: false
     }
