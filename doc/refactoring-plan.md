@@ -45,7 +45,7 @@ src/
 class Fullpage {
   constructor(el, options) {
     this.sectionContent = document.querySelector(el);
-    this.sections = this.sectionContent.querySelectorAll('.fp-section');
+    this.sections = this.sectionContent.querySelectorAll(".fp-section");
     this.options = Object.assign({}, Fullpage.defaults, options);
     this.stepHeight = this.sectionContent.offsetHeight;
     this.stepWidth = this.sectionContent.offsetWidth;
@@ -73,28 +73,52 @@ class Fullpage {
   };
 
   // --- Public methods (same signatures as current API) ---
-  scrollPage(pageIndex) { /* move current logic here, use this.* */ }
-  scrollSlide(slideIndex) { /* ... */ }
-  moveTo(pageIndex, slideIndex) { /* ... */ }
-  moveToNext(callback, ...args) { /* ... */ }
-  moveToPre(callback, ...args) { /* ... */ }
-  slideToNext() { /* ... */ }
-  slideToPre() { /* ... */ }
+  scrollPage(pageIndex) {
+    /* move current logic here, use this.* */
+  }
+  scrollSlide(slideIndex) {
+    /* ... */
+  }
+  moveTo(pageIndex, slideIndex) {
+    /* ... */
+  }
+  moveToNext(callback, ...args) {
+    /* ... */
+  }
+  moveToPre(callback, ...args) {
+    /* ... */
+  }
+  slideToNext() {
+    /* ... */
+  }
+  slideToPre() {
+    /* ... */
+  }
 
   // --- Lifecycle ---
   destroy() {
-    this._cleanups.forEach(fn => fn());
+    this._cleanups.forEach((fn) => fn());
     this._cleanups = [];
     this._controllerEl?.remove();
     clearInterval(this._autoScrollTimer);
   }
 
   // --- Private methods ---
-  _initElements() { /* from current initEle() */ }
-  _bindEvents() { /* from current bindEvent(), push cleanup fns */ }
-  _initSection() { /* ... */ }
-  _initSlide() { /* ... */ }
-  _createPagination() { /* ... */ }
+  _initElements() {
+    /* from current initEle() */
+  }
+  _bindEvents() {
+    /* from current bindEvent(), push cleanup fns */
+  }
+  _initSection() {
+    /* ... */
+  }
+  _initSlide() {
+    /* ... */
+  }
+  _createPagination() {
+    /* ... */
+  }
 }
 ```
 
@@ -102,7 +126,7 @@ class Fullpage {
 
 ```javascript
 // src/index.js — external API is 100% backward compatible
-import Fullpage from './Fullpage';
+import Fullpage from "./Fullpage";
 
 let instance = null;
 
@@ -147,28 +171,38 @@ Apply the same pattern to `touchmove`, `touchend`, `mousewheel`/`DOMMouseScroll`
 
 ## Phase 3: Build Toolchain Upgrade (Priority: P1)
 
-| Current | Target |
-|---------|--------|
-| Webpack 4 | Rollup (or Vite library mode) |
+| Current             | Target                              |
+| ------------------- | ----------------------------------- |
+| Webpack 4           | Rollup (or Vite library mode)       |
 | babel-preset-es2015 | @babel/preset-env with browserslist |
-| Manual UglifyJS | Rollup terser plugin |
-| IIFE only output | ESM + UMD + IIFE |
+| Manual UglifyJS     | Rollup terser plugin                |
+| IIFE only output    | ESM + UMD + IIFE                    |
 
 ### Rollup Config
 
 ```javascript
-import { terser } from 'rollup-plugin-terser';
-import { babel } from '@rollup/plugin-babel';
+import { terser } from "rollup-plugin-terser";
+import { babel } from "@rollup/plugin-babel";
 
 export default {
-  input: 'src/index.js',
+  input: "src/index.js",
   output: [
-    { file: 'dist/fullpage.esm.js', format: 'es' },
-    { file: 'dist/fullpage.umd.js', format: 'umd', name: 'fullpage', exports: 'default' },
-    { file: 'dist/fullpage.min.js', format: 'iife', name: 'fullpage', plugins: [terser()] },
+    { file: "dist/fullpage.esm.js", format: "es" },
+    {
+      file: "dist/fullpage.umd.js",
+      format: "umd",
+      name: "fullpage",
+      exports: "default",
+    },
+    {
+      file: "dist/fullpage.min.js",
+      format: "iife",
+      name: "fullpage",
+      plugins: [terser()],
+    },
   ],
   plugins: [
-    babel({ babelHelpers: 'bundled', presets: [['@babel/preset-env']] }),
+    babel({ babelHelpers: "bundled", presets: [["@babel/preset-env"]] }),
   ],
 };
 ```
@@ -201,9 +235,22 @@ interface FullpageOptions {
   hasSectionPagination?: boolean;
   hasSlidePagination?: boolean;
   afterLoad?: (this: HTMLElement, afterIndex: number) => void;
-  beforeLeave?: (this: HTMLElement, leaveIndex: number, nowIndex: number) => void;
-  afterSlideLoad?: (this: HTMLElement, pageIndex: number, slideIndex: number) => void;
-  beforeSlideLeave?: (this: HTMLElement, pageIndex: number, slideNow: number, slideAfter: number) => void;
+  beforeLeave?: (
+    this: HTMLElement,
+    leaveIndex: number,
+    nowIndex: number,
+  ) => void;
+  afterSlideLoad?: (
+    this: HTMLElement,
+    pageIndex: number,
+    slideIndex: number,
+  ) => void;
+  beforeSlideLeave?: (
+    this: HTMLElement,
+    pageIndex: number,
+    slideNow: number,
+    slideAfter: number,
+  ) => void;
 }
 
 interface Fullpage {

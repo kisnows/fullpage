@@ -35,23 +35,23 @@ npm install fullpage
 
 ```html
 <head>
-  <link rel='stylesheet' href='fullpage.css'>
-  <script src='fullpage.min.js'></script>
+  <link rel="stylesheet" href="fullpage.css" />
+  <script src="fullpage.min.js"></script>
 </head>
 <body>
-<div class="fp-wrap">
-  <div id="sectionContent" class="fp-section-content">
-    <div class="fp-section">
-      <div class="fp-slide-wrap">
-        <div class="fp-slide">1</div>
-        <div class="fp-slide">2</div>
-        <div class="fp-slide">3</div>
+  <div class="fp-wrap">
+    <div id="sectionContent" class="fp-section-content">
+      <div class="fp-section">
+        <div class="fp-slide-wrap">
+          <div class="fp-slide">1</div>
+          <div class="fp-slide">2</div>
+          <div class="fp-slide">3</div>
+        </div>
       </div>
+      <div class="fp-section">2</div>
+      <div class="fp-section">3</div>
     </div>
-    <div class="fp-section">2</div>
-    <div class="fp-section">3</div>
   </div>
-</div>
 </body>
 ```
 
@@ -60,22 +60,22 @@ npm install fullpage
 Basic usage — just call after the page has loaded:
 
 ```javascript
-fullpage.init('#sectionContent');
+fullpage.init("#sectionContent");
 ```
 
 For custom configuration:
 
 ```javascript
-fullpage.init('#sectionContent', {
-    threshold: 10,              // Scroll trigger threshold, lower = more sensitive
-    pageSpeed: 600,             // Scroll speed in milliseconds
-    autoScroll: 0,              // Auto-scroll interval in ms (0 = disabled)
-    loopSection: true,          // Enable section looping
-    loopSlide: true,            // Enable slide looping
-    afterLoad: null,            // Callback after a page loads
-    beforeLeave: null,          // Callback before leaving a page
-    afterSlideLoad: null,       // Callback after a slide loads
-    beforeSlideLeave: null      // Callback before leaving a slide
+fullpage.init("#sectionContent", {
+  threshold: 10, // Scroll trigger threshold, lower = more sensitive
+  pageSpeed: 600, // Scroll speed in milliseconds
+  autoScroll: 0, // Auto-scroll interval in ms (0 = disabled)
+  loopSection: true, // Enable section looping
+  loopSlide: true, // Enable slide looping
+  afterLoad: null, // Callback after a page loads
+  beforeLeave: null, // Callback before leaving a page
+  afterSlideLoad: null, // Callback after a slide loads
+  beforeSlideLeave: null, // Callback before leaving a slide
 });
 ```
 
@@ -96,25 +96,25 @@ Triggered when leaving the current slide. `pageIndex` is the current section ind
 Triggered after the next slide has loaded. `pageIndex` is the current section index, `slideIndex` is the loaded slide index.
 
 ```javascript
-fullpage.init('#sectionContent', {
-    beforeLeave: function (leaveIndex, nowIndex) {
-        if (nowIndex === 2) {
-            console.log('You will leave page 2');
-        }
-        console.log(this, leaveIndex, nowIndex);
-    },
-    afterLoad: function (afterIndex) {
-        if (afterIndex === 2) {
-            console.log('You will go to page 2');
-        }
-        console.log(this, afterIndex);
-    },
-    beforeSlideLeave: function (pageIndex, slideNow, slideAfter) {
-        console.log(this, 'beforeSlideLeave:', pageIndex, slideNow, slideAfter);
-    },
-    afterSlideLoad: function (pageIndex, slideIndex) {
-        console.log(this, 'afterSlideLoad:', pageIndex, slideIndex);
+fullpage.init("#sectionContent", {
+  beforeLeave: function (leaveIndex, nowIndex) {
+    if (nowIndex === 2) {
+      console.log("You will leave page 2");
     }
+    console.log(this, leaveIndex, nowIndex);
+  },
+  afterLoad: function (afterIndex) {
+    if (afterIndex === 2) {
+      console.log("You will go to page 2");
+    }
+    console.log(this, afterIndex);
+  },
+  beforeSlideLeave: function (pageIndex, slideNow, slideAfter) {
+    console.log(this, "beforeSlideLeave:", pageIndex, slideNow, slideAfter);
+  },
+  afterSlideLoad: function (pageIndex, slideIndex) {
+    console.log(this, "afterSlideLoad:", pageIndex, slideIndex);
+  },
 });
 ```
 
@@ -129,8 +129,8 @@ Initialize fullpage. `el` is the CSS selector for the wrapper element, `options`
 Scroll to the specified page. `index` is required, `slideIndex` is optional.
 
 ```javascript
-fullpage.moveTo(1);       // Scroll to the first page
-fullpage.moveTo(3, 2);    // Scroll to the 2nd slide of the 3rd page
+fullpage.moveTo(1); // Scroll to the first page
+fullpage.moveTo(3, 2); // Scroll to the 2nd slide of the 3rd page
 ```
 
 ### moveToNext(callback)
